@@ -28,8 +28,12 @@ int ALivingCharacter::getMaxHealth() {
 
 void ALivingCharacter::damage(int amount)
 {
-	if (this->health > 0)
+	if (this->health > 0) {
 		this->health -= amount;
+
+		if (health <= 0)
+			die();
+	}
 }
 
 void ALivingCharacter::kill()

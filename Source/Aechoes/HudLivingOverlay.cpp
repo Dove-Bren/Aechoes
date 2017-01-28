@@ -3,17 +3,22 @@
 #include "Aechoes.h"
 #include "HudLivingOverlay.h"
 
-AHudLivingOverlay::AHudLivingOverlay(ALivingCharacter character)
+AHudLivingOverlay::AHudLivingOverlay()
+{
+	; //nothing to do
+}
+
+AHudLivingOverlay::AHudLivingOverlay(ALivingCharacter *character)
 {
 	this->character = character;
 }
 
-ALivingCharacter AHudLivingOverlay::getCharacter()
+ALivingCharacter *AHudLivingOverlay::getCharacter()
 {
 	return this->character;
 }
 
-void AHudLivingOverlay::setCharacter(ALivingCharacter character)
+void AHudLivingOverlay::setCharacter(ALivingCharacter *in)
 {
-	this->character = character;
+	this->character = in;
 }
