@@ -48,6 +48,18 @@ void ALivingCharacter::damage(int amount)
 	}
 }
 
+void ALivingCharacter::addHealth(int amount)
+{
+	this->health += amount;
+	if (health <= 0) {
+		die();
+		health = 0;
+	}
+
+	if (health > maxHealth)
+		health = maxHealth;
+}
+
 void ALivingCharacter::kill()
 {
 	if (this->health > 0)
@@ -81,7 +93,7 @@ void ALivingCharacter::Tick(float delta)
 	while (time >= 5.0) {
 		time -= 5.0;
 		//every 5 seconds, do:
-		this->damage(-getHealthRegen());
+		this->addHealth(getHealthRegen());
 	}
 
 }

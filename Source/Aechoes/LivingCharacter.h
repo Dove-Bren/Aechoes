@@ -60,6 +60,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Living)
 	void damage(int amount);
 
+	/** Adds the given amount to the player's health.
+	 * This method does not invoke any other handlers, so it's great for
+	 * modifying a player's health in ways besides game-healing, etc
+	 * NOTE: This method checks for death occurance and calls when health drops below 0.
+	 * @param amount the amount to add. Can be negative
+	 **/
+	UFUNCTION(BlueprintCallable, Category = Living)
+	void addHealth(int amount);
+
 	/** Marks the character as dead */
 	UFUNCTION(BlueprintCallable, Category = Living)
 	void kill();
