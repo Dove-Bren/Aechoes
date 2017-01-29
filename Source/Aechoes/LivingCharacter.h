@@ -22,19 +22,19 @@ class AECHOES_API ALivingCharacter : public AAechoesCharacter
 protected:
 
 	/** Health **/
-	UPROPERTY(BlueprintReadOnly, Category = Living)
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Living)
 	int32 health;
 
 	/** Max Health **/
-	UPROPERTY(BlueprintReadOnly, Category = Living)
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Living)
 	int32 maxHealth;
 
 	/** Health Regeneration Rate outside of Combat **/
-	UPROPERTY(BlueprintReadOnly, Category = Living)
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Living)
 	int32 healthRegenRate;
 
 	/** Health Regeneration Rate outside of Combat **/
-	UPROPERTY(BlueprintReadOnly, Category = Living)
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Living)
 	bool dead;
 
 	/** Perform death-time actions **/
