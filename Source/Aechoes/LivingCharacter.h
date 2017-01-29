@@ -14,17 +14,24 @@ class AECHOES_API ALivingCharacter : public AAechoesCharacter
 	GENERATED_BODY()
 
 	/** Default Max Health **/
-	static int const DEFAULT_MAXHEALTH = 20;
+	static int32 const DEFAULT_MAXHEALTH = 20;
+
+	/** Default Health Regeneration Rate **/
+	static int32 const DEFAULT_HEALTHREGEN = 5;
 
 protected:
 
 	/** Health **/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Living)
+	UPROPERTY(BlueprintReadOnly, Category = Living)
 	int health;
 
 	/** Max Health **/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Living)
+	UPROPERTY(BlueprintReadOnly, Category = Living)
 	int maxHealth;
+
+	/** Health Regeneration Rate outside of Combat **/
+	UPROPERTY(BlueprintReadOnly, Category = Living)
+	int healthRegenRate;
 
 	/** Perform death-time actions **/
 	UFUNCTION(BlueprintNativeEvent, Category = Living)
@@ -62,4 +69,19 @@ public:
 	 **/
 	UFUNCTION(BlueprintCallable, Category = Living)
 	bool isDead();
+
+	/** Fetches this character's health regen rate
+	* @return The regen rate
+	**/
+	UFUNCTION(BlueprintCallable, Category = Living)
+	int32 getHealthRegen();
+
+	/** Fetches this character's health regen rate
+	* @return The regen rate
+	**/
+	UFUNCTION(BlueprintCallable, Category = Living)
+	void setHealthRegen(int32 regenRate);
+
+	void Tick(float delta);
+
 };
