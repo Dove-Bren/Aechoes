@@ -13,33 +13,33 @@ ALivingCharacter::ALivingCharacter() : AAechoesCharacter::AAechoesCharacter() {
 	this->maxHealth = ALivingCharacter::DEFAULT_MAXHEALTH;
 	this->health = this->maxHealth;
 	this->healthRegenRate = ALivingCharacter::DEFAULT_HEALTHREGEN;
+	this->dead = false;
 
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bTickEvenWhenPaused = false;
 	PrimaryActorTick.TickGroup = TG_PostPhysics;
 }
 
-ALivingCharacter::ALivingCharacter(int maxHealth) : AAechoesCharacter::AAechoesCharacter() {
+ALivingCharacter::ALivingCharacter(int32 maxHealth) : AAechoesCharacter::AAechoesCharacter() {
 	this->maxHealth = maxHealth;
 	this->health = this->maxHealth;
 }
 
-int ALivingCharacter::getHealth() {
+int32 ALivingCharacter::getHealth() {
 	return this->health;
 }
 
-int ALivingCharacter::getMaxHealth() {
+int32 ALivingCharacter::getMaxHealth() {
 	return this->maxHealth;
 }
 
-void ALivingCharacter::damage(int amount)
+void ALivingCharacter::damage(int32 amount)
 {
 	if (this->health > 0) {
 		this->health -= amount;
 
 		if (health <= 0) {
-			die();
-			health = 0;
+			kill();
 		}
 		else if (health > maxHealth) {
 			health = maxHealth;
@@ -48,12 +48,11 @@ void ALivingCharacter::damage(int amount)
 	}
 }
 
-void ALivingCharacter::addHealth(int amount)
+void ALivingCharacter::addHealth(int32 amount)
 {
 	this->health += amount;
 	if (health <= 0) {
-		die();
-		health = 0;
+		kill();
 	}
 
 	if (health > maxHealth)
@@ -62,15 +61,17 @@ void ALivingCharacter::addHealth(int amount)
 
 void ALivingCharacter::kill()
 {
-	if (this->health > 0)
+	if (!this->isDead()) {
+		this->dead = true;
 		this->die();
+	}
 
 	this->health = 0;
 }
 
 bool ALivingCharacter::isDead()
 {
-	return this->health > 0;
+	return this->dead;
 }
 
 int32 ALivingCharacter::getHealthRegen()
@@ -93,7 +94,9 @@ void ALivingCharacter::Tick(float delta)
 	while (time >= 5.0) {
 		time -= 5.0;
 		//every 5 seconds, do:
-		this->addHealth(getHealthRegen());
+
+		if (!this->isDead() && this->health < this->maxHealth)
+			this->addHealth(getHealthRegen());
 	}
 
 }

@@ -23,15 +23,19 @@ protected:
 
 	/** Health **/
 	UPROPERTY(BlueprintReadOnly, Category = Living)
-	int health;
+	int32 health;
 
 	/** Max Health **/
 	UPROPERTY(BlueprintReadOnly, Category = Living)
-	int maxHealth;
+	int32 maxHealth;
 
 	/** Health Regeneration Rate outside of Combat **/
 	UPROPERTY(BlueprintReadOnly, Category = Living)
-	int healthRegenRate;
+	int32 healthRegenRate;
+
+	/** Health Regeneration Rate outside of Combat **/
+	UPROPERTY(BlueprintReadOnly, Category = Living)
+	bool dead;
 
 	/** Perform death-time actions **/
 	UFUNCTION(BlueprintNativeEvent, Category = Living)
@@ -44,21 +48,21 @@ public:
 	
 	ALivingCharacter();
 
-	ALivingCharacter(int maxHealth);
+	ALivingCharacter(int32 maxHealth);
 
 	/** Fetch the amount of health remaining **/
 	UFUNCTION(BlueprintCallable, Category = Living)
-	int getHealth();
+	int32 getHealth();
 
 	/** Fetch the maximum amount of health **/
 	UFUNCTION(BlueprintCallable, Category = Living)
-	int getMaxHealth();
+	int32 getMaxHealth();
 
 	/** Deals damage to the character
 	 * @param amount The amount of damage done
 	 **/
 	UFUNCTION(BlueprintCallable, Category = Living)
-	void damage(int amount);
+	void damage(int32 amount);
 
 	/** Adds the given amount to the player's health.
 	 * This method does not invoke any other handlers, so it's great for
@@ -67,7 +71,7 @@ public:
 	 * @param amount the amount to add. Can be negative
 	 **/
 	UFUNCTION(BlueprintCallable, Category = Living)
-	void addHealth(int amount);
+	void addHealth(int32 amount);
 
 	/** Marks the character as dead */
 	UFUNCTION(BlueprintCallable, Category = Living)
