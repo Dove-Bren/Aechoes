@@ -5,11 +5,8 @@
 
 ACombatableCharacter::ACombatableCharacter()
 {
-    /**
-    * Character Stats structure. Core stat reference! Be careful to hand out
-    * copies when allowing other things to reference them
-    **/
-    this->stats = NewObject<UCharacterStats>();
+    
+    //this->stats = NewObject<UCharacterStats>();
     this->maxAP = ACombatableCharacter::DEFAULT_MAXAP;
     this->maxMP = ACombatableCharacter::DEFAULT_MAXMP;
 
@@ -82,6 +79,11 @@ void ACombatableCharacter::setAP(uint8 amount)
 void ACombatableCharacter::setMP(uint8 amount)
 {
     this->MP = amount;
+}
+
+UCharacterStats * ACombatableCharacter::getStats()
+{
+    return this->stats->copyOf();
 }
 
 

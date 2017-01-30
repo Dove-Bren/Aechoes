@@ -25,7 +25,7 @@ protected:
      * copies when allowing other things to reference them
      **/
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
-    UCharacterStats *stats;
+    UCharacterStats *stats = NewObject<UCharacterStats>();
 
     /** Maximum AP **/
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
@@ -117,6 +117,13 @@ public:
     **/
     UFUNCTION(BlueprintCallable, Category = Combat)
     void setMP(uint8 amount);
+
+    /**
+     * Returns a workable copy of this character's stats
+     * @return a COPY of this character's stats
+     **/
+    UFUNCTION(BlueprintCallable, Category = Combat)
+    UCharacterStats *getStats();
     
     
 };

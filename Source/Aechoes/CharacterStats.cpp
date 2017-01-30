@@ -4,6 +4,30 @@
 #include "CharacterStats.h"
 
 
+UCharacterStats::UCharacterStats()
+{
+    this->Strength = 0;
+    this->Agility = 0;
+    this->Dexterity = 0;
+    this->Intelligence = 0;
+    this->Passion = 0;
+    this->Wisdom = 0;
+    this->Vitality = 0;
+}
+
+UCharacterStats::UCharacterStats(int32 strength, int32 agility,
+                int32 dexterity, int32 intel, int32 passion, int32 wisdom,
+                int32 vit)
+{
+    this->Strength = strength;
+    this->Agility = agility;
+    this->Dexterity = dexterity;
+    this->Intelligence = intel;
+    this->Passion = passion;
+    this->Wisdom = wisdom;
+    this->Vitality = vit;
+}
+
 int32 UCharacterStats::getInitiative()
 {
     /*
@@ -64,4 +88,11 @@ int32 UCharacterStats::getCarryCapactity()
 {
     /* Capacity = (Strength * 10) */
     return this->Strength * 10;
+}
+
+UCharacterStats * UCharacterStats::copyOf()
+{
+    return new UCharacterStats(
+        Strength, Agility, Dexterity, Intelligence, Passion, Wisdom, Vitality
+    );
 }

@@ -43,6 +43,11 @@ public:
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
     int32 Vitality;
 
+    UCharacterStats();
+
+    UCharacterStats(int32 strength, int32 agility, int32 dexterity, int32 intel,
+                   int32 passion, int32 wisdom, int32 vit);
+
 
     /*******************************
      * Derived Stat Definitions   *
@@ -134,4 +139,9 @@ public:
     int32 getCarryCapactity();
     
     
+    /****************************
+     * Helper Functions
+     ****************************/
+
+    UCharacterStats *copyOf();
 };

@@ -48,19 +48,19 @@ void AAechoesCharacter::SetupPlayerInputComponent(class UInputComponent* InputCo
 {
 	// Set up gameplay key bindings
 	check(InputComponent);
-	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+	//InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	//InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
-	InputComponent->BindAxis("MoveForward", this, &AAechoesCharacter::MoveForward);
-	InputComponent->BindAxis("MoveRight", this, &AAechoesCharacter::MoveRight);
+	//InputComponent->BindAxis("MoveForward", this, &AAechoesCharacter::MoveForward);
+	//InputComponent->BindAxis("MoveRight", this, &AAechoesCharacter::MoveRight);
 
-	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
-	// "turn" handles devices that provide an absolute delta, such as a mouse.
-	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
-	InputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
-	InputComponent->BindAxis("TurnRate", this, &AAechoesCharacter::TurnAtRate);
-	InputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
-	InputComponent->BindAxis("LookUpRate", this, &AAechoesCharacter::LookUpAtRate);
+	//// We have 2 versions of the rotation bindings to handle different kinds of devices differently
+	//// "turn" handles devices that provide an absolute delta, such as a mouse.
+	//// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
+	//InputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
+	//InputComponent->BindAxis("TurnRate", this, &AAechoesCharacter::TurnAtRate);
+	//InputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
+	//InputComponent->BindAxis("LookUpRate", this, &AAechoesCharacter::LookUpAtRate);
 
 	// handle touch devices
 	InputComponent->BindTouch(IE_Pressed, this, &AAechoesCharacter::TouchStarted);
