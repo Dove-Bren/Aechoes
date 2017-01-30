@@ -6,7 +6,7 @@
 #include "DamageElement.generated.h"
 
 /**
- * 
+ * Container for a piece of damage. Vector with the dimensions amount and type
  */
 UCLASS()
 class AECHOES_API UDamageElement : public UUserDefinedStruct

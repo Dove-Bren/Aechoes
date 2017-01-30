@@ -3,7 +3,7 @@
 #pragma once
 
 #include "GameFramework/HUD.h"
-#include "LivingCharacter.h"
+#include "Character/LivingCharacter.h"
 #include "HudLivingOverlay.generated.h"
 
 /**

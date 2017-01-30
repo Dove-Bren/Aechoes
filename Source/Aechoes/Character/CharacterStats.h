@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Engine/UserDefinedStruct.h"
+#include "../Combat/DamageVector.h"
 #include "CharacterStats.generated.h"
 
 /**
@@ -137,8 +138,32 @@ public:
     **/
     UFUNCTION(BlueprintCallable, Category = Combat)
     int32 getCarryCapactity();
+
+
+    /*******************************
+    *    Modifier Definitions      *
+    *******************************/
     
-    
+    float getModifier(DamageType type)
+    {
+        switch (type) {
+            case DamageType::AIR:
+                return 1.0 + ((float) this->Agility / 100.0f);
+            case DamageType::EARTH :
+                return 1.0 + ((float) this->Dexterity / 100.0f);
+            case DamageType::WATER:
+                return 1.0 + ((float) this->Passion / 100.0f);
+            case DamageType::FIRE:
+                return 1.0 + ((float) this->Intelligence / 100.0f);
+            case DamageType::NEUTRAL:
+                return 1.0 + ((float) this->Strength / 100.0f);
+            default:
+                return 0.0;
+        }
+    }
+
+
+
     /****************************
      * Helper Functions
      ****************************/
