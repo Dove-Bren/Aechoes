@@ -19,9 +19,9 @@ float AWorldGrid::getScale()
     return scale;
 }
 
-TWeakObjectPtr<ALivingCharacter> AWorldGrid::get(float x, float y)
+ALivingCharacter *AWorldGrid::get(float x, float y)
 {
-    return *map.Find(translate(x, y));
+    return (*map.Find(translate(x, y))).Get(true);
 }
 
 bool AWorldGrid::isEmpty(float x, float y)
@@ -29,10 +29,10 @@ bool AWorldGrid::isEmpty(float x, float y)
     return map.Find(translate(x, y)) == nullptr;
 }
 
-bool AWorldGrid::place(float x, float y, TWeakObjectPtr<ALivingCharacter> input)
+bool AWorldGrid::place(float x, float y, ALivingCharacter *input)
 {
     TWeakObjectPtr<ALivingCharacter> ret = *map.Find(translate(x, y));
-    map.Add(translate(x, y), input);
+    map.Add(translate(x, y), TWeakObjectPtr<ALivingCharacter>(input));
 
     return (ret) != nullptr;
 }

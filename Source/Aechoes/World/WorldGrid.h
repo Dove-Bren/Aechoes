@@ -8,10 +8,13 @@
 #include "WorldGrid.generated.h"
 
 struct GridPosition {
+    /** The x coordinate of this position **/
     int32 x;
 
+    /** The y coordinate of this position **/
     int32 y;
 
+    /** Static Helper Construcor **/
     static GridPosition from(float x, float y, float scale) {
         GridPosition pos;
 
@@ -21,7 +24,7 @@ struct GridPosition {
         return pos;
     }
 
-    bool operator== (const GridPosition& Other)
+    bool operator== (const GridPosition& Other) const
     {
         return (x == Other.x && y == Other.y);
     }
@@ -41,7 +44,8 @@ class AECHOES_API AWorldGrid : public AActor
 	GENERATED_BODY()
 
 public:
-    float DEFAULT_SCALE = 64.0;
+    /** Default Scale value **/
+    float const DEFAULT_SCALE = 64.0;
 	
 protected:
     
@@ -51,19 +55,41 @@ protected:
     /** Map between coordinate hash and occupant **/
     TMap<GridPosition, TWeakObjectPtr<ALivingCharacter>> map;
 
+    /** Helper function to spawn up Grid Positions easily **/
     GridPosition translate(float x, float y);
 
 public:
     AWorldGrid();
     
+    /** Returns the scale of the grid **/
+    UFUNCTION(BlueprintCallable, Category = "Combat|Layout")
     float getScale();
 
-    TWeakObjectPtr<ALivingCharacter> get(float x, float y);
+    /** Returns a pointer to a living Character, if there was one at the cell
+     * @return null if cell is empty, pointer to character otherwise 
+     **/
+    UFUNCTION(BlueprintCallable, Category = "Combat|Layout")
+    ALivingCharacter* get(float x, float y);
 
+    /** Checks whether the cell at the given position is empty
+     * @return true when the cells is empty; false otherwise 
+     **/
+    UFUNCTION(BlueprintCallable, Category = "Combat|Layout")
     bool isEmpty(float x, float y);
 
-    bool place(float x, float y, TWeakObjectPtr<ALivingCharacter> input);
+    /**
+     * Sets the cell to hold the provided character. If a character was
+     * previously in the cell, it is overwritten.
+     * @return true when the cell was not empty, and a character has been overwritten
+     **/
+    UFUNCTION(BlueprintCallable, Category = "Combat|Layout")
+    bool place(float x, float y, ALivingCharacter *input);
 
+    /**
+     * Removes any character from the given cell.
+     * @return true when the cell was not empty, and a character has been removed
+     **/
+    UFUNCTION(BlueprintCallable, Category = "Combat|Layout")
     bool clear(float x, float y);
 	
 	
