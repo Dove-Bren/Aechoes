@@ -3,7 +3,7 @@
 #include "Aechoes.h"
 #include "WorldGrid.h"
 
-GridPosition * AWorldGrid::translate(float x, float y)
+GridPosition AWorldGrid::translate(float x, float y)
 {
     return GridPosition::from(x, y, this->scale);
 }
@@ -12,30 +12,35 @@ AWorldGrid::AWorldGrid()
 {
     this->scale = AWorldGrid::DEFAULT_SCALE;
     this->map = TMap<GridPosition, TWeakObjectPtr<ALivingCharacter>>();
-    
 }
 
 float AWorldGrid::getScale()
 {
-    return 0.0f;
+    return scale;
 }
 
 TWeakObjectPtr<ALivingCharacter> AWorldGrid::get(float x, float y)
 {
-    return TWeakObjectPtr<ALivingCharacter>();
+    return *map.Find(translate(x, y));
 }
 
 bool AWorldGrid::isEmpty(float x, float y)
 {
-    return false;
+    return map.Find(translate(x, y)) == nullptr;
 }
 
-bool AWorldGrid::place(float x, float y)
+bool AWorldGrid::place(float x, float y, TWeakObjectPtr<ALivingCharacter> input)
 {
-    return false;
+    TWeakObjectPtr<ALivingCharacter> ret = *map.Find(translate(x, y));
+    map.Add(translate(x, y), input);
+
+    return (ret) != nullptr;
 }
 
 bool AWorldGrid::clear(float x, float y)
 {
-    return false;
+    TWeakObjectPtr<ALivingCharacter> ret = *map.Find(translate(x, y));
+    map.Remove(translate(x, y));
+
+    return (ret) != nullptr;
 }

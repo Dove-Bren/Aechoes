@@ -12,11 +12,11 @@ struct GridPosition {
 
     int32 y;
 
-    static GridPosition *from(float x, float y, float scale) {
-        GridPosition *pos = (GridPosition *)malloc(sizeof(GridPosition));
+    static GridPosition from(float x, float y, float scale) {
+        GridPosition pos;
 
-        pos->x = (int)x / scale;
-        pos->y = (int)y / scale;
+        pos.x = (int)x / scale;
+        pos.y = (int)y / scale;
 
         return pos;
     }
@@ -51,7 +51,7 @@ protected:
     /** Map between coordinate hash and occupant **/
     TMap<GridPosition, TWeakObjectPtr<ALivingCharacter>> map;
 
-    GridPosition *translate(float x, float y);
+    GridPosition translate(float x, float y);
 
 public:
     AWorldGrid();
@@ -62,7 +62,7 @@ public:
 
     bool isEmpty(float x, float y);
 
-    bool place(float x, float y);
+    bool place(float x, float y, TWeakObjectPtr<ALivingCharacter> input);
 
     bool clear(float x, float y);
 	
