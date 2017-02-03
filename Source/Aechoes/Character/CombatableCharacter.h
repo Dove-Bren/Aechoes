@@ -24,8 +24,8 @@ protected:
      * Character Stats structure. Core stat reference! Be careful to hand out
      * copies when allowing other things to reference them
      **/
-    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
-    UCharacterStats *stats = NewObject<UCharacterStats>();
+    //UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
+    UCharacterStats *stats;// = NewObject<UCharacterStats>();
 
     /** Maximum AP **/
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)

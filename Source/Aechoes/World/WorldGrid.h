@@ -32,8 +32,8 @@ struct GridPosition {
     static FVector alignToGrid(FVector input, float scale) {
         FVector out = input;
 
-        out.X -= fmod(input.X, scale) * scale;
-        out.Y -= fmod(input.Y, scale) * scale;
+        out.X -= fmod(input.X, scale); // * scale;
+        out.Y -= fmod(input.Y, scale); //* scale;
 
         if (GEngine)
             GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("fmod x [%f] by [%f]: %f"),
@@ -65,7 +65,7 @@ class AECHOES_API UWorldGrid : public UUserDefinedStruct
 
 public:
     /** Default Scale value **/
-    float const DEFAULT_SCALE = 100.0;
+    float const DEFAULT_SCALE = 200.0;
 	
 protected:
     
