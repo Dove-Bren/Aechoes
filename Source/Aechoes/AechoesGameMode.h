@@ -15,6 +15,10 @@ protected:
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
     UWorldGrid *grid;
 
+    /** The overworld camera **/
+    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Controls)
+    AOverworldCamera *camera;
+
 public:
 	AAechoesGameMode();
 

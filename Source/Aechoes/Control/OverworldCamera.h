@@ -1,30 +1,24 @@
 // Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
 #pragma once
-#include "GameFramework/Character.h"
-#include "AechoesCharacter.generated.h"
+#include "Camera/CameraActor.h"
+#include "GameFramework/Pawn.h"
+#include "OverworldCamera.generated.h"
 
-UCLASS(config=Game)
-class AAechoesCharacter : public ACharacter
+UCLASS(config=Control)
+class AOverworldCamera : public APawn, public ACameraActor
 {
 	GENERATED_BODY()
 
-	/** Camera boom positioning the camera behind the character */
+	/** Camera Controller */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* CameraBoom;
-
-	/** Follow camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* FollowCamera;
+	class AOverworldCameraController* Controller;
+    
 public:
-	AAechoesCharacter();
-
-	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
-	float BaseTurnRate;
+    AOverworldCamera();
 
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
-	float BaseLookUpRate;
+	float BaseLookRate;
 
 protected:
 
@@ -64,9 +58,7 @@ protected:
 	// End of APawn interface
 
 public:
-	/** Returns CameraBoom subobject **/
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-	/** Returns FollowCamera subobject **/
-	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	/** Returns Controller subobject **/
+	FORCEINLINE class AOverworldCameraController* GetController() const { return Controller; }
 };
 

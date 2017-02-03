@@ -33,9 +33,9 @@ AAechoesCharacter::AAechoesCharacter()
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
 	// Create a follow camera
-	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
-	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+	//FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
+	//FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
+	//FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
@@ -65,8 +65,14 @@ void AAechoesCharacter::SetupPlayerInputComponent(class UInputComponent* InputCo
 	// handle touch devices
 	InputComponent->BindTouch(IE_Pressed, this, &AAechoesCharacter::TouchStarted);
 	InputComponent->BindTouch(IE_Released, this, &AAechoesCharacter::TouchStopped);
+
+    InputComponent->BindAction()
 }
 
+
+void AAechoesCharacter::MoveRightRate(float Rate)
+{
+}
 
 void AAechoesCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
 {
@@ -83,6 +89,14 @@ void AAechoesCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Loca
 	{
 		StopJumping();
 	}
+}
+
+void AAechoesCharacter::OnSelectClick(FVector location)
+{
+}
+
+void AAechoesCharacter::OnActionClick(FVector location)
+{
 }
 
 void AAechoesCharacter::TurnAtRate(float Rate)
@@ -111,6 +125,10 @@ void AAechoesCharacter::MoveForward(float Value)
 	}
 }
 
+void AAechoesCharacter::MoveUp(float Value)
+{
+}
+
 void AAechoesCharacter::MoveRight(float Value)
 {
 	if ( (Controller != NULL) && (Value != 0.0f) )
@@ -124,4 +142,8 @@ void AAechoesCharacter::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
+}
+
+void AAechoesCharacter::MoveUpRate(float Rate)
+{
 }

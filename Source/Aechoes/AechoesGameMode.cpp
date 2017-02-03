@@ -14,6 +14,7 @@ AAechoesGameMode::AAechoesGameMode()
 	}
 
     this->grid = NewObject<UWorldGrid>();
+    this->camera = NewObject<AOverworldCamera>();
 
 
 }
