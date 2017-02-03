@@ -6,7 +6,7 @@
 ACombatableCharacter::ACombatableCharacter()
 {
     
-    //this->stats = NewObject<UCharacterStats>();
+    this->stats = NewObject<UCharacterStats>();
     this->maxAP = ACombatableCharacter::DEFAULT_MAXAP;
     this->maxMP = ACombatableCharacter::DEFAULT_MAXMP;
 
@@ -16,7 +16,7 @@ ACombatableCharacter::ACombatableCharacter()
 
 ACombatableCharacter::~ACombatableCharacter()
 {
-    delete stats;
+    //delete stats;
 }
 
 uint8 ACombatableCharacter::getAP()

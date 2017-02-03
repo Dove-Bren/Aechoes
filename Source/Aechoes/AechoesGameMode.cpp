@@ -12,4 +12,13 @@ AAechoesGameMode::AAechoesGameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+
+    this->grid = NewObject<UWorldGrid>();
+
+
+}
+
+UWorldGrid * AAechoesGameMode::getGrid()
+{
+    return this->grid;
 }

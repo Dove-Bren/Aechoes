@@ -95,6 +95,8 @@ public:
     UFUNCTION(BlueprintCallable, Category = Living)
     void setHealthRegen(int32 regenRate);
 
-    void Tick(float delta);
+    void Tick(float delta) override;
+
+    void BeginPlay() override;
 
 };

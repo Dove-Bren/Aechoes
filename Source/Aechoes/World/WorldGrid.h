@@ -2,9 +2,13 @@
 
 #pragma once
 
-#include "GameFramework/Actor.h"
+#include <cmath>
+
 #include "Engine/Level.h"
+#include "Engine/UserDefinedStruct.h"
 #include "../Character/LivingCharacter.h"
+#include "EngineGlobals.h"
+#include "Engine.h"
 #include "WorldGrid.generated.h"
 
 struct GridPosition {
@@ -24,6 +28,22 @@ struct GridPosition {
         return pos;
     }
 
+    /** Grid Alignment Helper **/
+    static FVector alignToGrid(FVector input, float scale) {
+        FVector out = input;
+
+        out.X -= fmod(input.X, scale) * scale;
+        out.Y -= fmod(input.Y, scale) * scale;
+
+        if (GEngine)
+            GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("fmod x [%f] by [%f]: %f"),
+              input.X, scale, fmod(input.X, scale)));
+        UE_LOG(LogTemp, Warning, TEXT("fmod y [%f] by [%f]: %f"),
+              input.Y, scale, fmod(input.Y, scale));
+
+        return out;
+    }
+
     bool operator== (const GridPosition& Other) const
     {
         return (x == Other.x && y == Other.y);
@@ -39,13 +59,13 @@ struct GridPosition {
  * Grid on which entities reside and are constrained to
  */
 UCLASS()
-class AECHOES_API AWorldGrid : public AActor
+class AECHOES_API UWorldGrid : public UUserDefinedStruct
 {
 	GENERATED_BODY()
 
 public:
     /** Default Scale value **/
-    float const DEFAULT_SCALE = 64.0;
+    float const DEFAULT_SCALE = 100.0;
 	
 protected:
     
@@ -59,7 +79,7 @@ protected:
     GridPosition translate(float x, float y);
 
 public:
-    AWorldGrid();
+    UWorldGrid();
     
     /** Returns the scale of the grid **/
     UFUNCTION(BlueprintCallable, Category = "Combat|Layout")
@@ -91,6 +111,20 @@ public:
      **/
     UFUNCTION(BlueprintCallable, Category = "Combat|Layout")
     bool clear(float x, float y);
+
+    /**
+     * Removes all characters from the grid, clearing the map.
+     * This function can be used for cleaning a map before moving to a new map
+     **/
+    UFUNCTION(BlueprintCallable, Category = "Combat|Layout")
+    void clearAll();
+
+    /** Helper function to snap things to the grid
+    * @param in the input vector.
+    * @param middle align to middle of cell?
+    * @return a new FVector with the corrected coordinates
+    **/
+    FVector snapTo(FVector const in, bool middle);
 	
 	
 };

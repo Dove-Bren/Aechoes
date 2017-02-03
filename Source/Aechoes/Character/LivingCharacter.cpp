@@ -1,6 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Aechoes.h"
+#include "EngineGlobals.h"
+#include "Engine.h"
+#include "../AechoesGameMode.h"
 #include "LivingCharacter.h"
 
 void ALivingCharacter::die_Implementation()
@@ -100,4 +103,23 @@ void ALivingCharacter::Tick(float delta)
     }
 
 }
+
+void ALivingCharacter::BeginPlay()
+{
+    Super::BeginPlay();
+
+    if (GEngine)
+        GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Starting pos: %s"), *this->GetActorLocation().ToString()));
+    UE_LOG(LogTemp, Warning, TEXT("Starting pos: %s"), *this->GetActorLocation().ToString());
+
+    FVector old = this->GetActorLocation();
+    FVector out = ( (AAechoesGameMode *) this->GetWorld()->GetAuthGameMode())->getGrid()->snapTo(old, true);
+    this->SetActorLocation(out);
+
+    if (GEngine)
+        GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Ending pos: %s"), *this->GetActorLocation().ToString()));
+
+    UE_LOG(LogTemp, Warning,TEXT("Ending pos: %s"), *this->GetActorLocation().ToString());
+}
+
 
