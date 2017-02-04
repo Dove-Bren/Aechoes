@@ -8,7 +8,7 @@
 AAechoesGameMode::AAechoesGameMode()
 {
 	// set default pawn class to our Blueprinted character
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/Actors/Blueprints/ThirdPersonCharacter"));
+	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/Actors/Blueprints/Player"));
 	if (PlayerPawnBPClass.Class != NULL)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
@@ -32,4 +32,7 @@ void AAechoesGameMode::StartPlay()
 	AOverworldCamera::StaticClass(),
 	FVector(-800.0f, 190.0f, 200.0f),
 	FRotator(0.0f, 0.0f, 0.0f));
+
+	
+	
 }

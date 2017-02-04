@@ -21,6 +21,7 @@ void UOverworldCameraController::TickComponent(float DeltaTime, ELevelTick TickT
     // Make sure that everything is still valid, and that we are allowed to move.
     if (!PawnOwner || !UpdatedComponent || ShouldSkipUpdate(DeltaTime))
     {
+		UE_LOG(LogTemp, Warning, TEXT("Cancelling due to no owner, etc"))
         return;
     }
 

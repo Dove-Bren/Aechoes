@@ -28,7 +28,7 @@ AOverworldCamera::AOverworldCamera()
     AutoPossessPlayer = EAutoReceiveInput::Player0;
 
     //Setup controller
-    CameraController = CreateDefaultSubobject<UOverworldCameraController>(TEXT("Movement Controller"));
+    CameraController = CreateDefaultSubobject<UOverworldCameraController>(TEXT("MovementController"));
     CameraController->UpdatedComponent = RootComponent;
 }
 
@@ -65,9 +65,11 @@ void AOverworldCamera::SetupPlayerInputComponent(class UInputComponent* InputCom
 
 	//MoveUp, MoveRight, *Rate
 	//Also SelectClick, ActionClick
-	InputComponent->BindAction("MoveUp", IE_Pressed, this, &AOverworldCamera::MoveUp);
-	InputComponent->BindAction("MoveRight", IE_Pressed, this, &AOverworldCamera::MoveRight);
+	//InputComponent->BindAction("MoveUp", IE_Pressed, this, &AOverworldCamera::MoveUp);
+	//InputComponent->BindAction("MoveRight", IE_Pressed, this, &AOverworldCamera::MoveRight);
+
 	InputComponent->BindAxis("MoveUpRate", this, &AOverworldCamera::MoveUpRate);
+	InputComponent->BindAxis("MoveRightRate", this, &AOverworldCamera::MoveRightRate);
 }
 
 UPawnMovementComponent * AOverworldCamera::GetMovementComponent() const
@@ -83,6 +85,7 @@ AActor * AOverworldCamera::getFocus()
 
 void AOverworldCamera::MoveRightRate(float Rate)
 {
+	MoveRight(Rate);
 }
 
 void AOverworldCamera::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
@@ -136,38 +139,39 @@ void AOverworldCamera::OnActionClick(FVector location)
 //	}
 //}
 
-void AOverworldCamera::MoveUp()
+void AOverworldCamera::MoveUp(float Rate)
 {
-	if ((Controller != NULL)) {
-		const FVector dir = FVector(1.0f, 0.0f, 0.0f);
-		AddMovementInput(dir, 1.0f);
-		UE_LOG(LogTemp, Warning, TEXT("Received move-up"));
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("Null Controller"));
-		UE_LOG(LogTemp, Warning, TEXT("CameraController==null ? %s"), CameraController == NULL ? "NULL" : "no, it's good");
-	}
+	
+	//const FVector dir = FVector(1.0f, 0.0f, 0.0f);
+	//AddMovementInput(dir, 1.0f);
+	this->CameraController->AddInputVector(FVector(Rate, 0.0f, 0.0f));
+	UE_LOG(LogTemp, Warning, TEXT("Received move-up"));
+	
 
 }
 
-void AOverworldCamera::MoveRight()
+void AOverworldCamera::MoveRight(float Rate)
 {
-	if ( (Controller != NULL))
-	{
-		// find out which way is right
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
 	
-		// get right vector 
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-		// add movement in that direction
-		AddMovementInput(Direction, 1.0f);
-	}
+	// find out which way is right
+	const FRotator Rotation = Controller->GetControlRotation();
+	const FRotator YawRotation(0, Rotation.Yaw, 0);
+	
+	// get right vector 
+	const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+	// add movement in that direction
+	//AddMovementInput(Direction, 1.0f);
+
+	CameraController->AddInputVector(FVector(0.0f, Rate, 0.0f), false);
+	
 }
 
 void AOverworldCamera::MoveUpRate(float Rate)
 {
-	UE_LOG(LogTemp, Warning, TEXT("MoveUpRate: %f"), Rate);
+	if (Rate != 0.0f) {
+		UE_LOG(LogTemp, Warning, TEXT("MoveUpRate: %f"), Rate);
+		MoveUp(Rate);
+	}
 }
 
 UCameraComponent *AOverworldCamera::getCamera()
@@ -182,4 +186,6 @@ void AOverworldCamera::SetFocus(AActor *in)
 		const FVector vec = focus->GetActorLocation();
 		this->SetActorLocation(FVector(vec.X, vec.Y, vec.Z + 100.0f));
 	}
+
+	UE_LOG(LogTemp, Warning, TEXT("Focus called with %s"), this->focus == nullptr ? "NULL" : "Not Null");
 }

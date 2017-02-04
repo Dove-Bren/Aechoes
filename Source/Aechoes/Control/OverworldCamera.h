@@ -35,10 +35,10 @@ public:
 protected:
 
 	/** Called for up/down input */
-	void MoveUp();
+	void MoveUp(float Rate);
 
 	/** Called for side to side input */
-	void MoveRight();
+	void MoveRight(float Rate);
 
 	/** 
 	 * Called via input to go up or down at a given rate. 
