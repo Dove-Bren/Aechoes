@@ -27,10 +27,10 @@ AAechoesCharacter::AAechoesCharacter()
 	GetCharacterMovement()->AirControl = 0.2f;
 
 	// Create a camera boom (pulls in towards the player if there is a collision)
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character	
-	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
+	//CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	//CameraBoom->SetupAttachment(RootComponent);
+	//CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character	
+	//CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
 	// Create a follow camera
 	//FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
@@ -44,10 +44,10 @@ AAechoesCharacter::AAechoesCharacter()
 //////////////////////////////////////////////////////////////////////////
 // Input
 
-void AAechoesCharacter::SetupPlayerInputComponent(class UInputComponent* InputComponent)
+void AAechoesCharacter::SetupPlayerInputComponent(class UInputComponent* input)
 {
 	// Set up gameplay key bindings
-	check(InputComponent);
+	check(input);
 	//InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	//InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
@@ -63,10 +63,10 @@ void AAechoesCharacter::SetupPlayerInputComponent(class UInputComponent* InputCo
 	//InputComponent->BindAxis("LookUpRate", this, &AAechoesCharacter::LookUpAtRate);
 
 	// handle touch devices
-	InputComponent->BindTouch(IE_Pressed, this, &AAechoesCharacter::TouchStarted);
-	InputComponent->BindTouch(IE_Released, this, &AAechoesCharacter::TouchStopped);
+    input->BindTouch(IE_Pressed, this, &AAechoesCharacter::TouchStarted);
+    input->BindTouch(IE_Released, this, &AAechoesCharacter::TouchStopped);
 
-    InputComponent->BindAction()
+    //input->BindAction()
 }
 
 
@@ -99,51 +99,51 @@ void AAechoesCharacter::OnActionClick(FVector location)
 {
 }
 
-void AAechoesCharacter::TurnAtRate(float Rate)
-{
-	// calculate delta for this frame from the rate information
-	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
-}
-
-void AAechoesCharacter::LookUpAtRate(float Rate)
-{
-	// calculate delta for this frame from the rate information
-	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
-}
-
-void AAechoesCharacter::MoveForward(float Value)
-{
-	if ((Controller != NULL) && (Value != 0.0f))
-	{
-		// find out which way is forward
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
-
-		// get forward vector
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		AddMovementInput(Direction, Value);
-	}
-}
-
-void AAechoesCharacter::MoveUp(float Value)
-{
-}
-
-void AAechoesCharacter::MoveRight(float Value)
-{
-	if ( (Controller != NULL) && (Value != 0.0f) )
-	{
-		// find out which way is right
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
-	
-		// get right vector 
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-		// add movement in that direction
-		AddMovementInput(Direction, Value);
-	}
-}
-
-void AAechoesCharacter::MoveUpRate(float Rate)
-{
-}
+//void AAechoesCharacter::TurnAtRate(float Rate)
+//{
+//	// calculate delta for this frame from the rate information
+//	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
+//}
+//
+//void AAechoesCharacter::LookUpAtRate(float Rate)
+//{
+//	// calculate delta for this frame from the rate information
+//	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+//}
+//
+//void AAechoesCharacter::MoveForward(float Value)
+//{
+//	if ((Controller != NULL) && (Value != 0.0f))
+//	{
+//		// find out which way is forward
+//		const FRotator Rotation = Controller->GetControlRotation();
+//		const FRotator YawRotation(0, Rotation.Yaw, 0);
+//
+//		// get forward vector
+//		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+//		AddMovementInput(Direction, Value);
+//	}
+//}
+//
+//void AAechoesCharacter::MoveUp(float Value)
+//{
+//}
+//
+//void AAechoesCharacter::MoveRight(float Value)
+//{
+//	if ( (Controller != NULL) && (Value != 0.0f) )
+//	{
+//		// find out which way is right
+//		const FRotator Rotation = Controller->GetControlRotation();
+//		const FRotator YawRotation(0, Rotation.Yaw, 0);
+//	
+//		// get right vector 
+//		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+//		// add movement in that direction
+//		AddMovementInput(Direction, Value);
+//	}
+//}
+//
+//void AAechoesCharacter::MoveUpRate(float Rate)
+//{
+//}

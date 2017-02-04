@@ -1,16 +1,18 @@
 // Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
 #pragma once
-#include "GameFramework/PlayerController.h"
+#include "GameFramework/PawnMovementComponent.h"
 #include "OverworldCameraController.generated.h"
 
 UCLASS(config=Control)
-class AOverworldCameraController : public APlayerController
+class UOverworldCameraController : public UPawnMovementComponent
 {
 	GENERATED_BODY()
 
 	
 public:
-    AOverworldCameraController();
+    UOverworldCameraController();
+
+    virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
 };
 

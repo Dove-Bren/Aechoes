@@ -2,6 +2,7 @@
 #pragma once
 #include "GameFramework/GameMode.h"
 #include "World/WorldGrid.h"
+#include "Control/OverworldCamera.h"
 #include "AechoesGameMode.generated.h"
 
 UCLASS(minimalapi)
@@ -25,6 +26,8 @@ public:
     /** Returns the game grid **/
     UFUNCTION(BlueprintCallable, Category = Combat)
     UWorldGrid *getGrid();
+
+	virtual void StartPlay() override;
 };
 
 

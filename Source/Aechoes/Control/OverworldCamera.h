@@ -1,20 +1,32 @@
 // Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
 #pragma once
-#include "Camera/CameraActor.h"
+#include "Camera/CameraComponent.h"
 #include "GameFramework/Pawn.h"
+#include "OverworldCameraController.h"
 #include "OverworldCamera.generated.h"
 
 UCLASS(config=Control)
-class AOverworldCamera : public APawn, public ACameraActor
+class AOverworldCamera : public APawn
 {
 	GENERATED_BODY()
 
 	/** Camera Controller */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class AOverworldCameraController* Controller;
+	class UOverworldCameraController* CameraController;
+
+    /** Camera Focus **/
+    AActor *focus;
+
+    /** Actual camera **/
+    UCameraComponent *Camera;
+
+    /** Camera Spring **/
+    USpringArmComponent *CameraArm;
     
 public:
     AOverworldCamera();
+
+    ~AOverworldCamera();
 
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
@@ -59,6 +71,17 @@ protected:
 
 public:
 	/** Returns Controller subobject **/
-	FORCEINLINE class AOverworldCameraController* GetController() const { return Controller; }
+	virtual UPawnMovementComponent* GetMovementComponent() const override;
+
+    /** Return current focus (if any!) of the camera **/
+    UFUNCTION(BlueprintCallable, Category = Camera)
+    AActor *getFocus();
+
+	/** Set the focus of the camera **/
+	UFUNCTION(BlueprintCallable, Category = Camera)
+	void SetFocus(AActor *in);
+
+    /** Returns camera component **/
+    UCameraComponent *getCamera();
 };
 
