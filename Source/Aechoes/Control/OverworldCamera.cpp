@@ -12,8 +12,8 @@ AOverworldCamera::AOverworldCamera()
 	PrimaryActorTick.bCanEverTick = true;
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
-	PanSpeed = 2.0f;
-	ZoomSpeed = 1.0f;
+	PanSpeed = 5.0f;
+	ZoomSpeed = 10.0f;
 
     // Create a camera boom (pulls in towards the player if there is a collision)
     CameraArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -75,9 +75,7 @@ void AOverworldCamera::SetupPlayerInputComponent(class UInputComponent* InputCom
 	InputComponent->BindAxis("MoveRightRate", this, &AOverworldCamera::MoveRightRate);
 	InputComponent->BindAxis("MoveUp", this, &AOverworldCamera::MoveUp);
 	InputComponent->BindAxis("MoveRight", this, &AOverworldCamera::MoveRight);
-
-	InputComponent->BindAxis("ZoomIn", this, &AOverworldCamera::ZoomIn);
-
+	
 	InputComponent->BindAction("ZoomIn", IE_Pressed, this, &AOverworldCamera::ZoomIn);
 	InputComponent->BindAction("ZoomOut", IE_Pressed, this, &AOverworldCamera::ZoomOut);
 }
@@ -184,16 +182,6 @@ void AOverworldCamera::MoveUpRate(float Rate)
 {
 	if (Rate != 0.0f) {
 		MoveUp(Rate);
-	}
-}
-
-void AOverworldCamera::ZoomIn(float Rate)
-{
-	if (Rate != 0.0f) {
-		CameraController->AddInputVector(FVector(0.0f, 0.0f, -Rate * ZoomSpeed));
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("Zoom with 0 rate"));
 	}
 }
 
