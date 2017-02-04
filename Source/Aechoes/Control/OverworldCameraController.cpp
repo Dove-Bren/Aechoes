@@ -62,11 +62,11 @@ void UOverworldCameraController::TickComponent(float DeltaTime, ELevelTick TickT
 			//Check 2 : Don't stray out of bounds of focus
 			/*float dist = FMath::Abs(FVector::Dist(
 				FVector(targ.X, targ.Y, 0), FVector(cur.X, cur.Y, 0)));*/
-			FVector distV = cur - targ, dir;
+			FVector distV = (FVector(cur.X, cur.Y, 0) - FVector(targ.X, targ.Y, 0)), dir;
 			float dist;
 
 			//only check x, y
-			distV.Z = 0;
+			//distV.Z = 0;
 
 			distV.ToDirectionAndLength(dir, dist);
 		

@@ -52,5 +52,8 @@ protected:
 	void ZoomOut();
 	
 	virtual void SetupInputComponent() override;
+
+public:
+	AOverworldController();
 	
 };

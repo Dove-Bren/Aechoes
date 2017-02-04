@@ -3,6 +3,13 @@
 #include "Aechoes.h"
 #include "OverworldController.h"
 
+
+AOverworldController::AOverworldController()
+{
+	ShowCursor(true);
+}
+
+
 void AOverworldController::SetupInputComponent()
 {
 
