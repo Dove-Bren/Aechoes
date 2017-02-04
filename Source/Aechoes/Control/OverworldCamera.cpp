@@ -12,6 +12,9 @@ AOverworldCamera::AOverworldCamera()
 	PrimaryActorTick.bCanEverTick = true;
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
+	PanSpeed = 2.0f;
+	ZoomSpeed = 1.0f;
+
     // Create a camera boom (pulls in towards the player if there is a collision)
     CameraArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
     CameraArm->SetupAttachment(RootComponent);
@@ -72,6 +75,11 @@ void AOverworldCamera::SetupPlayerInputComponent(class UInputComponent* InputCom
 	InputComponent->BindAxis("MoveRightRate", this, &AOverworldCamera::MoveRightRate);
 	InputComponent->BindAxis("MoveUp", this, &AOverworldCamera::MoveUp);
 	InputComponent->BindAxis("MoveRight", this, &AOverworldCamera::MoveRight);
+
+	InputComponent->BindAxis("ZoomIn", this, &AOverworldCamera::ZoomIn);
+
+	InputComponent->BindAction("ZoomIn", IE_Pressed, this, &AOverworldCamera::ZoomIn);
+	InputComponent->BindAction("ZoomOut", IE_Pressed, this, &AOverworldCamera::ZoomOut);
 }
 
 UPawnMovementComponent * AOverworldCamera::GetMovementComponent() const
@@ -149,8 +157,7 @@ void AOverworldCamera::MoveUp(float Rate)
 	
 	//const FVector dir = FVector(1.0f, 0.0f, 0.0f);
 	//AddMovementInput(dir, 1.0f);
-	this->CameraController->AddInputVector(FVector(Rate, 0.0f, 0.0f));
-	UE_LOG(LogTemp, Warning, TEXT("Received move-up"));
+	this->CameraController->AddInputVector(FVector(Rate * PanSpeed, 0.0f, 0.0f));
 	
 
 }
@@ -169,17 +176,35 @@ void AOverworldCamera::MoveRight(float Rate)
 	if (Rate == 0.0f)
 		return;
 
-	CameraController->AddInputVector(FVector(0.0f, Rate, 0.0f), false);
+	CameraController->AddInputVector(FVector(0.0f, Rate * PanSpeed, 0.0f), false);
 	
-	UE_LOG(LogTemp, Warning, TEXT("Received move-right"));
 }
 
 void AOverworldCamera::MoveUpRate(float Rate)
 {
 	if (Rate != 0.0f) {
-		UE_LOG(LogTemp, Warning, TEXT("MoveUpRate: %f"), Rate);
 		MoveUp(Rate);
 	}
+}
+
+void AOverworldCamera::ZoomIn(float Rate)
+{
+	if (Rate != 0.0f) {
+		CameraController->AddInputVector(FVector(0.0f, 0.0f, -Rate * ZoomSpeed));
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Zoom with 0 rate"));
+	}
+}
+
+void AOverworldCamera::ZoomIn()
+{
+	CameraController->AddInputVector(FVector(0.0f, 0.0f, -ZoomSpeed));
+}
+
+void AOverworldCamera::ZoomOut()
+{
+	CameraController->AddInputVector(FVector(0.0f, 0.0f, ZoomSpeed));
 }
 
 UCameraComponent *AOverworldCamera::getCamera()
@@ -195,5 +220,4 @@ void AOverworldCamera::SetFocus(AActor *in)
 		this->SetActorLocation(FVector(vec.X, vec.Y, vec.Z + 100.0f));
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("Focus called with %s"), this->focus == nullptr ? "NULL" : "Not Null");
 }

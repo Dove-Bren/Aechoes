@@ -46,8 +46,8 @@ public:
 
     UCharacterStats();
 
-    UCharacterStats(int32 strength, int32 agility, int32 dexterity, int32 intel,
-                   int32 passion, int32 wisdom, int32 vit);
+    //UCharacterStats(int32 strength, int32 agility, int32 dexterity, int32 intel,
+    //               int32 passion, int32 wisdom, int32 vit);
 
 
     /*******************************

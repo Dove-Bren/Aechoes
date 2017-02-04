@@ -15,18 +15,18 @@ UCharacterStats::UCharacterStats()
     this->Vitality = 0;
 }
 
-UCharacterStats::UCharacterStats(int32 strength, int32 agility,
-                int32 dexterity, int32 intel, int32 passion, int32 wisdom,
-                int32 vit)
-{
-    this->Strength = strength;
-    this->Agility = agility;
-    this->Dexterity = dexterity;
-    this->Intelligence = intel;
-    this->Passion = passion;
-    this->Wisdom = wisdom;
-    this->Vitality = vit;
-}
+//UCharacterStats::UCharacterStats(int32 strength, int32 agility,
+//                int32 dexterity, int32 intel, int32 passion, int32 wisdom,
+//                int32 vit) : UCharacterStats()
+//{
+//    this->Strength = strength;
+//    this->Agility = agility;
+//    this->Dexterity = dexterity;
+//    this->Intelligence = intel;
+//    this->Passion = passion;
+//    this->Wisdom = wisdom;
+//    this->Vitality = vit;
+//}
 
 int32 UCharacterStats::getInitiative()
 {
@@ -92,7 +92,14 @@ int32 UCharacterStats::getCarryCapactity()
 
 UCharacterStats * UCharacterStats::copyOf()
 {
-    return new UCharacterStats(
-        Strength, Agility, Dexterity, Intelligence, Passion, Wisdom, Vitality
-    );
+	UCharacterStats *stats = NewObject<UCharacterStats>();
+	stats->Strength = this->Strength;
+	stats->Agility = this->Agility;
+	stats->Dexterity = this->Dexterity;
+	stats->Intelligence = this->Intelligence;
+	stats->Passion = this->Passion;
+	stats->Wisdom = this->Wisdom;
+	stats->Vitality = this->Vitality;
+
+	return stats;
 }
