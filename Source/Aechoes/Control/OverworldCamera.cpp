@@ -8,6 +8,8 @@
 
 AOverworldCamera::AOverworldCamera()
 {
+
+	PrimaryActorTick.bCanEverTick = true;
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
     // Create a camera boom (pulls in towards the player if there is a collision)
@@ -39,10 +41,10 @@ AOverworldCamera::~AOverworldCamera()
 //////////////////////////////////////////////////////////////////////////
 // Input
 
-void AOverworldCamera::SetupPlayerInputComponent(class UInputComponent* input)
+void AOverworldCamera::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	// Set up gameplay key bindings
-	check(input);
+	check(InputComponent);
 	//InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	//InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
@@ -58,10 +60,14 @@ void AOverworldCamera::SetupPlayerInputComponent(class UInputComponent* input)
 	//InputComponent->BindAxis("LookUpRate", this, &AAechoesCharacter::LookUpAtRate);
 
 	// handle touch devices
-    input->BindTouch(IE_Pressed, this, &AOverworldCamera::TouchStarted);
-    input->BindTouch(IE_Released, this, &AOverworldCamera::TouchStopped);
+	InputComponent->BindTouch(IE_Pressed, this, &AOverworldCamera::TouchStarted);
+	InputComponent->BindTouch(IE_Released, this, &AOverworldCamera::TouchStopped);
 
-    //input->BindAction()
+	//MoveUp, MoveRight, *Rate
+	//Also SelectClick, ActionClick
+	InputComponent->BindAction("MoveUp", IE_Pressed, this, &AOverworldCamera::MoveUp);
+	InputComponent->BindAction("MoveRight", IE_Pressed, this, &AOverworldCamera::MoveRight);
+	InputComponent->BindAxis("MoveUpRate", this, &AOverworldCamera::MoveUpRate);
 }
 
 UPawnMovementComponent * AOverworldCamera::GetMovementComponent() const
@@ -130,13 +136,23 @@ void AOverworldCamera::OnActionClick(FVector location)
 //	}
 //}
 
-void AOverworldCamera::MoveUp(float Value)
+void AOverworldCamera::MoveUp()
 {
+	if ((Controller != NULL)) {
+		const FVector dir = FVector(1.0f, 0.0f, 0.0f);
+		AddMovementInput(dir, 1.0f);
+		UE_LOG(LogTemp, Warning, TEXT("Received move-up"));
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Null Controller"));
+		UE_LOG(LogTemp, Warning, TEXT("CameraController==null ? %s"), CameraController == NULL ? "NULL" : "no, it's good");
+	}
+
 }
 
-void AOverworldCamera::MoveRight(float Value)
+void AOverworldCamera::MoveRight()
 {
-	if ( (Controller != NULL) && (Value != 0.0f) )
+	if ( (Controller != NULL))
 	{
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -145,12 +161,13 @@ void AOverworldCamera::MoveRight(float Value)
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
-		AddMovementInput(Direction, Value);
+		AddMovementInput(Direction, 1.0f);
 	}
 }
 
 void AOverworldCamera::MoveUpRate(float Rate)
 {
+	UE_LOG(LogTemp, Warning, TEXT("MoveUpRate: %f"), Rate);
 }
 
 UCameraComponent *AOverworldCamera::getCamera()
@@ -161,6 +178,8 @@ UCameraComponent *AOverworldCamera::getCamera()
 void AOverworldCamera::SetFocus(AActor *in)
 {
 	this->focus = in;
-	if (this->focus != nullptr)
-		this->SetActorLocation(focus->GetActorLocation());
+	if (this->focus != nullptr) {
+		const FVector vec = focus->GetActorLocation();
+		this->SetActorLocation(FVector(vec.X, vec.Y, vec.Z + 100.0f));
+	}
 }
