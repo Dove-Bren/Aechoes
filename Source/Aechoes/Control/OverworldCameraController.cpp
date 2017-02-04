@@ -11,6 +11,11 @@ UOverworldCameraController::UOverworldCameraController()
 	
 }
 
+void UOverworldCameraController::setFocus(AActor * newFocus)
+{
+	this->focus = newFocus;
+}
+
 void UOverworldCameraController::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
 {
     //Taken from tutorial at
@@ -26,9 +31,11 @@ void UOverworldCameraController::TickComponent(float DeltaTime, ELevelTick TickT
     }
 
     // Get (and then clear) the movement vector that we set in ACollidingPawn::Tick
-    FVector DesiredMovementThisFrame = ConsumeInputVector().GetClampedToMaxSize(1.0f) * DeltaTime * 150.0f;
+    FVector DesiredMovementThisFrame = ConsumeInputVector() * DeltaTime;
     if (!DesiredMovementThisFrame.IsNearlyZero())
     {
+		AActor *owner = GetPawnOwner();
+
         FHitResult Hit;
         SafeMoveUpdatedComponent(DesiredMovementThisFrame, UpdatedComponent->GetComponentRotation(), true, Hit);
 
@@ -37,6 +44,39 @@ void UOverworldCameraController::TickComponent(float DeltaTime, ELevelTick TickT
         {
             SlideAlongSurface(DesiredMovementThisFrame, 1.f - Hit.Time, Hit.Normal, Hit);
         }
+
+		//With updated movement, are we too far out? If so, move within range
+
+		if (owner != nullptr && focus != nullptr) {
+			FVector targ = focus->GetActorLocation();
+			FVector cur = owner->GetActorLocation();
+
+			//Check 1 : Boundaries
+			if (cur.Z < targ.Z + STAT_CAMERA_MINZ) {
+				cur.Z = targ.Z + STAT_CAMERA_MINZ;
+			}
+			else if (cur.Z > targ.Z + STAT_CAMERA_MAXZ) {
+				cur.Z = targ.Z + STAT_CAMERA_MAXZ;
+			}
+
+			//Check 2 : Don't stray out of bounds of focus
+			/*float dist = FMath::Abs(FVector::Dist(
+				FVector(targ.X, targ.Y, 0), FVector(cur.X, cur.Y, 0)));*/
+			FVector distV = cur - targ, dir;
+			float dist;
+			distV.ToDirectionAndLength(dir, dist);
+		
+			if (dist > STAT_CAMERA_MAXPAN) {
+				FVector anti = FVector(dir);
+				float diff = dist - STAT_CAMERA_MAXPAN; //how much we're over
+				anti *= diff;
+				cur += -anti;
+			}
+
+			//finally, update position on modifications
+			owner->SetActorLocation(cur);
+
+		}
     }
 
 }

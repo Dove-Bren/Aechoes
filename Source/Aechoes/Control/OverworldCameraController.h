@@ -8,9 +8,18 @@ class UOverworldCameraController : public UPawnMovementComponent
 {
 	GENERATED_BODY()
 
+protected:
+	float const STAT_CAMERA_MINZ = 200.0f;
+	float const STAT_CAMERA_MAXZ = 2000.0f;
+	float const STAT_CAMERA_MAXPAN = 2000.0f;
+
+	AActor *focus;
+
 	
 public:
     UOverworldCameraController();
+
+	void setFocus(AActor *newFocus);
 
     virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 

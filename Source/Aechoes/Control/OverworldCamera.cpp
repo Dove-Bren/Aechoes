@@ -155,7 +155,15 @@ void AOverworldCamera::MoveUp(float Rate)
 	
 	//const FVector dir = FVector(1.0f, 0.0f, 0.0f);
 	//AddMovementInput(dir, 1.0f);
-	this->CameraController->AddInputVector(FVector(Rate * PanSpeed, 0.0f, 0.0f));
+	float speed = Rate * PanSpeed;
+
+	//scale up speed if focus target far away
+	if (this->focus != nullptr) {
+		float diff = FMath::Abs((this->GetActorLocation() - focus->GetActorLocation()).Z);
+		speed += diff / 750.0f;
+	}
+
+	this->CameraController->AddInputVector(FVector(speed, 0.0f, 0.0f));
 	
 
 }
@@ -174,7 +182,9 @@ void AOverworldCamera::MoveRight(float Rate)
 	if (Rate == 0.0f)
 		return;
 
-	CameraController->AddInputVector(FVector(0.0f, Rate * PanSpeed, 0.0f), false);
+	float speed = Rate * PanSpeed;
+
+	CameraController->AddInputVector(FVector(0.0f, speed, 0.0f), false);
 	
 }
 
@@ -203,6 +213,8 @@ UCameraComponent *AOverworldCamera::getCamera()
 void AOverworldCamera::SetFocus(AActor *in)
 {
 	this->focus = in;
+	CameraController->setFocus(focus);
+
 	if (this->focus != nullptr) {
 		const FVector vec = focus->GetActorLocation();
 		this->SetActorLocation(FVector(vec.X, vec.Y, vec.Z + 100.0f));
