@@ -3,6 +3,7 @@
 #include "Aechoes.h"
 #include "AechoesGameMode.h"
 #include "Character/AechoesCharacter.h"
+#include "Control/OverworldController.h"
 #include "Control/OverworldCamera.h"
 
 AAechoesGameMode::AAechoesGameMode()
@@ -13,6 +14,8 @@ AAechoesGameMode::AAechoesGameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+
+	PlayerControllerClass = AOverworldController::StaticClass();
 
 	this->grid = CreateDefaultSubobject<UWorldGrid>(TEXT("Grid"));
     //this->grid = NewObject<UWorldGrid>();
@@ -25,6 +28,11 @@ AAechoesGameMode::AAechoesGameMode()
 UWorldGrid * AAechoesGameMode::getGrid()
 {
     return this->grid;
+}
+
+AOverworldCamera *AAechoesGameMode::getCamera()
+{
+	return this->camera;
 }
 
 void AAechoesGameMode::StartPlay()

@@ -38,6 +38,8 @@ protected:
 	/** Base zoom movement rate */
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Camera)
 		float ZoomSpeed;
+	
+public:
 
 	/** Called for up/down input */
 	void MoveUp(float Rate);
@@ -45,42 +47,27 @@ protected:
 	/** Called for side to side input */
 	void MoveRight(float Rate);
 
-	/** 
-	 * Called via input to go up or down at a given rate. 
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
-	 */
+	/**
+	* Called via input to go up or down at a given rate.
+	* @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
+	*/
 	void MoveUpRate(float Rate);
 
 	/**
-	 * Called via input to turn look side-to-side at a given rate. 
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
-	 */
+	* Called via input to turn look side-to-side at a given rate.
+	* @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
+	*/
 	void MoveRightRate(float Rate);
-	
+
 	void ZoomIn();
 
 	void ZoomOut();
 
-	/** Handler for when a touch input begins. */
-	void TouchStarted(ETouchIndex::Type FingerIndex, FVector Location);
-
-	/** Handler for when a touch input stops. */
-	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
-
-    /** Handles left clicks **/
-    void OnSelectClick(FVector location);
-
-    /** Handles right clicks **/
-    void OnActionClick(FVector location);
-
-protected:
-	// APawn interface
-	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
-	// End of APawn interface
-
-public:
 	/** Returns Controller subobject **/
 	virtual UPawnMovementComponent* GetMovementComponent() const override;
+
+	/** Returns the camera controller, without cast **/
+	UOverworldCameraController *getCameraController();
 
     /** Return current focus (if any!) of the camera **/
     UFUNCTION(BlueprintCallable, Category = Camera)

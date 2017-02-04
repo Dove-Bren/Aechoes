@@ -27,6 +27,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = Combat)
     UWorldGrid *getGrid();
 
+	/** Returns the overworld game camera **/
+	UFUNCTION(BlueprintCallable, Category = Camera)
+	AOverworldCamera *getCamera();
+
 	virtual void StartPlay() override;
 };
 
