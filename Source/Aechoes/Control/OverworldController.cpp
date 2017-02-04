@@ -6,7 +6,9 @@
 
 AOverworldController::AOverworldController()
 {
-	ShowCursor(true);
+	//ShowCursor(true);
+	this->bShowMouseCursor = true;
+	UE_LOG(LogTemp, Warning, TEXT("Starting overworld controller"));
 }
 
 
@@ -119,5 +121,23 @@ void AOverworldController::OnSelectClick(FVector location)
 /** Handles right clicks **/
 void AOverworldController::OnActionClick(FVector location)
 {
+
+}
+
+void AOverworldController::TickActor(float DeltaTime,
+	enum ELevelTick TickType,
+	FActorTickFunction & ThisTickFunction)
+{
+	Super::TickActor(DeltaTime, TickType, ThisTickFunction);
+
+	if (GEngine->GameViewport) {
+		//if game in focus
+		FVector2D pos, size;
+		GEngine->GameViewport->GetViewportSize(size);
+		pos = GEngine->GameViewport->GetMousePosition();
+		if (pos.X < 100 || pos.X > size.X - 100)
+			MoveRight(pos.X < 100 ? -1.0f : 1.0f);
+
+	}
 
 }

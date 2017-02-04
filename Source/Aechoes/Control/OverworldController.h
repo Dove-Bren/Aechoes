@@ -53,6 +53,11 @@ protected:
 	
 	virtual void SetupInputComponent() override;
 
+	virtual void TickActor(float DeltaTime,
+		enum ELevelTick TickType,
+		FActorTickFunction & ThisTickFunction
+	) override;
+
 public:
 	AOverworldController();
 	
