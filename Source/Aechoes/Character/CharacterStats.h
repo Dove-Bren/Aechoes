@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Engine/UserDefinedStruct.h"
+#include "Components/ActorComponent.h"
 #include "../Combat/DamageVector.h"
 #include "CharacterStats.generated.h"
 
@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class AECHOES_API UCharacterStats : public UUserDefinedStruct
+class AECHOES_API UCharacterStats : public UActorComponent
 {
     GENERATED_BODY()
     
@@ -44,7 +44,7 @@ public:
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
     int32 Vitality;
 
-    UCharacterStats();
+    UCharacterStats(const class FObjectInitializer& ObjectInitializer);
 
     //UCharacterStats(int32 strength, int32 agility, int32 dexterity, int32 intel,
     //               int32 passion, int32 wisdom, int32 vit);

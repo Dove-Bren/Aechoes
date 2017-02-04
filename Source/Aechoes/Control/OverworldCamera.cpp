@@ -12,8 +12,8 @@ AOverworldCamera::AOverworldCamera()
 	PrimaryActorTick.bCanEverTick = true;
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
-	PanSpeed = 5.0f;
-	ZoomSpeed = 10.0f;
+	PanSpeed = 500.0f;
+	ZoomSpeed = 2000.0f;
 
     // Create a camera boom (pulls in towards the player if there is a collision)
     CameraArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -160,7 +160,7 @@ void AOverworldCamera::MoveUp(float Rate)
 	//scale up speed if focus target far away
 	if (this->focus != nullptr) {
 		float diff = FMath::Abs((this->GetActorLocation() - focus->GetActorLocation()).Z);
-		speed += diff / 750.0f;
+		speed *= 1 + (diff / 1000.0f);
 	}
 
 	this->CameraController->AddInputVector(FVector(speed, 0.0f, 0.0f));
@@ -183,6 +183,10 @@ void AOverworldCamera::MoveRight(float Rate)
 		return;
 
 	float speed = Rate * PanSpeed;
+	if (this->focus != nullptr) {
+		float diff = FMath::Abs((this->GetActorLocation() - focus->GetActorLocation()).Z);
+		speed *= 1 + (diff / 1000.0f);
+	}
 
 	CameraController->AddInputVector(FVector(0.0f, speed, 0.0f), false);
 	
@@ -197,7 +201,13 @@ void AOverworldCamera::MoveUpRate(float Rate)
 
 void AOverworldCamera::ZoomIn()
 {
-	CameraController->AddInputVector(FVector(0.0f, 0.0f, -ZoomSpeed));
+	float speed = ZoomSpeed;
+	if (this->focus != nullptr) {
+		float diff = FMath::Abs((this->GetActorLocation() - focus->GetActorLocation()).Z);
+		speed *= 1 + (diff / 2000.0f);
+	}
+
+	CameraController->AddInputVector(FVector(0.0f, 0.0f, -speed));
 }
 
 void AOverworldCamera::ZoomOut()
@@ -217,7 +227,7 @@ void AOverworldCamera::SetFocus(AActor *in)
 
 	if (this->focus != nullptr) {
 		const FVector vec = focus->GetActorLocation();
-		this->SetActorLocation(FVector(vec.X, vec.Y, vec.Z + 100.0f));
+		this->SetActorLocation(FVector(vec.X, vec.Y, vec.Z + 500.0f));
 	}
 
 }

@@ -14,7 +14,8 @@ AAechoesGameMode::AAechoesGameMode()
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
 
-    this->grid = NewObject<UWorldGrid>();
+	this->grid = CreateDefaultSubobject<UWorldGrid>(TEXT("Grid"));
+    //this->grid = NewObject<UWorldGrid>();
     //this->camera = NewObject<AOverworldCamera>();
 
    

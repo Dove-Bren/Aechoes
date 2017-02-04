@@ -3,10 +3,14 @@
 #include "Aechoes.h"
 #include "CombatableCharacter.h"
 
-ACombatableCharacter::ACombatableCharacter()
+ACombatableCharacter::ACombatableCharacter(const class FObjectInitializer& ObjectInitializer)
 {
     
     //this->stats = NewObject<UCharacterStats>();
+	this->stats = CreateDefaultSubobject<UCharacterStats>(TEXT("Stats"));
+	if (this->stats == nullptr) {
+		UE_LOG(LogTemp, Warning, TEXT("Created stats are null!-----------------------"));
+	}
     this->maxAP = ACombatableCharacter::DEFAULT_MAXAP;
     this->maxMP = ACombatableCharacter::DEFAULT_MAXMP;
 
@@ -84,6 +88,12 @@ void ACombatableCharacter::setMP(uint8 amount)
 UCharacterStats * ACombatableCharacter::getStats()
 {
     return this->stats->copyOf();
+}
+
+void ACombatableCharacter::AddStrength()
+{
+	this->stats->Strength++;
+
 }
 
 

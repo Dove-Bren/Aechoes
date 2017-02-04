@@ -64,6 +64,10 @@ void UOverworldCameraController::TickComponent(float DeltaTime, ELevelTick TickT
 				FVector(targ.X, targ.Y, 0), FVector(cur.X, cur.Y, 0)));*/
 			FVector distV = cur - targ, dir;
 			float dist;
+
+			//only check x, y
+			distV.Z = 0;
+
 			distV.ToDirectionAndLength(dir, dist);
 		
 			if (dist > STAT_CAMERA_MAXPAN) {

@@ -5,7 +5,7 @@
 #include <cmath>
 
 #include "Engine/Level.h"
-#include "Engine/UserDefinedStruct.h"
+#include "Components/ActorComponent.h"
 #include "../Character/LivingCharacter.h"
 #include "EngineGlobals.h"
 #include "Engine.h"
@@ -59,7 +59,7 @@ struct GridPosition {
  * Grid on which entities reside and are constrained to
  */
 UCLASS()
-class AECHOES_API UWorldGrid : public UUserDefinedStruct
+class AECHOES_API UWorldGrid : public UActorComponent
 {
 	GENERATED_BODY()
 

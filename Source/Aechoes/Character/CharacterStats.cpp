@@ -4,7 +4,7 @@
 #include "CharacterStats.h"
 
 
-UCharacterStats::UCharacterStats()
+UCharacterStats::UCharacterStats(const class FObjectInitializer& ObjectInitializer)
 {
     this->Strength = 0;
     this->Agility = 0;
