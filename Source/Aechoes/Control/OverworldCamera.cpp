@@ -164,6 +164,7 @@ void AOverworldCamera::MoveRight(float Rate)
 
 	CameraController->AddInputVector(FVector(0.0f, Rate, 0.0f), false);
 	
+	UE_LOG(LogTemp, Warning, TEXT("Received move-right"));
 }
 
 void AOverworldCamera::MoveUpRate(float Rate)

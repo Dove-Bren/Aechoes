@@ -28,9 +28,12 @@ UWorldGrid * AAechoesGameMode::getGrid()
 
 void AAechoesGameMode::StartPlay()
 {
+
+	Super::StartPlay();
+
 	this->camera = GetWorld()->SpawnActor<AOverworldCamera>(
 	AOverworldCamera::StaticClass(),
-	FVector(-800.0f, 190.0f, 200.0f),
+	FVector(-800.0f, 190.0f, 300.0f),
 	FRotator(0.0f, 0.0f, 0.0f));
 
 	
