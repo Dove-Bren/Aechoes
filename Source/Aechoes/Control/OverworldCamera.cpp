@@ -70,6 +70,8 @@ void AOverworldCamera::SetupPlayerInputComponent(class UInputComponent* InputCom
 
 	InputComponent->BindAxis("MoveUpRate", this, &AOverworldCamera::MoveUpRate);
 	InputComponent->BindAxis("MoveRightRate", this, &AOverworldCamera::MoveRightRate);
+	InputComponent->BindAxis("MoveUp", this, &AOverworldCamera::MoveUp);
+	InputComponent->BindAxis("MoveRight", this, &AOverworldCamera::MoveRight);
 }
 
 UPawnMovementComponent * AOverworldCamera::GetMovementComponent() const
@@ -141,6 +143,9 @@ void AOverworldCamera::OnActionClick(FVector location)
 
 void AOverworldCamera::MoveUp(float Rate)
 {
+
+	if (Rate == 0.0f)
+		return;
 	
 	//const FVector dir = FVector(1.0f, 0.0f, 0.0f);
 	//AddMovementInput(dir, 1.0f);
@@ -153,14 +158,16 @@ void AOverworldCamera::MoveUp(float Rate)
 void AOverworldCamera::MoveRight(float Rate)
 {
 	
-	// find out which way is right
-	const FRotator Rotation = Controller->GetControlRotation();
-	const FRotator YawRotation(0, Rotation.Yaw, 0);
-	
-	// get right vector 
-	const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-	// add movement in that direction
-	//AddMovementInput(Direction, 1.0f);
+	//// find out which way is right
+	//const FRotator Rotation = Controller->GetControlRotation();
+	//const FRotator YawRotation(0, Rotation.Yaw, 0);
+	//
+	//// get right vector 
+	//const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+	//// add movement in that direction
+	////AddMovementInput(Direction, 1.0f);
+	if (Rate == 0.0f)
+		return;
 
 	CameraController->AddInputVector(FVector(0.0f, Rate, 0.0f), false);
 	
