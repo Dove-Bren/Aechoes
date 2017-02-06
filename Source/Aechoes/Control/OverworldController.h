@@ -4,6 +4,7 @@
 
 #include "GameFramework/PlayerController.h"
 #include "OverworldCamera.h"
+#include "../Character/LivingCharacter.h"
 #include "../AechoesGameMode.h"
 #include "OverworldController.generated.h"
 
@@ -16,6 +17,13 @@ class AECHOES_API AOverworldController : public APlayerController
 	GENERATED_BODY()
 
 protected:
+
+	/** 
+	 * Current control target 
+	 * This is different from the possessed pawn, since we're possessing the camera
+	 **/
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Controls)
+	ALivingCharacter *CCharacter;
 
 	/** Handler for when a touch input begins. */
 	void TouchStarted(ETouchIndex::Type FingerIndex, FVector Location);
@@ -57,8 +65,15 @@ protected:
 		enum ELevelTick TickType,
 		FActorTickFunction & ThisTickFunction
 	) override;
-
+	
 public:
 	AOverworldController();
+
+	/**
+	 * Sets the currently controlled character
+	 * @param in The new character to control
+	 **/
+	UFUNCTION(BlueprintCallable, Category = Controls)
+	void SetControl(ALivingCharacter *in);
 	
 };

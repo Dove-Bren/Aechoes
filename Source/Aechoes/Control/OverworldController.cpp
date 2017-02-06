@@ -11,6 +11,11 @@ AOverworldController::AOverworldController()
 	UE_LOG(LogTemp, Warning, TEXT("Starting overworld controller"));
 }
 
+void AOverworldController::SetControl(ALivingCharacter * character)
+{
+	this->CCharacter = character;
+}
+
 
 void AOverworldController::SetupInputComponent()
 {
