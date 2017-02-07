@@ -2,7 +2,7 @@
 #pragma once
 #include "Camera/CameraComponent.h"
 #include "GameFramework/Pawn.h"
-#include "OverworldCameraController.h"
+#include "OverworldCameraMovement.h"
 #include "OverworldCamera.generated.h"
 
 UCLASS(config=Control)
@@ -12,7 +12,7 @@ class AOverworldCamera : public APawn
 
 	/** Camera Controller */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UOverworldCameraController* CameraController;
+	class UOCameraMovement* CameraController;
 
     /** Camera Focus **/
     AActor *focus;
@@ -67,7 +67,7 @@ public:
 	virtual UPawnMovementComponent* GetMovementComponent() const override;
 
 	/** Returns the camera controller, without cast **/
-	UOverworldCameraController *getCameraController();
+	UOCameraMovement *getCameraController();
 
     /** Return current focus (if any!) of the camera **/
     UFUNCTION(BlueprintCallable, Category = Camera)

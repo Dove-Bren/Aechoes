@@ -31,7 +31,7 @@ AOverworldCamera::AOverworldCamera()
     AutoPossessPlayer = EAutoReceiveInput::Player0;
 
     //Setup controller
-    CameraController = CreateDefaultSubobject<UOverworldCameraController>(TEXT("MovementController"));
+    CameraController = CreateDefaultSubobject<UOCameraMovement>(TEXT("MovementController"));
     CameraController->UpdatedComponent = RootComponent;
 }
 
@@ -133,7 +133,7 @@ UCameraComponent *AOverworldCamera::getCamera()
     return this->Camera;
 }
 
-UOverworldCameraController *AOverworldCamera::getCameraController()
+UOCameraMovement *AOverworldCamera::getCameraController()
 {
 	return this->CameraController;
 }
