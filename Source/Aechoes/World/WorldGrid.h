@@ -31,15 +31,22 @@ struct GridPosition {
     /** Grid Alignment Helper **/
     static FVector alignToGrid(FVector input, float scale) {
         FVector out = input;
+		int facX, facY;
 
-        out.X -= fmod(input.X, scale); // * scale;
-        out.Y -= fmod(input.Y, scale); //* scale;
+		facX = FMath::FloorToInt(input.X / scale);
+		facY = FMath::FloorToInt(input.Y / scale);
 
-        if (GEngine)
-            GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("fmod x [%f] by [%f]: %f"),
-              input.X, scale, fmod(input.X, scale)));
-        UE_LOG(LogTemp, Warning, TEXT("fmod y [%f] by [%f]: %f"),
-              input.Y, scale, fmod(input.Y, scale));
+		out.X = ((float) facX) * scale;
+		out.Y = ((float) facY) * scale;
+
+        //out.X -= fmod(input.X, scale); // * scale;
+        //out.Y -= fmod(input.Y, scale); //* scale;
+
+        //if (GEngine)
+        //    GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("fmod x [%f] by [%f]: %f"),
+        //      input.X, scale, fmod(input.X, scale)));
+        //UE_LOG(LogTemp, Warning, TEXT("fmod y [%f] by [%f]: %f"),
+        //      input.Y, scale, fmod(input.Y, scale));
 
         return out;
     }

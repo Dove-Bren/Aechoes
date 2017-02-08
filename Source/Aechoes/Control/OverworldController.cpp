@@ -136,13 +136,17 @@ void AOverworldController::OnActionClick()
 	this->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, result);
 	loc = result.Location;
 	/*this->DeprojectMousePositionToWorld(loc, dir);*/
-	UE_LOG(LogTemp, Warning, TEXT("In World Terms: %f, %f, %f"), loc.X, loc.Y, loc.Z);
-	ALivingCharacter *out = ((AAechoesGameMode *)GetWorld()->GetAuthGameMode())->getGrid()
-		->get(loc.X, loc.Y);
-	if (out != NULL)
+	
+	UWorldGrid *grid = ((AAechoesGameMode *)GetWorld()->GetAuthGameMode())->getGrid();
+	ALivingCharacter *out = grid->get(loc.X, loc.Y);
+	if (out != NULL) {
 		UE_LOG(LogTemp, Warning, TEXT("Found Actor: %s"), *out->GetName());
-
-	//PRoblem here! It seg faults!
+	} 
+	else if (CCharacter->isCommandReady()) {
+		UE_LOG(LogTemp, Warning, TEXT("Is Ready and Willing!"));
+		loc = grid->snapTo(loc, true);
+		UNavigationSystem::SimpleMoveToLocation(CCharacter->GetController(), loc);
+	}
 }
 
 void AOverworldController::TickActor(float DeltaTime,

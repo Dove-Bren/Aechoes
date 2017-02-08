@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/PlayerController.h"
+#include "AI/Navigation/NavigationSystem.h"
 #include "OverworldCamera.h"
 #include "../Character/LivingCharacter.h"
 #include "../AechoesGameMode.h"

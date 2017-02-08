@@ -93,6 +93,14 @@ public:
     UFUNCTION(BlueprintCallable, Category = Living)
     void setHealthRegen(int32 regenRate);
 
+	/**
+	 * Returns whether this character is able to be issued a new command
+	 * @return True when the player can react to a new command as soon as
+	 *         it's issued. If false, commands can still be queued
+	 **/
+	UFUNCTION(BlueprintCallable, Category = Living)
+	bool isCommandReady();
+
     void Tick(float delta) override;
 
     void BeginPlay() override;

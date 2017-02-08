@@ -111,4 +111,13 @@ void ALivingCharacter::BeginPlay()
 
 }
 
+bool ALivingCharacter::isCommandReady()
+{
+	FVector dir;
+	float len;
+	this->GetVelocity().ToDirectionAndLength(dir, len);
+	return (FMath::Abs(len) < 0.01);
+		
+}
+
 
