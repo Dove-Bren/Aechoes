@@ -145,7 +145,7 @@ void AOverworldCamera::SetFocus(AActor *in)
 
 	if (this->focus != nullptr) {
 		const FVector vec = focus->GetActorLocation();
-		this->SetActorLocation(FVector(vec.X, vec.Y, vec.Z + 500.0f));
+		this->SetActorLocation(FVector(vec.X, vec.Y, GetActorLocation().Z));
 	}
 
 }
