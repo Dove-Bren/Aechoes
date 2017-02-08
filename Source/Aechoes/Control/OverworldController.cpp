@@ -145,6 +145,11 @@ void AOverworldController::OnActionClick()
 	else if (CCharacter->isCommandReady()) {
 		UE_LOG(LogTemp, Warning, TEXT("Is Ready and Willing!"));
 		loc = grid->snapTo(loc, true);
+
+		FVector oldPos = CCharacter->GetActorLocation();
+		grid->clear(oldPos.X, oldPos.Y);
+		grid->place(loc.X, loc.Y, CCharacter);
+
 		UNavigationSystem::SimpleMoveToLocation(CCharacter->GetController(), loc);
 	}
 }
