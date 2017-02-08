@@ -22,8 +22,8 @@ struct GridPosition {
     static GridPosition from(float x, float y, float scale) {
         GridPosition pos;
 
-        pos.x = (int)x / scale;
-        pos.y = (int)y / scale;
+        pos.x = FMath::FloorToInt(x / scale);
+        pos.y = FMath::FloorToInt(y / scale);
 
         return pos;
     }

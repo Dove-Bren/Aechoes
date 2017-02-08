@@ -34,7 +34,9 @@ float UWorldGrid::getScale()
 
 ALivingCharacter *UWorldGrid::get(float x, float y)
 {
-	TWeakObjectPtr<ALivingCharacter> *ret = map.Find(translate(x, y));
+	GridPosition pos = translate(x, y);
+	UE_LOG(LogTemp, Warning, TEXT("GridPos: [%d, %d]"), pos.x, pos.y);
+	TWeakObjectPtr<ALivingCharacter> *ret = map.Find(pos);
 	if (ret != nullptr && (*ret).IsValid()) {
 		UE_LOG(LogTemp, Warning, TEXT("Valid!"));
 		return (*ret).Get(true);
@@ -51,10 +53,12 @@ bool UWorldGrid::isEmpty(float x, float y)
 
 bool UWorldGrid::place(float x, float y, ALivingCharacter *input)
 {
-    TWeakObjectPtr<ALivingCharacter> ret = *map.Find(translate(x, y));
+    TWeakObjectPtr<ALivingCharacter> *ret = map.Find(translate(x, y));
     map.Add(translate(x, y), TWeakObjectPtr<ALivingCharacter>(input));
 
-    return (ret) != nullptr;
+	UE_LOG(LogTemp, Warning, TEXT("Placing object at %f, %f"), x, y);
+
+    return (ret != nullptr && (*ret).IsValid());
 }
 
 bool UWorldGrid::clear(float x, float y)

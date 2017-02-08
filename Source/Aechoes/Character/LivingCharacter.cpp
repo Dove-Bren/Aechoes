@@ -103,9 +103,11 @@ void ALivingCharacter::BeginPlay()
 {
     Super::BeginPlay();
 	
+	UWorldGrid *grid = ((AAechoesGameMode *) this->GetWorld()->GetAuthGameMode())->getGrid();
     FVector old = this->GetActorLocation();
-    FVector out = ( (AAechoesGameMode *) this->GetWorld()->GetAuthGameMode())->getGrid()->snapTo(old, true);
+    FVector out = grid->snapTo(old, true);
     this->SetActorLocation(out);
+	grid->place(out.X, out.Y, this);
 
 }
 
