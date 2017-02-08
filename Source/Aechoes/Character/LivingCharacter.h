@@ -99,7 +99,7 @@ public:
 	 *         it's issued. If false, commands can still be queued
 	 **/
 	UFUNCTION(BlueprintCallable, Category = Living)
-	bool isCommandReady();
+	virtual bool isCommandReady();
 
     void Tick(float delta) override;
 

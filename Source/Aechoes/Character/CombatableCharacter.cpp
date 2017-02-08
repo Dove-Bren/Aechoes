@@ -17,6 +17,8 @@ ACombatableCharacter::ACombatableCharacter(const class FObjectInitializer& Objec
 
     this->AP = this->maxAP;
     this->MP = this->maxMP;
+
+	this->bIsAttacking = false;
 }
 
 ACombatableCharacter::~ACombatableCharacter()
@@ -97,4 +99,10 @@ void ACombatableCharacter::AddStrength()
 
 }
 
+bool ACombatableCharacter::isCommandReady()
+{
+	if (!Super::isCommandReady())
+		return false;
 
+	return !bIsAttacking;
+}

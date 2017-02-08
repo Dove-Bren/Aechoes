@@ -43,6 +43,9 @@ protected:
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
     uint8 MP;
 
+	/** Whether or not we are currently attacking **/
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
+	bool bIsAttacking;
     
 
 
@@ -129,5 +132,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Combat)
 	void AddStrength();
     
-    
+	UFUNCTION(BlueprintCallable, Category = Living)
+	bool isCommandReady() override;
 };
