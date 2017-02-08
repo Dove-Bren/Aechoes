@@ -12,7 +12,7 @@ void ALivingCharacter::die_Implementation()
 }
 
 
-ALivingCharacter::ALivingCharacter() : AAechoesCharacter::AAechoesCharacter() {
+ALivingCharacter::ALivingCharacter(const class FObjectInitializer& ObjectInitializer) : AAechoesCharacter::AAechoesCharacter(ObjectInitializer) {
     this->maxHealth = ALivingCharacter::DEFAULT_MAXHEALTH;
     this->health = this->maxHealth;
     this->healthRegenRate = ALivingCharacter::DEFAULT_HEALTHREGEN;
@@ -21,11 +21,6 @@ ALivingCharacter::ALivingCharacter() : AAechoesCharacter::AAechoesCharacter() {
     PrimaryActorTick.bCanEverTick = true;
     PrimaryActorTick.bTickEvenWhenPaused = false;
     PrimaryActorTick.TickGroup = TG_PostPhysics;
-}
-
-ALivingCharacter::ALivingCharacter(int32 maxHealth) : AAechoesCharacter::AAechoesCharacter() {
-    this->maxHealth = maxHealth;
-    this->health = this->maxHealth;
 }
 
 int32 ALivingCharacter::getHealth() {

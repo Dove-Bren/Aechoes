@@ -3,9 +3,6 @@
 #pragma once
 
 #include "AIController.h"
-#include "OverworldCamera.h"
-#include "../Character/LivingCharacter.h"
-#include "../AechoesGameMode.h"
 #include "OCharacterController.generated.h"
 
 /**

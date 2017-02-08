@@ -46,9 +46,7 @@ protected:
 
 public:
     
-    ALivingCharacter();
-
-    ALivingCharacter(int32 maxHealth);
+    ALivingCharacter(const class FObjectInitializer& ObjectInitializer);
 
     /** Fetch the amount of health remaining **/
     UFUNCTION(BlueprintCallable, Category = Living)

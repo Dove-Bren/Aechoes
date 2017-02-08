@@ -42,6 +42,10 @@ void AOverworldController::SetupInputComponent()
 	InputComponent->BindTouch(IE_Pressed, this, &AOverworldController::TouchStarted);
 	InputComponent->BindTouch(IE_Released, this, &AOverworldController::TouchStopped);
 
+	// handle clicks
+	InputComponent->BindAction("SelectClick", IE_Pressed, this, &AOverworldController::OnSelectClick);
+	InputComponent->BindAction("ActionClick", IE_Pressed, this, &AOverworldController::OnActionClick);
+
 	//MoveUp, MoveRight, *Rate
 	//Also SelectClick, ActionClick
 	//InputComponent->BindAction("MoveUp", IE_Pressed, this, &AOverworldCamera::MoveUp);
@@ -118,15 +122,27 @@ void AOverworldController::TouchStopped(ETouchIndex::Type FingerIndex, FVector L
 }
 
 /** Handles left clicks **/
-void AOverworldController::OnSelectClick(FVector location)
+void AOverworldController::OnSelectClick()
 {
 
 }
 
 /** Handles right clicks **/
-void AOverworldController::OnActionClick(FVector location)
+void AOverworldController::OnActionClick()
 {
+	//UE_LOG(LogTemp, Warning, TEXT("Clicked at pos: %f, %f, %f"), location.X, location.Y, location.Z);
+	FVector loc, dir;
+	FHitResult result;
+	this->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, result);
+	loc = result.Location;
+	/*this->DeprojectMousePositionToWorld(loc, dir);*/
+	UE_LOG(LogTemp, Warning, TEXT("In World Terms: %f, %f, %f"), loc.X, loc.Y, loc.Z);
+	ALivingCharacter *out = ((AAechoesGameMode *)GetWorld()->GetAuthGameMode())->getGrid()
+		->get(loc.X, loc.Y);
+	if (out != NULL)
+		UE_LOG(LogTemp, Warning, TEXT("Found Actor: %s"), *out->GetName());
 
+	//PRoblem here! It seg faults!
 }
 
 void AOverworldController::TickActor(float DeltaTime,

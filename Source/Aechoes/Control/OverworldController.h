@@ -32,10 +32,10 @@ protected:
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
 	/** Handles left clicks **/
-	void OnSelectClick(FVector location);
+	void OnSelectClick();
 
 	/** Handles right clicks **/
-	void OnActionClick(FVector location);
+	void OnActionClick();
 	
 	/** Called for up/down input */
 	void MoveUp(float Rate);

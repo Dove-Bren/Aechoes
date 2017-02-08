@@ -34,7 +34,14 @@ float UWorldGrid::getScale()
 
 ALivingCharacter *UWorldGrid::get(float x, float y)
 {
-    return (*map.Find(translate(x, y))).Get(true);
+	TWeakObjectPtr<ALivingCharacter> *ret = map.Find(translate(x, y));
+	if (ret != nullptr && (*ret).IsValid()) {
+		UE_LOG(LogTemp, Warning, TEXT("Valid!"));
+		return (*ret).Get(true);
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("invalid!"));
+	return nullptr;
 }
 
 bool UWorldGrid::isEmpty(float x, float y)

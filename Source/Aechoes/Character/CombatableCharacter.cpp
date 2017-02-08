@@ -4,6 +4,7 @@
 #include "CombatableCharacter.h"
 
 ACombatableCharacter::ACombatableCharacter(const class FObjectInitializer& ObjectInitializer)
+	: ALivingCharacter::ALivingCharacter(ObjectInitializer)
 {
     
     //this->stats = NewObject<UCharacterStats>();

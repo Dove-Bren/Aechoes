@@ -1,6 +1,8 @@
 // Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
 #pragma once
 #include "GameFramework/Character.h"
+#include "../Control/OverworldCharMovementComponent.h"
+#include "../Control/OCharacterController.h"
 #include "AechoesCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -16,7 +18,7 @@ class AAechoesCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 public:
-	AAechoesCharacter();
+	AAechoesCharacter(const class FObjectInitializer& ObjectInitializer);
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
@@ -68,5 +70,8 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+
+	virtual void BeginPlay() override;
 };
 
