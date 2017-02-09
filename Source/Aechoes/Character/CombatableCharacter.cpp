@@ -19,6 +19,8 @@ ACombatableCharacter::ACombatableCharacter(const class FObjectInitializer& Objec
     this->MP = this->maxMP;
 
 	this->bIsAttacking = false;
+
+	this->lrid = CreateDefaultSubobject<ULrid>(TEXT("Movement Grid"));
 }
 
 ACombatableCharacter::~ACombatableCharacter()
@@ -105,4 +107,18 @@ bool ACombatableCharacter::isCommandReady()
 		return false;
 
 	return !bIsAttacking;
+}
+
+void ACombatableCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (lrid == nullptr) {
+		UE_LOG(LogTemp, Warning, TEXT("Invalid lrid pointer!"));
+	}
+	else {
+		lrid->SetOwner(this);
+		lrid->SetMaxLength(3);
+		lrid->Update();
+	}
 }

@@ -41,67 +41,111 @@ void ULrid::Update()
 
 	//TODO: Cache results instead of wiping them
 	PathMap.Empty();
-	TMap<GridPosition, uint32> lowestCost;
+	TMap<GridPosition, int32> lowestCost;
+	TMap<GridPosition, TArray<GridPosition>> ScratchMap;
 	UWorldGrid *grid = ((AAechoesGameMode *) this->GetWorld()->GetAuthGameMode())->getGrid();
 	FVector loc = Owner->GetActorLocation();
+	TArray<GridPosition> tAr;
+	GridPosition HomePos = GridPosition::from(loc.X, loc.Y, grid->getScale());
+	tAr.Add(HomePos);
 
-	lowestCost.Add(GridPosition::from(loc.X, loc.Y, grid->getScale()), 0);
-	TArray<GridPosition> stack;
+	lowestCost.Add(HomePos, 0);
+	PathMap.Add(HomePos, tAr);
 	
-	stack.Add(GridPosition::from(loc.X, loc.Y, grid->getScale()));
 
-	GridPosition cur;
-	while (stack.Num() > 0) {
-		cur = stack.Pop(false);
-		VisitCell(&stack, &lowestCost, cur);
-	}
+
+	while (VisitCell(&lowestCost, &ScratchMap)) {};
 
 	UE_LOG(LogTemp, Warning, TEXT("Finished Lrid update"));
+
+	TArray<GridPosition> keys;
+	PathMap.GetKeys(keys);
+	for (GridPosition key : keys) {
+		UE_LOG(LogTemp, Warning, TEXT("For [%d, %d]:"), key.x, key.y);
+		for (GridPosition pos : *PathMap.Find(key))
+			UE_LOG(LogTemp, Warning, TEXT(" > (%d, %d)"), pos.x, pos.y);
+	}
 }
 
-uint32 ULrid::GetLowest(TMap<GridPosition, uint32> *map, GridPosition pos)
+int32 ULrid::GetLowest(TMap<GridPosition, int32> *map, GridPosition pos)
 {
-	uint32 *ret = map->Find(pos);
+	int32 *ret = map->Find(pos);
 	if (ret == nullptr)
 		return ULrid::DEFAULT_DIST;
 
 	return *ret;
 }
 
-void ULrid::VisitCell(TArray<GridPosition> *stack, TMap<GridPosition, uint32> *LowestMap, GridPosition pos)
+bool ULrid::VisitCell(TMap<GridPosition, int32> *LowestMap, TMap<GridPosition, TArray<GridPosition>> *workingMap)
 {
-	//first, check if we already have a distance. For default/init purposes
-	if (LowestMap->Find(pos) != nullptr) {
-		//already put in an entry. Visited already?
+	/*
+	Look through out map to see what we got going on. For each established
+	Point, check neighbors to see if they're established. If not, get shortest. Then,
+	take shortest overall point and add it as established
+	*/
+	//this->PathMap is established list.
+	//LowestMap is shortest path for all nodes
+
+	GridPosition minPos;
+	int32 minLen = ULrid::DEFAULT_DIST;
+	bool hasMin = false;
+
+	TArray<GridPosition> curPath;
+
+	TArray<GridPosition> keys;
+	int8 i, posX[] = {-1, 0, 0, 1}, posY[] = {0, -1, 1, 0};
+	int32 curDist, calc;
+	PathMap.GenerateKeyArray(keys);
+	for (GridPosition cur : keys) {
+		curDist = ULrid::GetLowest(LowestMap, cur);
+
+		//don't look past ourselves if we're already at max dist
+		if (curDist >= this->MaxLen)
+			continue;
+
+		curPath = *PathMap.Find(cur);
+
+		for (i = 0; i < 4; i++) {
+			//for each cell in the SWEN directions
+			GridPosition targ;
+
+			targ.x = cur.x + posX[i];
+			targ.y = cur.y + posY[i];
+			if (PathMap.Find(targ) != nullptr)
+				continue;
+			
+			//This cell is not finalized. Go ahead and process it
+
+			if (LowestMap->Find(targ) == nullptr)
+				calc = ULrid::DEFAULT_DIST;
+			else
+				calc = *(LowestMap->Find(targ));
+
+			if (curDist + 1 < calc) {
+				//if us+1 is less than what we have for them (or less than inf)
+				LowestMap->Add(targ, curDist + 1);
+				calc = curDist + 1;
+				TArray<GridPosition> newPath = curPath;
+				newPath.Add(targ);
+				workingMap->Add(targ, newPath);
+			}
+
+			//finally, update minimum list with this cell
+			if (calc < minLen) {
+				minLen = calc;
+				minPos = targ;
+			}
+
+			hasMin = true;
+		}
 	}
-	else {
-		//Get lowest 
-	}
 
-	//If out evaluated distance is not over max, expand to nearby cells
-	if (ULrid::GetLowest(LowestMap, pos) < MaxLen) {
-		//add each of 4 dirs if they don't exist already
-		GridPosition targ;
-		
-		targ.x = pos.x - 1;
-		targ.y = pos.y;
-		if (LowestMap->Find(targ) == nullptr)
-			stack->Add(targ);
+	//We've went through all established keys. Promote minPos to an established key
+	if (!hasMin) //no cells that aren't established found
+		return false;
 
-		targ.x = pos.x + 1;
-		targ.y = pos.y;
-		if (LowestMap->Find(targ) == nullptr)
-			stack->Add(targ);
-
-		targ.x = pos.x;
-		targ.y = pos.y - 1;
-		if (LowestMap->Find(targ) == nullptr)
-			stack->Add(targ);
-
-		targ.x = pos.x;
-		targ.y = pos.y + 1;
-		if (LowestMap->Find(targ) == nullptr)
-			stack->Add(targ);
-
-	}
+	//WorkingPath has it's last known and final path. 
+	PathMap.Add(minPos, *workingMap->Find(minPos));
+	return true;
+	
 }

@@ -4,6 +4,7 @@
 
 #include "LivingCharacter.h"
 #include "CharacterStats.h"
+#include "../World/Navigation/Lrid.h"
 #include "CombatableCharacter.generated.h"
 
 /**
@@ -46,6 +47,10 @@ protected:
 	/** Whether or not we are currently attacking **/
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
 	bool bIsAttacking;
+
+	/** Temp Lrid Handle **/
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Movement)
+	ULrid *lrid;
     
 
 
@@ -134,4 +139,6 @@ public:
     
 	UFUNCTION(BlueprintCallable, Category = Living)
 	bool isCommandReady() override;
+
+	void BeginPlay() override;
 };

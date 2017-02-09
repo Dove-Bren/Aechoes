@@ -36,10 +36,10 @@ protected:
 
 private:
 	/** Get lowest cost of a specific position during iteration **/
-	static uint32 GetLowest(TMap<GridPosition, uint32> *map, GridPosition pos);
+	static int32 GetLowest(TMap<GridPosition, int32> *map, GridPosition pos);
 
 	/** Recursive method. Visit the given cell, adding cells as neccessary **/
-	void VisitCell(TArray<GridPosition> *stack, TMap<GridPosition, uint32> *LowestMap, GridPosition pos);
+	bool VisitCell(TMap<GridPosition, int32> *LowestMap, TMap<GridPosition, TArray<GridPosition>> *workingMap);
 
 public:
 
