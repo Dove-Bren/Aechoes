@@ -5,7 +5,8 @@
 #include <cmath>
 
 #include "../WorldGrid.h"
-#include "../../Character/AechoesCharacter.h"
+#include "../../Character/LivingCharacter.h"
+#include "../../AechoesGameMode.h"
 #include "../Obstacle.h"
 #include "Lrid.generated.h"
 
@@ -17,6 +18,9 @@ class AECHOES_API ULrid : public UActorComponent
 {
 	GENERATED_BODY()
 
+public:
+	static uint32 const DEFAULT_DIST = 999999;
+
 protected:
     
     /** Maximum length of path **/
@@ -25,9 +29,17 @@ protected:
 
 	/** The character that owns this grid. Used when querying obstacles **/
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Movement)
-	AAechoesCharacter *Owner;
+	ALivingCharacter *Owner;
 
-    
+	/** Map of paths to the given position -- since last update **/
+	TMap<GridPosition, TArray<GridPosition>> PathMap;
+
+private:
+	/** Get lowest cost of a specific position during iteration **/
+	static uint32 GetLowest(TMap<GridPosition, uint32> *map, GridPosition pos);
+
+	/** Recursive method. Visit the given cell, adding cells as neccessary **/
+	void VisitCell(TArray<GridPosition> *stack, TMap<GridPosition, uint32> *LowestMap, GridPosition pos);
 
 public:
 
