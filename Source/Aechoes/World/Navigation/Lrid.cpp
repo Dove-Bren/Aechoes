@@ -70,5 +70,38 @@ uint32 ULrid::GetLowest(TMap<GridPosition, uint32> *map, GridPosition pos)
 
 void ULrid::VisitCell(TArray<GridPosition> *stack, TMap<GridPosition, uint32> *LowestMap, GridPosition pos)
 {
+	//first, check if we already have a distance. For default/init purposes
+	if (LowestMap->Find(pos) != nullptr) {
+		//already put in an entry. Visited already?
+	}
+	else {
+		//Get lowest 
+	}
 
+	//If out evaluated distance is not over max, expand to nearby cells
+	if (ULrid::GetLowest(LowestMap, pos) < MaxLen) {
+		//add each of 4 dirs if they don't exist already
+		GridPosition targ;
+		
+		targ.x = pos.x - 1;
+		targ.y = pos.y;
+		if (LowestMap->Find(targ) == nullptr)
+			stack->Add(targ);
+
+		targ.x = pos.x + 1;
+		targ.y = pos.y;
+		if (LowestMap->Find(targ) == nullptr)
+			stack->Add(targ);
+
+		targ.x = pos.x;
+		targ.y = pos.y - 1;
+		if (LowestMap->Find(targ) == nullptr)
+			stack->Add(targ);
+
+		targ.x = pos.x;
+		targ.y = pos.y + 1;
+		if (LowestMap->Find(targ) == nullptr)
+			stack->Add(targ);
+
+	}
 }
