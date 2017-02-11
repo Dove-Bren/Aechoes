@@ -34,6 +34,9 @@ protected:
 	/** Map of paths to the given position -- since last update **/
 	TMap<GridPosition, TArray<GridPosition>> PathMap;
 
+	/** Return the output of the heuristic function for the given input **/
+	virtual int32 GetHeuristic(GridPosition targ);
+
 private:
 	/** Get lowest cost of a specific position during iteration **/
 	static int32 GetLowest(TMap<GridPosition, int32> *map, GridPosition pos);

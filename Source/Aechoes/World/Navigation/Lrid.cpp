@@ -94,7 +94,7 @@ bool ULrid::VisitCell(TMap<GridPosition, int32> *LowestMap, TMap<GridPosition, T
 
 	TArray<GridPosition> keys;
 	int8 i, posX[] = {-1, 0, 0, 1}, posY[] = {0, -1, 1, 0};
-	int32 curDist, calc;
+	int32 curDist, calc, hfCost;
 	PathMap.GenerateKeyArray(keys);
 	for (GridPosition cur : keys) {
 		curDist = ULrid::GetLowest(LowestMap, cur);
@@ -121,10 +121,13 @@ bool ULrid::VisitCell(TMap<GridPosition, int32> *LowestMap, TMap<GridPosition, T
 			else
 				calc = *(LowestMap->Find(targ));
 
-			if (curDist + 1 < calc) {
+			//get cost from this node, with heuristic cost
+			hfCost = (curDist + 1) + GetHeuristic(targ);
+
+			if (hfCost < calc) {
 				//if us+1 is less than what we have for them (or less than inf)
-				LowestMap->Add(targ, curDist + 1);
-				calc = curDist + 1;
+				LowestMap->Add(targ, hfCost);
+				calc = hfCost;
 				TArray<GridPosition> newPath = curPath;
 				newPath.Add(targ);
 				workingMap->Add(targ, newPath);
@@ -148,4 +151,9 @@ bool ULrid::VisitCell(TMap<GridPosition, int32> *LowestMap, TMap<GridPosition, T
 	PathMap.Add(minPos, *workingMap->Find(minPos));
 	return true;
 	
+}
+
+int32 ULrid::GetHeuristic(GridPosition targ)
+{
+	return 0; //Just Dijkstra's
 }
