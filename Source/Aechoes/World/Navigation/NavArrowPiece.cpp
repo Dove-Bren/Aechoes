@@ -11,17 +11,18 @@ UNavArrowPiece::UNavArrowPiece()
 	bAbsoluteLocation = true;
 	bAbsoluteRotation = true;
 
-	this->MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("DefaultMesh"));
-	this->MeshComponent->AttachTo(this);
+	/*this->MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("DefaultMesh"));
+	this->MeshComponent->AttachTo(this);*/
 	
 }
 
 void UNavArrowPiece::SetDirection(GridDirection NewDirection)
 {
 	this->Direction = NewDirection;
-	if (this->MeshComponent != nullptr) {
+	RelativeRotation = FRotator(0, (float)NewDirection, 0);
+	/*if (this->MeshComponent != nullptr) {
 		this->MeshComponent->RelativeRotation = FRotator(0, (float) NewDirection, 0);
-	}
+	}*/
 }
 
 

@@ -135,6 +135,10 @@ void AOverworldController::OnSelectClick()
 /** Handles right clicks **/
 void AOverworldController::OnActionClick()
 {
+
+	if (CCharacter == nullptr || !CCharacter->IsValidLowLevel())
+		return;
+
 	//UE_LOG(LogTemp, Warning, TEXT("Clicked at pos: %f, %f, %f"), location.X, location.Y, location.Z);
 	FVector loc, dir;
 	FHitResult result;

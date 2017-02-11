@@ -9,7 +9,7 @@
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class AECHOES_API UNavArrowPiece : public USceneComponent
+class AECHOES_API UNavArrowPiece : public UStaticMeshComponent
 {
 	GENERATED_BODY()
 
@@ -17,9 +17,9 @@ protected:
 	/** Orientation given to this piece **/
 	GridDirection Direction;
 
-	// This piece's mesh compoenent
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = NavArrowComponent)
-	UStaticMeshComponent *MeshComponent;
+	//// This piece's mesh compoenent
+	//UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = NavArrowComponent)
+	//UStaticMeshComponent *MeshComponent;
 
 public:	
 	// Sets default values for this component's properties
