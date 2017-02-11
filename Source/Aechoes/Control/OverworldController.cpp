@@ -16,6 +16,11 @@ void AOverworldController::SetControl(ALivingCharacter * character)
 	this->CCharacter = character;
 }
 
+ALivingCharacter *AOverworldController::GetControl()
+{
+	return this->CCharacter;
+}
+
 
 void AOverworldController::SetupInputComponent()
 {

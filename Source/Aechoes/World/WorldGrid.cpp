@@ -73,3 +73,13 @@ void UWorldGrid::clearAll()
 {
     map.Empty();
 }
+
+FVector UWorldGrid::ToWorldPos(GridPosition GridPos)
+{
+	return FVector(GridPos.x * scale, GridPos.y * scale, 0);
+}
+
+GridPosition UWorldGrid::ToGridPos(FVector WorldPos)
+{
+	return translate(WorldPos.X, WorldPos.Y);
+}

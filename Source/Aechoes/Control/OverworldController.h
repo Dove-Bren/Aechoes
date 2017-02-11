@@ -76,5 +76,12 @@ public:
 	 **/
 	UFUNCTION(BlueprintCallable, Category = Controls)
 	void SetControl(ALivingCharacter *in);
+
+	/**
+	* Sets the currently controlled character
+	* @param in The new character to control
+	**/
+	UFUNCTION(BlueprintCallable, Category = Controls)
+	ALivingCharacter *GetControl();
 	
 };

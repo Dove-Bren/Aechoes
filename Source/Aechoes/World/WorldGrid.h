@@ -11,6 +11,13 @@
 #include "Engine.h"
 #include "WorldGrid.generated.h"
 
+enum class GridDirection {
+	EAST = 0,
+	UP = 90,
+	WEST = 180,
+	SOUTH = 270
+};
+
 struct GridPosition {
     /** The x coordinate of this position **/
     int32 x;
@@ -133,5 +140,14 @@ public:
     **/
     FVector snapTo(FVector const in, bool middle);
 	
-	
+	/**
+	 * Do an opposite conversion between GridPosition and world location
+	 * NOTE: The returned pos will have a value of 0 for Z!
+	 * @param GridPos the grid position to swap out
+	 * @return A new FVector holding world location information
+	 **/
+	FVector ToWorldPos(GridPosition GridPos);
+
+	//Converts from world pos to a GridPosition
+	GridPosition ToGridPos(FVector WorldPos);
 };
