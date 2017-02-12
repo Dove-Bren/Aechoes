@@ -13,7 +13,7 @@
 
 enum class GridDirection {
 	EAST = 0,
-	UP = 90,
+	NORTH = 90,
 	WEST = 180,
 	SOUTH = 270
 };

@@ -29,8 +29,12 @@ void ANavArrow::UpdateTarget(GridPosition NewTarget)
 	UE_LOG(LogTemp, Warning, TEXT("Deep Input with grid pos: [%d, %d]"), NewTarget.x, NewTarget.y);
 
 	LastTarget = NewTarget;
-	if (Pieces.Num() != 0)
+	if (Pieces.Num() != 0) {
+		for (UNavArrowPiece *p : Pieces)
+			p->UnregisterComponent();
+
 		Pieces.Empty();
+	}
 
 	UWorldGrid *grid = ((AAechoesGameMode *) this->GetWorld()->GetAuthGameMode())->getGrid();
 	FVector loc = grid->ToWorldPos(LastTarget);
@@ -45,16 +49,31 @@ void ANavArrow::UpdateTarget(GridPosition NewTarget)
 			.Z;
 	}*/
 	loc.Z = 120.0f;
-	UNavArrowPiece *piece = NewObject<UNavArrowPHead>(this, TEXT("Arrow Head")); 
+	UNavArrowPiece *piece = NewObject<UNavArrowPHead>(this); 
 	piece->RegisterComponent();
 	piece->AttachTo(RootComponent);
 	//piece->RelativeLocation = loc;
 	piece->SetWorldLocation(loc);
+	piece->SetDirection(GridDirection::NORTH);
 	//SetActorLocation(loc);
 	
 	
 	/*GetWorld()->
 		SpawnActor<UNavArrowPHead>(UNavArrowPHead::StaticClass(), loc, FRotator());*/
+
+	Pieces.Add(piece);
+
+	piece = NewObject<UNavArrowPMid>(this);
+	piece->RegisterComponent();
+	piece->AttachTo(RootComponent);
+
+	LastTarget.x--;
+	loc = grid->ToWorldPos(LastTarget);
+	loc = grid->snapTo(loc, true);
+	loc.Z = 120.0f;
+
+	piece->SetWorldLocation(loc);
+	piece->SetDirection(GridDirection::NORTH);
 
 	Pieces.Add(piece);
 }

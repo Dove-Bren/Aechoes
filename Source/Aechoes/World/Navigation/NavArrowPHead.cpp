@@ -10,7 +10,6 @@ UNavArrowPHead::UNavArrowPHead(const class FObjectInitializer& ObjectInitializer
 	this->SetStaticMesh(SMObj.Object);
 	//this->bAbsoluteLocation = false;
 
-	UE_LOG(LogTemp, Warning, TEXT("Doing PHead Constructor"));
 }
 
 
