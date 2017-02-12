@@ -152,6 +152,8 @@ void ANavArrow::UpdateTarget(TArray<GridPosition> input)
 		loc = grid->ToWorldPos(input[index], true);
 		//loc = grid->snapTo(loc, true);
 
+		//TODO idea: Don't recreate. Get a max and reuse?
+
 		switch (type) {
 		case STRAIGHT:
 			piece = NewObject<UNavArrowPMid>(this);

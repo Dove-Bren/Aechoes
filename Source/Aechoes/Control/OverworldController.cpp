@@ -152,14 +152,34 @@ void AOverworldController::OnActionClick()
 		UE_LOG(LogTemp, Warning, TEXT("Found Actor: %s"), *out->GetName());
 	} 
 	else if (CCharacter->isCommandReady()) {
+
 		UE_LOG(LogTemp, Warning, TEXT("Is Ready and Willing!"));
+
+		ULrid *lrid = CCharacter->GetLrid();
+		TArray<GridPosition> lridPath = lrid->GetPath(grid->ToGridPos(loc));
+		if (lridPath.Num() == 0)
+			return; //can't move that far
+
 		loc = grid->snapTo(loc, true);
 
 		FVector oldPos = CCharacter->GetActorLocation();
 		grid->clear(oldPos.X, oldPos.Y);
 		grid->place(loc.X, loc.Y, CCharacter);
 
-		UNavigationSystem::SimpleMoveToLocation(CCharacter->GetController(), loc);
+		TArray<FVector> navPoints;
+		FVector vect;
+		GridPosition p;
+		for (int i = lridPath.Num(); i > 0; i--) {
+			p = lridPath[i-1];
+			vect = grid->ToWorldPos(p, true);
+			vect.Z = CCharacter->GetActorLocation().Z;
+			navPoints.Add(vect);
+		}
+
+
+
+		CCharacter->SetMovementPath(navPoints, true);
+		//UNavigationSystem::SimpleMoveToLocation(CCharacter->GetController(), loc);
 		CCharacter->SetEffectiveLocation(loc, true);
 
 		if (NavArrow != nullptr)
@@ -211,7 +231,9 @@ void AOverworldController::TickActor(float DeltaTime,
 
 				if (grid->GetGridDistance(loc, CCharacter->GetActorLocation()) <= 3) {
 					NavArrow->UpdateTarget(CCharacter->GetLrid()->GetPath(LastMousePosition));
-					//TODO does nothing yet. Get path, get player location, make path between
+				}
+				else {
+					NavArrow->DestroyArrow();
 				}
 			}
 		}

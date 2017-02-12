@@ -2,6 +2,7 @@
 
 #include "Aechoes.h"
 #include "EngineGlobals.h"
+#include "AIController.h"
 #include "Engine.h"
 #include "../AechoesGameMode.h"
 #include "LivingCharacter.h"
@@ -102,6 +103,24 @@ void ALivingCharacter::Tick(float delta)
             this->addHealth(getHealthRegen());
     }
 
+
+	if (IsPathfinding) {
+		FVector dir;
+		float len;
+		this->GetVelocity().ToDirectionAndLength(dir, len);
+		if (len <= 0.01) {
+			//pathfinding, but came to a stop
+			//need to update movement?
+			if (MovementWaypoints.Num() == 0)
+				IsPathfinding = false;
+			else {
+				FVector next = MovementWaypoints.Pop();
+				((AAIController *)GetController())->MoveToLocation(next, 0.05f, false, true, true, false, 0, true);
+				//UNavigationSystem::SimpleMoveToLocation(GetController(), next);
+			}
+		}
+	}
+
 }
 
 void ALivingCharacter::BeginPlay()
@@ -125,11 +144,26 @@ FVector ALivingCharacter::GetEffectiveLocation()
 
 bool ALivingCharacter::isCommandReady()
 {
+
+	if (IsPathfinding)
+		return false;
+
 	FVector dir;
 	float len;
 	this->GetVelocity().ToDirectionAndLength(dir, len);
 	return (FMath::Abs(len) < 0.01);
 		
+}
+
+bool ALivingCharacter::SetMovementPath(TArray<FVector> PathPoints, bool force)
+{
+	if (MovementWaypoints.Num() != 0 && !force)
+		return false;
+
+	MovementWaypoints = PathPoints;
+	IsPathfinding = true;
+
+	return true;
 }
 
 

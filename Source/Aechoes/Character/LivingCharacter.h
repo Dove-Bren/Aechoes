@@ -37,6 +37,12 @@ protected:
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Living)
     bool dead;
 
+	/** Collection of movement waypoints **/
+	TArray<FVector> MovementWaypoints;
+
+	/** Whether the player is currently moving between waypoints **/
+	bool IsPathfinding;
+
 	/** Location this character is defined to be at, regardless of
 	 * current movement, animation, etc. For example, the location a
 	 * character is set to after they move, regardless of if they're still
@@ -118,6 +124,14 @@ public:
 
 	//TEST For now, TODO
 	virtual void SetEffectiveLocation(FVector in, bool rebuildLrid);
+
+	/**
+	 * Set this character to start moving on the given path.
+	 * @param PathPoints
+	 * @param force Whether to stop moving on any other path and start this one
+	 * @return Whether a new path was adopted by the character
+	 **/
+	virtual bool SetMovementPath(TArray<FVector> PathPoints, bool force);
 
     void Tick(float delta) override;
 
