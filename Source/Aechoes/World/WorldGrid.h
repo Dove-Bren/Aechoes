@@ -169,6 +169,15 @@ public:
 	**/
 	FVector ToWorldPos(GridPosition GridPos, bool Middle);
 
+	/**
+	* Do an opposite conversion between GridPosition and world location
+	* @param GridPos the grid position to swap out
+	* @param Middle Whether or not to shift to the center of the cell
+	* @param UseNavZ try to project the given point onto the nav system to get a Z
+	* @return A new FVector holding world location information
+	**/
+	FVector ToWorldPos(GridPosition GridPos, bool Middle, bool UseNavZ);
+
 	//Converts from world pos to a GridPosition
 	GridPosition ToGridPos(FVector WorldPos);
 

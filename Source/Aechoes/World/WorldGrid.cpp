@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Aechoes.h"
+#include "AI/Navigation/NavigationSystem.h"
 #include "WorldGrid.h"
 
 GridPosition UWorldGrid::translate(float x, float y)
@@ -77,11 +78,23 @@ FVector UWorldGrid::ToWorldPos(GridPosition GridPos) {
 
 FVector UWorldGrid::ToWorldPos(GridPosition GridPos, bool middle)
 {
+	return ToWorldPos(GridPos, middle, false);
+}
+
+FVector UWorldGrid::ToWorldPos(GridPosition GridPos, bool middle, bool ToNav)
+{
 	FVector ret(GridPos.x * scale, GridPos.y * scale, 0);
 
 	if (middle) {
 		ret.X += (scale / 2.0f);
 		ret.Y += (scale / 2.0f);
+	}
+
+	if (ToNav) {
+		FVector in = ret;
+		in = UNavigationSystem::ProjectPointToNavigation(
+			GetWorld(), in, nullptr, 0, FVector(0.0f, 0.0f, 1000.0f));
+		ret.Z = in.Z;
 	}
 	
 	return ret;

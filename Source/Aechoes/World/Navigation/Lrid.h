@@ -42,7 +42,8 @@ private:
 	static int32 GetLowest(TMap<GridPosition, int32> *map, GridPosition pos);
 
 	/** Recursive method. Visit the given cell, adding cells as neccessary **/
-	bool VisitCell(TMap<GridPosition, int32> *LowestMap, TMap<GridPosition, TArray<GridPosition>> *workingMap);
+	bool VisitCell(TMap<GridPosition, int32> *LowestMap, TMap<GridPosition, TArray<GridPosition>> *workingMap,
+		UWorldGrid *Grid);
 
 public:
 

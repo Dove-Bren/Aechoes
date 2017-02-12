@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Aechoes.h"
+#include "AI/Navigation/NavigationSystem.h"
 #include "Lrid.h"
 
 ULrid::ULrid()
@@ -54,7 +55,7 @@ void ULrid::Update()
 	
 
 
-	while (VisitCell(&lowestCost, &ScratchMap)) {};
+	while (VisitCell(&lowestCost, &ScratchMap, grid)) {};
 
 	/*UE_LOG(LogTemp, Warning, TEXT("Finished Lrid update"));
 
@@ -76,7 +77,8 @@ int32 ULrid::GetLowest(TMap<GridPosition, int32> *map, GridPosition pos)
 	return *ret;
 }
 
-bool ULrid::VisitCell(TMap<GridPosition, int32> *LowestMap, TMap<GridPosition, TArray<GridPosition>> *workingMap)
+bool ULrid::VisitCell(TMap<GridPosition, int32> *LowestMap, TMap<GridPosition, TArray<GridPosition>> *workingMap,
+	UWorldGrid *grid)
 {
 	/*
 	Look through out map to see what we got going on. For each established
@@ -109,10 +111,22 @@ bool ULrid::VisitCell(TMap<GridPosition, int32> *LowestMap, TMap<GridPosition, T
 			//for each cell in the SWEN directions
 			GridPosition targ;
 
+			
 			targ.x = cur.x + posX[i];
 			targ.y = cur.y + posY[i];
 			if (PathMap.Find(targ) != nullptr)
 				continue;
+
+			//Perform nav movement check 
+			//TODO cache nav lookups?
+			FVector VStart, VEnd, hitLoc;
+			VStart = grid->ToWorldPos(cur, true, true);
+			VEnd = grid->ToWorldPos(targ, true, true);
+			if (UNavigationSystem::NavigationRaycast(GetWorld(), VStart, VEnd, hitLoc)) {
+				UE_LOG(LogTemp, Warning, TEXT("Failed raycast test between (%d, %d) and (%d, %d)"),
+					cur.x, cur.y, targ.x, targ.y);
+				continue;
+			}
 			
 			//This cell is not finalized. Go ahead and process it
 
