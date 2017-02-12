@@ -30,7 +30,7 @@ void ANavArrow::UpdateTarget(TArray<GridPosition> input)
 
 	/*LastTarget = NewTarget;*/
 
-	UE_LOG(LogTemp, Warning, TEXT("Update Arrow with %d plots"), input.Num());
+	//UE_LOG(LogTemp, Warning, TEXT("Update Arrow with %d plots"), input.Num());
 
 	if (input.Num() == 0)
 		return;

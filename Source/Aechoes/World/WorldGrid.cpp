@@ -63,10 +63,7 @@ bool UWorldGrid::place(float x, float y, ALivingCharacter *input)
 
 bool UWorldGrid::clear(float x, float y)
 {
-    TWeakObjectPtr<ALivingCharacter> ret = *map.Find(translate(x, y));
-    map.Remove(translate(x, y));
-
-    return (ret) != nullptr;
+	return map.Remove(translate(x, y)) > 0;
 }
 
 void UWorldGrid::clearAll()

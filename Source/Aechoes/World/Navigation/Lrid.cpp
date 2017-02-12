@@ -56,7 +56,7 @@ void ULrid::Update()
 
 	while (VisitCell(&lowestCost, &ScratchMap)) {};
 
-	UE_LOG(LogTemp, Warning, TEXT("Finished Lrid update"));
+	/*UE_LOG(LogTemp, Warning, TEXT("Finished Lrid update"));
 
 	TArray<GridPosition> keys;
 	PathMap.GetKeys(keys);
@@ -64,7 +64,7 @@ void ULrid::Update()
 		UE_LOG(LogTemp, Warning, TEXT("For [%d, %d]:"), key.x, key.y);
 		for (GridPosition pos : *PathMap.Find(key))
 			UE_LOG(LogTemp, Warning, TEXT(" > (%d, %d)"), pos.x, pos.y);
-	}
+	}*/
 }
 
 int32 ULrid::GetLowest(TMap<GridPosition, int32> *map, GridPosition pos)
