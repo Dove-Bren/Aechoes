@@ -14,6 +14,8 @@ UNavArrowPiece::UNavArrowPiece()
 
 	//bAbsoluteLocation = true;
 	bAbsoluteRotation = true;
+	bGenerateOverlapEvents = false;
+	bCanEverAffectNavigation = false;
 
 	/*this->MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("DefaultMesh"));
 	this->MeshComponent->AttachTo(this);*/

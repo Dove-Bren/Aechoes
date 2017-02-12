@@ -40,15 +40,19 @@ void ANavArrow::UpdateTarget(GridPosition NewTarget)
 	FVector loc = grid->ToWorldPos(LastTarget);
 	loc = grid->snapTo(loc, true);
 	UE_LOG(LogTemp, Warning, TEXT("ToWorldPos returns [%f, %f]"), loc.X, loc.Y);
-	AOverworldController *GlobalController = (AOverworldController *) GetWorld()->GetFirstLocalPlayerFromController();
-	/*if (GlobalController != nullptr && GlobalController->GetControl() != nullptr) {
-		loc.Z = 
+	AOverworldController *GlobalController = (AOverworldController *) GetWorld()->GetFirstPlayerController();
+
+	float Z = 120.0f;
+
+	if (GlobalController != nullptr && GlobalController->GetControl() != nullptr) {
+		UE_LOG(LogTemp, Warning, TEXT("Setting Z"));
+		Z = 
 			GlobalController->
 			GetControl()->
 			GetActorLocation()
 			.Z;
-	}*/
-	loc.Z = 120.0f;
+	}
+	loc.Z = Z;
 	UNavArrowPiece *piece = NewObject<UNavArrowPHead>(this); 
 	piece->RegisterComponent();
 	piece->AttachTo(RootComponent);
@@ -70,7 +74,7 @@ void ANavArrow::UpdateTarget(GridPosition NewTarget)
 	LastTarget.y++;
 	loc = grid->ToWorldPos(LastTarget);
 	loc = grid->snapTo(loc, true);
-	loc.Z = 120.0f;
+	loc.Z = Z;
 
 	piece->SetWorldLocation(loc);
 	piece->SetDirection(GridDirection::WEST);
@@ -84,7 +88,7 @@ void ANavArrow::UpdateTarget(GridPosition NewTarget)
 	LastTarget.y++;
 	loc = grid->ToWorldPos(LastTarget);
 	loc = grid->snapTo(loc, true);
-	loc.Z = 120.0f;
+	loc.Z = Z;
 
 	piece->SetWorldLocation(loc);
 	piece->SetDirection(GridDirection::WEST);
@@ -98,7 +102,7 @@ void ANavArrow::UpdateTarget(GridPosition NewTarget)
 	LastTarget.x++;
 	loc = grid->ToWorldPos(LastTarget);
 	loc = grid->snapTo(loc, true);
-	loc.Z = 120.0f;
+	loc.Z = Z;
 
 	piece->SetWorldLocation(loc);
 	piece->SetDirection(GridDirection::EAST);
