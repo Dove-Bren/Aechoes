@@ -222,14 +222,17 @@ void AOverworldController::TickActor(float DeltaTime,
 			FVector loc, dir;
 			FHitResult result;
 			this->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, result);
+			//if (result.)
+
 
 			loc = result.Location;
 
 			if (!(grid->ToGridPos(FVector(loc.X, loc.Y, 0)) == LastMousePosition)) {
 				LastMousePosition = grid->ToGridPos(FVector(loc.X, loc.Y, 0));
+				FVector cloc = CCharacter->GetActorLocation();
+				int gDist = grid->GetGridDistance(loc, cloc);
 
-
-				if (grid->GetGridDistance(loc, CCharacter->GetActorLocation()) <= 3) {
+				if (gDist <= 3) {
 					NavArrow->UpdateTarget(CCharacter->GetLrid()->GetPath(LastMousePosition));
 				}
 				else {
