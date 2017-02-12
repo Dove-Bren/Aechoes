@@ -105,10 +105,11 @@ void ALivingCharacter::Tick(float delta)
 
 
 	if (IsPathfinding) {
+		static float lastLen = 0.0f;
 		FVector dir;
 		float len;
 		this->GetVelocity().ToDirectionAndLength(dir, len);
-		if (len <= 0.01) {
+		if (len <= 0.01 || (len - lastLen) < -0.1f) {
 			//pathfinding, but came to a stop
 			//need to update movement?
 			if (MovementWaypoints.Num() == 0)
@@ -119,6 +120,8 @@ void ALivingCharacter::Tick(float delta)
 				//UNavigationSystem::SimpleMoveToLocation(GetController(), next);
 			}
 		}
+
+		lastLen = len;
 	}
 
 }

@@ -118,7 +118,7 @@ void ACombatableCharacter::BeginPlay()
 	}
 	else {
 		lrid->SetOwner(this);
-		lrid->SetMaxLength(3);
+		lrid->SetMaxLength(getMP());
 		lrid->Update();
 	}
 }
