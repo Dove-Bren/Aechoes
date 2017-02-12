@@ -117,35 +117,9 @@ bool ULrid::VisitCell(TMap<GridPosition, int32> *LowestMap, TMap<GridPosition, T
 			if (PathMap.Find(targ) != nullptr)
 				continue;
 
-
-			if (grid->get(targ) != nullptr) {
+			if (!CanMove(grid, cur, targ))
 				continue;
-			}
-
-			//Perform nav movement check 
-			//TODO cache nav lookups?
-			FVector VStart, VEnd, hitLoc;
-			VStart = grid->ToWorldPos(cur, true, true);
-			VEnd = grid->ToWorldPos(targ, true, true);
-
-			/*class MoveFilter : public UNavigationQueryFilter {
-
-			} filter;*/
-
-
-			if (UNavigationSystem::NavigationRaycast(GetWorld(), VStart, VEnd, hitLoc)) {// , TSubclassOf<UNavigationQueryFilter>(MoveFilter::StaticClass()), GetOwner()->GetController())) {
-				/*UE_LOG(LogTemp, Warning, TEXT("Failed raycast test between (%d, %d) and (%d, %d)"),
-					cur.x, cur.y, targ.x, targ.y);*/
-				/*DrawDebugLine(
-					GetWorld(),
-					VStart,
-					hitLoc,
-					FColor(255, 0, 0),
-					false, 2.0f, 200,
-					12.333
-				);*/
-				continue;
-			}
+			
 			
 			//This cell is not finalized. Go ahead and process it
 
@@ -189,6 +163,29 @@ bool ULrid::VisitCell(TMap<GridPosition, int32> *LowestMap, TMap<GridPosition, T
 int32 ULrid::GetHeuristic(GridPosition targ)
 {
 	return 0; //Just Dijkstra's
+}
+
+bool ULrid::CanMove(UWorldGrid *grid, GridPosition FromCell, GridPosition ToCell)
+{
+	
+	if (grid->get(ToCell) != nullptr)
+		return false;
+
+	//Perform nav movement check 
+	//TODO cache nav lookups?
+	FVector VStart, VEnd, hitLoc;
+	VStart = grid->ToWorldPos(FromCell, true, true);
+	VEnd = grid->ToWorldPos(ToCell, true, true);
+
+	/*class MoveFilter : public UNavigationQueryFilter {
+
+	} filter;*/
+
+
+	if (UNavigationSystem::NavigationRaycast(GetWorld(), VStart, VEnd, hitLoc))
+		return false;
+
+	return true;
 }
 
 TArray<GridPosition> ULrid::GetPath(GridPosition TargetPos)

@@ -37,6 +37,15 @@ protected:
 	/** Return the output of the heuristic function for the given input **/
 	virtual int32 GetHeuristic(GridPosition targ);
 
+	/** 
+	 * Check whether a given cell can be pathed to 
+	 * @param GridRef
+	 * @param FromCell the cell we're going from
+	 * @param ToCell 
+	 * @return whether the given transition is legal
+	 **/
+	virtual bool CanMove(UWorldGrid *GridRef, GridPosition FromCell, GridPosition ToCell);
+
 private:
 	/** Get lowest cost of a specific position during iteration **/
 	static int32 GetLowest(TMap<GridPosition, int32> *map, GridPosition pos);
