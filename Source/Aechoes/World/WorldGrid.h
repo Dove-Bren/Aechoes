@@ -25,6 +25,17 @@ struct GridPosition {
     /** The y coordinate of this position **/
     int32 y;
 
+	GridPosition(int32 inX, int32 inY)
+	{
+		this->x = inX;
+		this->y = inY;
+	}
+
+	GridPosition()
+	{
+		;
+	}
+
     /** Static Helper Construcor **/
     static GridPosition from(float x, float y, float scale) {
         GridPosition pos;

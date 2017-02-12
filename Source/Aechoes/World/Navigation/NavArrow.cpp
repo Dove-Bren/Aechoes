@@ -16,7 +16,6 @@ ANavArrow::ANavArrow()
 
 void ANavArrow::UpdateTarget(FVector NewTarget)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Update with input [%f, %f]"), NewTarget.X, NewTarget.Y);
 	UWorldGrid *grid = ((AAechoesGameMode *) this->GetWorld()->GetAuthGameMode())->getGrid();
 	UpdateTarget(grid->ToGridPos(NewTarget));
 }
@@ -26,7 +25,6 @@ void ANavArrow::UpdateTarget(GridPosition NewTarget)
 	if (NewTarget == LastTarget)
 		return;
 
-	UE_LOG(LogTemp, Warning, TEXT("Deep Input with grid pos: [%d, %d]"), NewTarget.x, NewTarget.y);
 
 	LastTarget = NewTarget;
 	if (Pieces.Num() != 0) {
@@ -36,78 +34,187 @@ void ANavArrow::UpdateTarget(GridPosition NewTarget)
 		Pieces.Empty();
 	}
 
-	UWorldGrid *grid = ((AAechoesGameMode *) this->GetWorld()->GetAuthGameMode())->getGrid();
-	FVector loc = grid->ToWorldPos(LastTarget);
-	loc = grid->snapTo(loc, true);
-	UE_LOG(LogTemp, Warning, TEXT("ToWorldPos returns [%f, %f]"), loc.X, loc.Y);
-	AOverworldController *GlobalController = (AOverworldController *) GetWorld()->GetFirstPlayerController();
 
 	float Z = 120.0f;
 
-	if (GlobalController != nullptr && GlobalController->GetControl() != nullptr) {
-		UE_LOG(LogTemp, Warning, TEXT("Setting Z"));
-		Z = 
-			GlobalController->
-			GetControl()->
-			GetActorLocation()
-			.Z;
+	AOverworldController *GlobalController = (AOverworldController *)GetWorld()->GetFirstPlayerController();
+	if (GlobalController != nullptr && GlobalController->GetControl() != nullptr)
+		Z = GlobalController->GetControl()->GetActorLocation().Z;
+
+
+
+	UWorldGrid *grid = ((AAechoesGameMode *) this->GetWorld()->GetAuthGameMode())->getGrid();
+	
+	GridPosition GPI[] = {GridPosition(-5, -1), GridPosition(-5, -2), GridPosition(-5, -3), GridPosition(-4, -3), GridPosition(-3, -3) };
+	TArray<GridPosition> input;
+	input.Append(GPI, ARRAY_COUNT(GPI));
+	
+	int index;
+	enum : unsigned char {
+		STRAIGHT,
+		BEND,
+		ARROW
+	};
+	GridDirection dir;
+	GridPosition *next, *cur, *prev;
+	UNavArrowPiece *piece;
+	FVector loc;
+	unsigned char type;
+
+	//note: start at 1 to skip first piece. Easy.
+	for (index = 1; index < input.Num(); index++) {
+
+		/*
+		Guaranteed to have valid path. Meaning each is different, and each
+		successive position only differs by 1 in EITHER x or y.
+		This is used when determining piece type
+		*/
+
+		//check for last piece
+		if (index == input.Num() - 1) {
+			//use arrow piece
+			type = ARROW;
+			int d = input[index - 1].x - input[index].x;
+			if (d == -1)
+				dir = GridDirection::NORTH;
+			else if (d == 1)
+				dir = GridDirection::SOUTH;
+			else {
+				d = input[index - 1].y - input[index].y;
+				if (d == -1)
+					dir = GridDirection::EAST;
+				else
+					dir = GridDirection::WEST;
+			}
+		}
+		else {
+
+			//look at prev and next and decide piece info
+			//if x==otherx || y ==othery, straight piece
+			prev = &(input[index - 1]);
+			cur = &(input[index]);
+			next = &(input[index + 1]);
+
+			if (prev->x == next->x || prev->y == next->y)
+				type = STRAIGHT;
+			else
+				type = BEND;
+
+			int d = cur->x - next->x;
+			if (d == -1)
+				dir = GridDirection::NORTH;
+			else if (d == 1)
+				dir = GridDirection::SOUTH;
+			else {
+				d = cur->y - next->y;
+				if (d == -1)
+					dir = GridDirection::EAST;
+				else
+					dir = GridDirection::WEST;
+			}
+
+
+		}
+
+		//now use type and dir to spawn piece
+		//TODO
+
+		loc = grid->ToWorldPos(input[index]);
+		loc = grid->snapTo(loc, true);
+
+		switch (type) {
+		case STRAIGHT:
+			piece = NewObject<UNavArrowPMid>(this);
+			break;
+		case BEND:
+			piece = NewObject<UNavArrowPBend>(this);
+			break;
+		case ARROW:
+		default:
+			piece = NewObject<UNavArrowPHead>(this);
+			break;
+		}
+
+		piece->RegisterComponent();
+		piece->AttachTo(RootComponent);
+		//piece->RelativeLocation = loc;
+		piece->SetWorldLocation(loc);
+		piece->SetDirection(dir);
+		//SetActorLocation(loc);
+		
+
+		Pieces.Add(piece);
+
+
+		/*UE_LOG(LogTemp, Warning, TEXT("Generated piece: %s [%s]"),
+			(type == STRAIGHT ? TEXT("Straight") : type == BEND ? TEXT("Bend") : TEXT("Arrow")),
+			(dir == GridDirection::NORTH ? TEXT("North") : dir == GridDirection::SOUTH ? TEXT("South") : dir == GridDirection::EAST ? TEXT("East") : TEXT("West"))
+			);*/
+
 	}
-	loc.Z = Z;
-	UNavArrowPiece *piece = NewObject<UNavArrowPHead>(this); 
-	piece->RegisterComponent();
-	piece->AttachTo(RootComponent);
-	//piece->RelativeLocation = loc;
-	piece->SetWorldLocation(loc);
-	piece->SetDirection(GridDirection::WEST);
-	//SetActorLocation(loc);
+
 	
-	
-	/*GetWorld()->
-		SpawnActor<UNavArrowPHead>(UNavArrowPHead::StaticClass(), loc, FRotator());*/
+	//loc = grid->ToWorldPos(LastTarget);
+	//loc = grid->snapTo(loc, true);
+	//
 
-	Pieces.Add(piece);
+	//
+	//loc.Z = Z;
+	//UNavArrowPiece *piece = NewObject<UNavArrowPHead>(this); 
+	//piece->RegisterComponent();
+	//piece->AttachTo(RootComponent);
+	////piece->RelativeLocation = loc;
+	//piece->SetWorldLocation(loc);
+	//piece->SetDirection(GridDirection::WEST);
+	////SetActorLocation(loc);
+	//
+	//
+	///*GetWorld()->
+	//	SpawnActor<UNavArrowPHead>(UNavArrowPHead::StaticClass(), loc, FRotator());*/
 
-	piece = NewObject<UNavArrowPMid>(this);
-	piece->RegisterComponent();
-	piece->AttachTo(RootComponent);
+	//Pieces.Add(piece);
 
-	LastTarget.y++;
-	loc = grid->ToWorldPos(LastTarget);
-	loc = grid->snapTo(loc, true);
-	loc.Z = Z;
+	//piece = NewObject<UNavArrowPMid>(this);
+	//piece->RegisterComponent();
+	//piece->AttachTo(RootComponent);
 
-	piece->SetWorldLocation(loc);
-	piece->SetDirection(GridDirection::WEST);
+	//LastTarget.y++;
+	//loc = grid->ToWorldPos(LastTarget);
+	//loc = grid->snapTo(loc, true);
+	//loc.Z = Z;
 
-	Pieces.Add(piece);
+	//piece->SetWorldLocation(loc);
+	//piece->SetDirection(GridDirection::WEST);
 
-	piece = NewObject<UNavArrowPBend>(this);
-	piece->RegisterComponent();
-	piece->AttachTo(RootComponent);
+	//Pieces.Add(piece);
 
-	LastTarget.y++;
-	loc = grid->ToWorldPos(LastTarget);
-	loc = grid->snapTo(loc, true);
-	loc.Z = Z;
+	//piece = NewObject<UNavArrowPBend>(this);
+	//piece->RegisterComponent();
+	//piece->AttachTo(RootComponent);
 
-	piece->SetWorldLocation(loc);
-	piece->SetDirection(GridDirection::WEST);
+	//LastTarget.y++;
+	//loc = grid->ToWorldPos(LastTarget);
+	//loc = grid->snapTo(loc, true);
+	//loc.Z = Z;
 
-	Pieces.Add(piece);
+	//piece->SetWorldLocation(loc);
+	//piece->SetDirection(GridDirection::WEST);
 
-	piece = NewObject<UNavArrowPBend>(this);
-	piece->RegisterComponent();
-	piece->AttachTo(RootComponent);
+	//Pieces.Add(piece);
 
-	LastTarget.x++;
-	loc = grid->ToWorldPos(LastTarget);
-	loc = grid->snapTo(loc, true);
-	loc.Z = Z;
+	//piece = NewObject<UNavArrowPBend>(this);
+	//piece->RegisterComponent();
+	//piece->AttachTo(RootComponent);
 
-	piece->SetWorldLocation(loc);
-	piece->SetDirection(GridDirection::EAST);
+	//LastTarget.x++;
+	//loc = grid->ToWorldPos(LastTarget);
+	//loc = grid->snapTo(loc, true);
+	//loc.Z = Z;
 
-	Pieces.Add(piece);
+	//piece->SetWorldLocation(loc);
+	//piece->SetDirection(GridDirection::EAST);
+
+	//Pieces.Add(piece);
 }
 
 GridPosition ANavArrow::GetLastTarget()
