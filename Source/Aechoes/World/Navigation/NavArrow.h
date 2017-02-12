@@ -6,6 +6,7 @@
 #include "NavArrowPiece.h"
 #include "NavArrowPHead.h"
 #include "NavArrowPMid.h"
+#include "NavArrowPBend.h"
 #include "../WorldGrid.h"
 #include "../../AechoesGameMode.h"
 #include "../../Control/OverworldController.h"

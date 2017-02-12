@@ -12,9 +12,9 @@
 #include "WorldGrid.generated.h"
 
 enum class GridDirection {
-	EAST = 0,
+	EAST = 180,
 	NORTH = 90,
-	WEST = 180,
+	WEST = 0,
 	SOUTH = 270
 };
 

@@ -54,7 +54,7 @@ void ANavArrow::UpdateTarget(GridPosition NewTarget)
 	piece->AttachTo(RootComponent);
 	//piece->RelativeLocation = loc;
 	piece->SetWorldLocation(loc);
-	piece->SetDirection(GridDirection::NORTH);
+	piece->SetDirection(GridDirection::WEST);
 	//SetActorLocation(loc);
 	
 	
@@ -67,13 +67,41 @@ void ANavArrow::UpdateTarget(GridPosition NewTarget)
 	piece->RegisterComponent();
 	piece->AttachTo(RootComponent);
 
-	LastTarget.x--;
+	LastTarget.y++;
 	loc = grid->ToWorldPos(LastTarget);
 	loc = grid->snapTo(loc, true);
 	loc.Z = 120.0f;
 
 	piece->SetWorldLocation(loc);
-	piece->SetDirection(GridDirection::NORTH);
+	piece->SetDirection(GridDirection::WEST);
+
+	Pieces.Add(piece);
+
+	piece = NewObject<UNavArrowPBend>(this);
+	piece->RegisterComponent();
+	piece->AttachTo(RootComponent);
+
+	LastTarget.y++;
+	loc = grid->ToWorldPos(LastTarget);
+	loc = grid->snapTo(loc, true);
+	loc.Z = 120.0f;
+
+	piece->SetWorldLocation(loc);
+	piece->SetDirection(GridDirection::WEST);
+
+	Pieces.Add(piece);
+
+	piece = NewObject<UNavArrowPBend>(this);
+	piece->RegisterComponent();
+	piece->AttachTo(RootComponent);
+
+	LastTarget.x++;
+	loc = grid->ToWorldPos(LastTarget);
+	loc = grid->snapTo(loc, true);
+	loc.Z = 120.0f;
+
+	piece->SetWorldLocation(loc);
+	piece->SetDirection(GridDirection::EAST);
 
 	Pieces.Add(piece);
 }

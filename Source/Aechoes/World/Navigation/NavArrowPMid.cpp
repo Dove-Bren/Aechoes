@@ -5,7 +5,7 @@
 
 UNavArrowPMid::UNavArrowPMid(const class FObjectInitializer& ObjectInitializer) : UNavArrowPiece()
 {
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> SMObj(TEXT("StaticMesh'/Game/ThirdPerson/Meshes/grid_arrow_straight.grid_arrow_straight'"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> SMObj(TEXT("StaticMesh'/Game/ThirdPerson/Meshes/grid_arrow_straight2.grid_arrow_straight2'"));
 
 	this->SetStaticMesh(SMObj.Object);
 	//this->bAbsoluteLocation = false;

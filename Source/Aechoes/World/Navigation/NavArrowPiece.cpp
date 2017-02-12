@@ -10,7 +10,7 @@ UNavArrowPiece::UNavArrowPiece()
 	//PrimaryComponentTick.bCanEverTick = false;
 
 	SetMobility(EComponentMobility::Movable);
-	RelativeScale3D = FVector(1.75f, 2.0f, 1.75f);
+	RelativeScale3D = FVector(1.05f, 1.05f, 1.05f);
 
 	//bAbsoluteLocation = true;
 	bAbsoluteRotation = true;
