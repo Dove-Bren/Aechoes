@@ -103,22 +103,46 @@ void ANavArrow::UpdateTarget(TArray<GridPosition> input)
 			cur = &(input[index]);
 			next = &(input[index + 1]);
 
-			if (prev->x == next->x || prev->y == next->y)
+			if (prev->x == next->x || prev->y == next->y) {
 				type = STRAIGHT;
-			else
-				type = BEND;
-
-			int d = cur->x - next->x;
-			if (d == -1)
-				dir = GridDirection::NORTH;
-			else if (d == 1)
-				dir = GridDirection::SOUTH;
-			else {
-				d = cur->y - next->y;
-				if (d == -1)
+				if (prev->x == next->x)
 					dir = GridDirection::EAST;
 				else
+					dir = GridDirection::NORTH;
+			}
+			else {
+				type = BEND;
+				bool left, up;
+				left = up = false;
+
+
+				if (prev->x > cur->x || next->x > cur->x)
+					up = true;
+				if (prev->y < cur->y || next->y < cur->y)
+					left = true;
+				
+				if (up && left)
 					dir = GridDirection::WEST;
+				else if (!up && left)
+					dir = GridDirection::SOUTH;
+				else if (up && !left)
+					dir = GridDirection::NORTH;
+				else if (!up && !left)
+					dir = GridDirection::EAST;
+
+
+				//Need to look at prev and cur
+				/*if (d == -1)
+					dir = GridDirection::NORTH;
+				else if (d == 1)
+					dir = GridDirection::SOUTH;
+				else {
+					d = cur->y - next->y;
+					if (d == -1)
+						dir = GridDirection::EAST;
+					else
+						dir = GridDirection::WEST;
+				}*/
 			}
 
 
