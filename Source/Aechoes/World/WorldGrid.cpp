@@ -92,6 +92,7 @@ FVector UWorldGrid::ToWorldPos(GridPosition GridPos, bool middle, bool ToNav)
 
 	if (ToNav) {
 		FVector in = ret;
+		in.Z = 1000;
 		in = UNavigationSystem::ProjectPointToNavigation(
 			GetWorld(), in, nullptr, 0, FVector(0.0f, 0.0f, 1000.0f));
 		ret.Z = in.Z;

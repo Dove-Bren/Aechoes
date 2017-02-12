@@ -171,8 +171,8 @@ void AOverworldController::OnActionClick()
 		GridPosition p;
 		for (int i = lridPath.Num(); i > 0; i--) {
 			p = lridPath[i-1];
-			vect = grid->ToWorldPos(p, true);
-			vect.Z = CCharacter->GetActorLocation().Z;
+			vect = grid->ToWorldPos(p, true, true);
+			//vect.Z = CCharacter->GetActorLocation().Z;
 			navPoints.Add(vect);
 		}
 

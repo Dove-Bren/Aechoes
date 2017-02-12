@@ -122,9 +122,22 @@ bool ULrid::VisitCell(TMap<GridPosition, int32> *LowestMap, TMap<GridPosition, T
 			FVector VStart, VEnd, hitLoc;
 			VStart = grid->ToWorldPos(cur, true, true);
 			VEnd = grid->ToWorldPos(targ, true, true);
-			if (UNavigationSystem::NavigationRaycast(GetWorld(), VStart, VEnd, hitLoc)) {
+
+			/*class MoveFilter : public UNavigationQueryFilter {
+
+			} filter;*/
+
+			if (UNavigationSystem::NavigationRaycast(GetWorld(), VStart, VEnd, hitLoc)) {// , TSubclassOf<UNavigationQueryFilter>(MoveFilter::StaticClass()), GetOwner()->GetController())) {
 				UE_LOG(LogTemp, Warning, TEXT("Failed raycast test between (%d, %d) and (%d, %d)"),
 					cur.x, cur.y, targ.x, targ.y);
+				/*DrawDebugLine(
+					GetWorld(),
+					VStart,
+					hitLoc,
+					FColor(255, 0, 0),
+					false, 2.0f, 200,
+					12.333
+				);*/
 				continue;
 			}
 			

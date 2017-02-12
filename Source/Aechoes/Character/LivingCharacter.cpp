@@ -116,7 +116,7 @@ void ALivingCharacter::Tick(float delta)
 				IsPathfinding = false;
 			else {
 				FVector next = MovementWaypoints.Pop();
-				next = UNavigationSystem::ProjectPointToNavigation(GetWorld(), next, nullptr, 0, FVector(0.0f, 0.0f, 30.0f));
+				/*next = UNavigationSystem::ProjectPointToNavigation(GetWorld(), next, nullptr, 0, FVector(0.0f, 0.0f, 30.0f));*/
 				if (((AAIController *)GetController())->MoveToLocation(next, 0.05f, false, true, true, false, 0, true)
 					== EPathFollowingRequestResult::Failed) {
 					UE_LOG(LogTemp, Warning, TEXT("Failed to submit movement request!"));
