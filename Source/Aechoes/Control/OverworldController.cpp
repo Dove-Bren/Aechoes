@@ -212,12 +212,12 @@ void AOverworldController::TickActor(float DeltaTime,
 		if (pos.Y > 0 && (pos.Y < 100 || pos.Y > size.Y - 100))
 			MoveUp(pos.Y < 100 ? 1 - (pos.Y / 100) : -1 + ((size.Y - pos.Y) / 100));
 
-		if (grid == nullptr) {
+		if (grid == nullptr || !grid->IsValidLowLevel()) {
 			grid = ((AAechoesGameMode *) this->GetWorld()->GetAuthGameMode())->getGrid(); //try to fetch
 			UE_LOG(LogTemp, Warning, TEXT("Grid is null"));
 		}
 
-		if (grid != nullptr)
+		if (grid != nullptr && grid->IsValidLowLevel())
 		if (CCharacter != nullptr && CCharacter->IsValidLowLevelFast() && CCharacter->isCommandReady()) {
 			FVector loc, dir;
 			FHitResult result;
@@ -230,9 +230,10 @@ void AOverworldController::TickActor(float DeltaTime,
 			if (!(grid->ToGridPos(FVector(loc.X, loc.Y, 0)) == LastMousePosition)) {
 				LastMousePosition = grid->ToGridPos(FVector(loc.X, loc.Y, 0));
 				FVector cloc = CCharacter->GetActorLocation();
+				
 				int gDist = grid->GetGridDistance(loc, cloc);
 
-				if (gDist <= 3) {
+				if (gDist <= CCharacter->getMP()) {
 					NavArrow->UpdateTarget(CCharacter->GetLrid()->GetPath(LastMousePosition));
 				}
 				else {

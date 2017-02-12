@@ -138,6 +138,8 @@ void ACombatableCharacter::SetEffectiveLocation(FVector in, bool rebuild)
 {
 	Super::SetEffectiveLocation(in, rebuild);
 
-	if (rebuild && lrid != nullptr)
+	if (rebuild && lrid != nullptr) {
+		lrid->SetMaxLength(getMP());
 		lrid->Update();
+	}
 }
