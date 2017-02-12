@@ -11,12 +11,12 @@ AOverworldController::AOverworldController()
 	UE_LOG(LogTemp, Warning, TEXT("Starting overworld controller"));
 }
 
-void AOverworldController::SetControl(ALivingCharacter * character)
+void AOverworldController::SetControl(ACombatableCharacter * character)
 {
 	this->CCharacter = character;
 }
 
-ALivingCharacter *AOverworldController::GetControl()
+ACombatableCharacter *AOverworldController::GetControl()
 {
 	return this->CCharacter;
 }
@@ -163,11 +163,19 @@ void AOverworldController::OnActionClick()
 	}
 }
 
+void AOverworldController::BeginPlay()
+{
+	NavArrow = GetWorld()->SpawnActor<ANavArrow>(ANavArrow::StaticClass(), FVector(0.0f, 0.0f, 0.0f), FRotator(0.0f, 0.0f, 0.0f));
+}
+
 void AOverworldController::TickActor(float DeltaTime,
 	enum ELevelTick TickType,
 	FActorTickFunction & ThisTickFunction)
 {
 	Super::TickActor(DeltaTime, TickType, ThisTickFunction);
+
+	static GridPosition LastMousePosition(-9999, -9999);
+	static UWorldGrid *grid = nullptr;
 
 	if (GEngine->GameViewport) {
 		//if game in focus
@@ -179,6 +187,30 @@ void AOverworldController::TickActor(float DeltaTime,
 
 		if (pos.Y > 0 && (pos.Y < 100 || pos.Y > size.Y - 100))
 			MoveUp(pos.Y < 100 ? 1 - (pos.Y / 100) : -1 + ((size.Y - pos.Y) / 100));
+
+		if (grid == nullptr) {
+			grid = ((AAechoesGameMode *) this->GetWorld()->GetAuthGameMode())->getGrid(); //try to fetch
+			UE_LOG(LogTemp, Warning, TEXT("Grid is null"));
+		}
+
+		if (grid != nullptr)
+		if (CCharacter != nullptr && CCharacter->IsValidLowLevelFast()) {
+			FVector loc, dir;
+			FHitResult result;
+			this->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, result);
+
+			loc = result.Location;
+
+			if (!(grid->ToGridPos(FVector(loc.X, loc.Y, 0)) == LastMousePosition)) {
+				LastMousePosition = grid->ToGridPos(FVector(loc.X, loc.Y, 0));
+
+
+				if (grid->GetGridDistance(loc, CCharacter->GetActorLocation()) <= 3) {
+					NavArrow->UpdateTarget(CCharacter->GetLrid()->GetPath(LastMousePosition));
+					//TODO does nothing yet. Get path, get player location, make path between
+				}
+			}
+		}
 
 	}
 

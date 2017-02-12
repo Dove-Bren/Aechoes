@@ -83,5 +83,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	virtual void Update();
 
+	/**
+	 * Uses information gained in the last #Update to return the shortest
+	 * found path to the target location.
+	 * If the path does not exist, an empty TArray is returned instead
+	 * @param TargetPos the location to look up path info to
+	 * @return TArray with each point in the path, or an empty array if no path exists
+	 **/
+	virtual TArray<GridPosition> GetPath(GridPosition TargetPos);
+
 	
 };

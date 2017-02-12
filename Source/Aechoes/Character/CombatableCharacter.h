@@ -136,6 +136,9 @@ public:
 	/** TEST TEMP **/
 	UFUNCTION(BlueprintCallable, Category = Combat)
 	void AddStrength();
+	
+	// Get this character's active LRid 
+	ULrid *GetLrid();
     
 	UFUNCTION(BlueprintCallable, Category = Living)
 	bool isCommandReady() override;

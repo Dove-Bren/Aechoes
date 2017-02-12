@@ -161,4 +161,15 @@ public:
 
 	//Converts from world pos to a GridPosition
 	GridPosition ToGridPos(FVector WorldPos);
+
+	/**
+	 * Calculates the Manhattan Distance (number of distance in cells) between
+	 * the given world vectors.
+	 * @param Pos1 
+	 * @param Pos2
+	 * @return The integer distance, > 0. This is equivalent to how many
+	 *         cells would need to be moved to move between the points
+	 **/
+	UFUNCTION(BlueprintCallable, Category = Movement)
+	virtual int32 GetGridDistance(FVector Pos1, FVector Pos2);
 };

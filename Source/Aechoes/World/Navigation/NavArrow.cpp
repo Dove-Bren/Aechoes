@@ -2,6 +2,8 @@
 
 #include "Aechoes.h"
 #include "NavArrow.h"
+#include "../../AechoesGameMode.h"
+#include "../../Control/OverworldController.h"
 
 
 // Sets default values
@@ -14,19 +16,25 @@ ANavArrow::ANavArrow()
 	this->RootComponent = root;
 }
 
-void ANavArrow::UpdateTarget(FVector NewTarget)
-{
-	UWorldGrid *grid = ((AAechoesGameMode *) this->GetWorld()->GetAuthGameMode())->getGrid();
-	UpdateTarget(grid->ToGridPos(NewTarget));
-}
+//void ANavArrow::UpdateTarget(FVector NewTarget)
+//{
+//	UWorldGrid *grid = ((AAechoesGameMode *) this->GetWorld()->GetAuthGameMode())->getGrid();
+//	UpdateTarget(grid->ToGridPos(NewTarget));
+//}
 
-void ANavArrow::UpdateTarget(GridPosition NewTarget)
+void ANavArrow::UpdateTarget(TArray<GridPosition> input)
 {
-	if (NewTarget == LastTarget)
+	/*if (NewTarget == LastTarget)
+		return;
+*/
+
+	/*LastTarget = NewTarget;*/
+
+	UE_LOG(LogTemp, Warning, TEXT("Update Arrow with %d plots"), input.Num());
+
+	if (input.Num() == 0)
 		return;
 
-
-	LastTarget = NewTarget;
 	if (Pieces.Num() != 0) {
 		for (UNavArrowPiece *p : Pieces)
 			p->UnregisterComponent();
@@ -45,9 +53,9 @@ void ANavArrow::UpdateTarget(GridPosition NewTarget)
 
 	UWorldGrid *grid = ((AAechoesGameMode *) this->GetWorld()->GetAuthGameMode())->getGrid();
 	
-	GridPosition GPI[] = {GridPosition(-5, -1), GridPosition(-5, -2), GridPosition(-5, -3), GridPosition(-4, -3), GridPosition(-3, -3) };
+	/*GridPosition GPI[] = {GridPosition(-5, -1), GridPosition(-5, -2), GridPosition(-5, -3), GridPosition(-4, -3), GridPosition(-3, -3) };
 	TArray<GridPosition> input;
-	input.Append(GPI, ARRAY_COUNT(GPI));
+	input.Append(GPI, ARRAY_COUNT(GPI));*/
 	
 	int index;
 	enum : unsigned char {
@@ -117,8 +125,6 @@ void ANavArrow::UpdateTarget(GridPosition NewTarget)
 		}
 
 		//now use type and dir to spawn piece
-		//TODO
-
 		loc = grid->ToWorldPos(input[index]);
 		loc = grid->snapTo(loc, true);
 
@@ -136,11 +142,9 @@ void ANavArrow::UpdateTarget(GridPosition NewTarget)
 		}
 
 		piece->RegisterComponent();
-		piece->AttachTo(RootComponent);
-		//piece->RelativeLocation = loc;
+		piece->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 		piece->SetWorldLocation(loc);
 		piece->SetDirection(dir);
-		//SetActorLocation(loc);
 		
 
 		Pieces.Add(piece);
@@ -153,68 +157,6 @@ void ANavArrow::UpdateTarget(GridPosition NewTarget)
 
 	}
 
-	
-	//loc = grid->ToWorldPos(LastTarget);
-	//loc = grid->snapTo(loc, true);
-	//
-
-	//
-	//loc.Z = Z;
-	//UNavArrowPiece *piece = NewObject<UNavArrowPHead>(this); 
-	//piece->RegisterComponent();
-	//piece->AttachTo(RootComponent);
-	////piece->RelativeLocation = loc;
-	//piece->SetWorldLocation(loc);
-	//piece->SetDirection(GridDirection::WEST);
-	////SetActorLocation(loc);
-	//
-	//
-	///*GetWorld()->
-	//	SpawnActor<UNavArrowPHead>(UNavArrowPHead::StaticClass(), loc, FRotator());*/
-
-	//Pieces.Add(piece);
-
-	//piece = NewObject<UNavArrowPMid>(this);
-	//piece->RegisterComponent();
-	//piece->AttachTo(RootComponent);
-
-	//LastTarget.y++;
-	//loc = grid->ToWorldPos(LastTarget);
-	//loc = grid->snapTo(loc, true);
-	//loc.Z = Z;
-
-	//piece->SetWorldLocation(loc);
-	//piece->SetDirection(GridDirection::WEST);
-
-	//Pieces.Add(piece);
-
-	//piece = NewObject<UNavArrowPBend>(this);
-	//piece->RegisterComponent();
-	//piece->AttachTo(RootComponent);
-
-	//LastTarget.y++;
-	//loc = grid->ToWorldPos(LastTarget);
-	//loc = grid->snapTo(loc, true);
-	//loc.Z = Z;
-
-	//piece->SetWorldLocation(loc);
-	//piece->SetDirection(GridDirection::WEST);
-
-	//Pieces.Add(piece);
-
-	//piece = NewObject<UNavArrowPBend>(this);
-	//piece->RegisterComponent();
-	//piece->AttachTo(RootComponent);
-
-	//LastTarget.x++;
-	//loc = grid->ToWorldPos(LastTarget);
-	//loc = grid->snapTo(loc, true);
-	//loc.Z = Z;
-
-	//piece->SetWorldLocation(loc);
-	//piece->SetDirection(GridDirection::EAST);
-
-	//Pieces.Add(piece);
 }
 
 GridPosition ANavArrow::GetLastTarget()

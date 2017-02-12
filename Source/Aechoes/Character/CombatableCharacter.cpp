@@ -122,3 +122,8 @@ void ACombatableCharacter::BeginPlay()
 		lrid->Update();
 	}
 }
+
+ULrid *ACombatableCharacter::GetLrid()
+{
+	return lrid;
+}

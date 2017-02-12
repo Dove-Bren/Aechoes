@@ -157,3 +157,12 @@ int32 ULrid::GetHeuristic(GridPosition targ)
 {
 	return 0; //Just Dijkstra's
 }
+
+TArray<GridPosition> ULrid::GetPath(GridPosition TargetPos)
+{
+	TArray<GridPosition> *ret = PathMap.Find(TargetPos);
+	if (ret == nullptr)
+		return TArray<GridPosition>();
+
+	return *ret;
+}

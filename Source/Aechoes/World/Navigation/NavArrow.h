@@ -8,8 +8,6 @@
 #include "NavArrowPMid.h"
 #include "NavArrowPBend.h"
 #include "../WorldGrid.h"
-#include "../../AechoesGameMode.h"
-#include "../../Control/OverworldController.h"
 #include "NavArrow.generated.h"
 
 /**
@@ -35,20 +33,20 @@ public:
 	// Sets default values for this actor's properties
 	ANavArrow();
 	
-	/**
-	 * Sets the given target as the current target, possibly triggering a full update.
-	 * This includes creating all subpieces to form a coherent arrow to the target
-	 * @param NewTarget the new target location to point towards
-	 **/
-	virtual void UpdateTarget(GridPosition NewTarget);
+	///**
+	// * Sets the given target as the current target, possibly triggering a full update.
+	// * This includes creating all subpieces to form a coherent arrow to the target
+	// * @param NewTarget the new target location to point towards
+	// **/
+	//virtual void UpdateTarget(GridPosition NewTarget);
 
 	/**
 	* Sets the given target as the current target, possibly triggering a full update.
 	* This includes creating all subpieces to form a coherent arrow to the target
-	* @param NewTarget the new target location to point towards
+	* @param Path the list of positions to run path over
 	**/
-	UFUNCTION(BlueprintCallable, Category = NavArrow)
-	virtual void UpdateTarget(FVector NewTarget);
+	//UFUNCTION(BlueprintCallable, Category = NavArrow)
+	virtual void UpdateTarget(TArray<GridPosition> path);
 
 	/**
 	 * Return the kept value for the last target

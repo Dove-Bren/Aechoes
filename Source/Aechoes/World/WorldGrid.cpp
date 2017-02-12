@@ -83,3 +83,12 @@ GridPosition UWorldGrid::ToGridPos(FVector WorldPos)
 {
 	return translate(WorldPos.X, WorldPos.Y);
 }
+
+int32 UWorldGrid::GetGridDistance(FVector Pos1, FVector Pos2)
+{
+	GridPosition p1 = translate(Pos1.X, Pos1.Y),
+		p2 = translate(Pos2.X, Pos2.Y);
+	int32 dist = FMath::Abs<int32>(p1.x - p2.x);
+	dist += FMath::Abs<int32>(p1.y - p2.y);
+	return dist;
+}

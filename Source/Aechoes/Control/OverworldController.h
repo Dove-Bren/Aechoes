@@ -5,8 +5,9 @@
 #include "GameFramework/PlayerController.h"
 #include "AI/Navigation/NavigationSystem.h"
 #include "OverworldCamera.h"
-#include "../Character/LivingCharacter.h"
+#include "../Character/CombatableCharacter.h"
 #include "../AechoesGameMode.h"
+#include "../World/Navigation/NavArrow.h"
 #include "OverworldController.generated.h"
 
 /**
@@ -24,7 +25,12 @@ protected:
 	 * This is different from the possessed pawn, since we're possessing the camera
 	 **/
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Controls)
-	ALivingCharacter *CCharacter;
+	ACombatableCharacter *CCharacter;
+
+	//Nav Arrow
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Controls)
+	ANavArrow *NavArrow;
+
 
 	/** Handler for when a touch input begins. */
 	void TouchStarted(ETouchIndex::Type FingerIndex, FVector Location);
@@ -66,6 +72,8 @@ protected:
 		enum ELevelTick TickType,
 		FActorTickFunction & ThisTickFunction
 	) override;
+
+	virtual void BeginPlay() override;
 	
 public:
 	AOverworldController();
@@ -75,13 +83,13 @@ public:
 	 * @param in The new character to control
 	 **/
 	UFUNCTION(BlueprintCallable, Category = Controls)
-	void SetControl(ALivingCharacter *in);
+	void SetControl(ACombatableCharacter *in);
 
 	/**
 	* Sets the currently controlled character
 	* @param in The new character to control
 	**/
 	UFUNCTION(BlueprintCallable, Category = Controls)
-	ALivingCharacter *GetControl();
+	ACombatableCharacter *GetControl();
 	
 };
