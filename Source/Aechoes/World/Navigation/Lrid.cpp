@@ -168,8 +168,16 @@ int32 ULrid::GetHeuristic(GridPosition targ)
 bool ULrid::CanMove(UWorldGrid *grid, GridPosition FromCell, GridPosition ToCell)
 {
 	
-	if (grid->get(ToCell) != nullptr)
+	if (grid->get(ToCell) != nullptr) {
+
+		//see if it's an obstacle. If so, can move?
+		AObstacle *out = Cast<AObstacle>(grid->get(ToCell));
+
+		if (out != nullptr && out->CanPass(GetOwner()))
+			return true;
+
 		return false;
+	}
 
 	//Perform nav movement check 
 	//TODO cache nav lookups?
