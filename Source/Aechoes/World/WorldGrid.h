@@ -116,6 +116,11 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Combat|Layout")
     ALivingCharacter* get(float x, float y);
 
+	/** Returns a pointer to a living Character, if there was one at the cell
+	* @return null if cell is empty, pointer to character otherwise
+	**/
+	ALivingCharacter* get(GridPosition At);
+
     /** Checks whether the cell at the given position is empty
      * @return true when the cells is empty; false otherwise 
      **/

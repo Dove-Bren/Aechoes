@@ -36,14 +36,19 @@ float UWorldGrid::getScale()
 ALivingCharacter *UWorldGrid::get(float x, float y)
 {
 	GridPosition pos = translate(x, y);
-	UE_LOG(LogTemp, Warning, TEXT("GridPos: [%d, %d]"), pos.x, pos.y);
+	return get(pos);
+}
+
+ALivingCharacter *UWorldGrid::get(GridPosition pos)
+{
+	//(LogTemp, Warning, TEXT("GridPos: [%d, %d]"), pos.x, pos.y);
 	TWeakObjectPtr<ALivingCharacter> *ret = map.Find(pos);
 	if (ret != nullptr && (*ret).IsValid()) {
-		UE_LOG(LogTemp, Warning, TEXT("Valid!"));
+		//UE_LOG(LogTemp, Warning, TEXT("Valid!"));
 		return (*ret).Get(true);
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("invalid!"));
+	//UE_LOG(LogTemp, Warning, TEXT("invalid!"));
 	return nullptr;
 }
 

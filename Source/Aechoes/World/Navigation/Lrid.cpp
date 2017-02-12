@@ -117,6 +117,11 @@ bool ULrid::VisitCell(TMap<GridPosition, int32> *LowestMap, TMap<GridPosition, T
 			if (PathMap.Find(targ) != nullptr)
 				continue;
 
+
+			if (grid->get(targ) != nullptr) {
+				continue;
+			}
+
 			//Perform nav movement check 
 			//TODO cache nav lookups?
 			FVector VStart, VEnd, hitLoc;
@@ -127,9 +132,10 @@ bool ULrid::VisitCell(TMap<GridPosition, int32> *LowestMap, TMap<GridPosition, T
 
 			} filter;*/
 
+
 			if (UNavigationSystem::NavigationRaycast(GetWorld(), VStart, VEnd, hitLoc)) {// , TSubclassOf<UNavigationQueryFilter>(MoveFilter::StaticClass()), GetOwner()->GetController())) {
-				UE_LOG(LogTemp, Warning, TEXT("Failed raycast test between (%d, %d) and (%d, %d)"),
-					cur.x, cur.y, targ.x, targ.y);
+				/*UE_LOG(LogTemp, Warning, TEXT("Failed raycast test between (%d, %d) and (%d, %d)"),
+					cur.x, cur.y, targ.x, targ.y);*/
 				/*DrawDebugLine(
 					GetWorld(),
 					VStart,
