@@ -74,9 +74,20 @@ void UWorldGrid::clearAll()
     map.Empty();
 }
 
-FVector UWorldGrid::ToWorldPos(GridPosition GridPos)
+FVector UWorldGrid::ToWorldPos(GridPosition GridPos) {
+	return ToWorldPos(GridPos, false);
+}
+
+FVector UWorldGrid::ToWorldPos(GridPosition GridPos, bool middle)
 {
-	return FVector(GridPos.x * scale, GridPos.y * scale, 0);
+	FVector ret(GridPos.x * scale, GridPos.y * scale, 0);
+
+	if (middle) {
+		ret.X += (scale / 2.0f);
+		ret.Y += (scale / 2.0f);
+	}
+	
+	return ret;
 }
 
 GridPosition UWorldGrid::ToGridPos(FVector WorldPos)

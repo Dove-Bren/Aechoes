@@ -149,8 +149,8 @@ void ANavArrow::UpdateTarget(TArray<GridPosition> input)
 		}
 
 		//now use type and dir to spawn piece
-		loc = grid->ToWorldPos(input[index]);
-		loc = grid->snapTo(loc, true);
+		loc = grid->ToWorldPos(input[index], true);
+		//loc = grid->snapTo(loc, true);
 
 		switch (type) {
 		case STRAIGHT:

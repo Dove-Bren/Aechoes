@@ -156,8 +156,18 @@ public:
 	 * NOTE: The returned pos will have a value of 0 for Z!
 	 * @param GridPos the grid position to swap out
 	 * @return A new FVector holding world location information
+	 * Note: This is equivalent to ToWorldPos(GridPos, false);
 	 **/
 	FVector ToWorldPos(GridPosition GridPos);
+
+	/**
+	* Do an opposite conversion between GridPosition and world location
+	* NOTE: The returned pos will have a value of 0 for Z!
+	* @param GridPos the grid position to swap out
+	* @param Middle Whether or not to shift to the center of the cell
+	* @return A new FVector holding world location information
+	**/
+	FVector ToWorldPos(GridPosition GridPos, bool Middle);
 
 	//Converts from world pos to a GridPosition
 	GridPosition ToGridPos(FVector WorldPos);
