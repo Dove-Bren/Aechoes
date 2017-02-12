@@ -188,4 +188,12 @@ GridPosition ANavArrow::GetLastTarget()
 	return GridPosition();
 }
 
+void ANavArrow::DestroyArrow()
+{
+	if (Pieces.Num() != 0) {
+		for (UNavArrowPiece *p : Pieces)
+			p->UnregisterComponent();
 
+		Pieces.Empty();
+	}
+}

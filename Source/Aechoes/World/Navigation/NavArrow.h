@@ -54,5 +54,11 @@ public:
 	 **/
 	GridPosition GetLastTarget();
 
+	/**
+	 * Tell the arrow to destroy all subpieces and stop rendering
+	 **/
+	UFUNCTION(BlueprintCallable, Category = NavArrow)
+	void DestroyArrow();
+
 	
 };

@@ -160,6 +160,10 @@ void AOverworldController::OnActionClick()
 		grid->place(loc.X, loc.Y, CCharacter);
 
 		UNavigationSystem::SimpleMoveToLocation(CCharacter->GetController(), loc);
+		CCharacter->SetEffectiveLocation(loc, true);
+
+		if (NavArrow != nullptr)
+			NavArrow->DestroyArrow();
 	}
 }
 
@@ -194,7 +198,7 @@ void AOverworldController::TickActor(float DeltaTime,
 		}
 
 		if (grid != nullptr)
-		if (CCharacter != nullptr && CCharacter->IsValidLowLevelFast()) {
+		if (CCharacter != nullptr && CCharacter->IsValidLowLevelFast() && CCharacter->isCommandReady()) {
 			FVector loc, dir;
 			FHitResult result;
 			this->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, result);

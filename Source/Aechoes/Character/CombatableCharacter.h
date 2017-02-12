@@ -139,9 +139,15 @@ public:
 	
 	// Get this character's active LRid 
 	ULrid *GetLrid();
+
+	// Call this character's Lrid for Update
+	UFUNCTION(BlueprintCallable, Category = Combat)
+	void UpdateLrid();
     
 	UFUNCTION(BlueprintCallable, Category = Living)
 	bool isCommandReady() override;
 
 	void BeginPlay() override;
+
+	virtual void SetEffectiveLocation(FVector in, bool rebuildLrid) override;
 };

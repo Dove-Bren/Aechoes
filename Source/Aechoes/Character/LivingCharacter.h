@@ -33,9 +33,16 @@ protected:
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Living)
     int32 healthRegenRate;
 
-    /** Health Regeneration Rate outside of Combat **/
+    /** Whether this character is dead or not **/
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Living)
     bool dead;
+
+	/** Location this character is defined to be at, regardless of
+	 * current movement, animation, etc. For example, the location a
+	 * character is set to after they move, regardless of if they're still
+	 * in the middle of running there.**/
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Living)
+	FVector EffectiveLocation;
 
     /** Perform death-time actions **/
     UFUNCTION(BlueprintNativeEvent, Category = Living)
@@ -100,6 +107,17 @@ public:
 	 **/
 	UFUNCTION(BlueprintCallable, Category = Living)
 	virtual bool isCommandReady();
+
+	/**
+	* Returns where this character is defined to be at, when all animation and
+	* progressive movement is done.
+	* @return See definition of EffectiveLocation
+	**/
+	UFUNCTION(BlueprintCallable, Category = Living)
+	FVector GetEffectiveLocation();
+
+	//TEST For now, TODO
+	virtual void SetEffectiveLocation(FVector in, bool rebuildLrid);
 
     void Tick(float delta) override;
 

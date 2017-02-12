@@ -44,7 +44,7 @@ void ULrid::Update()
 	TMap<GridPosition, int32> lowestCost;
 	TMap<GridPosition, TArray<GridPosition>> ScratchMap;
 	UWorldGrid *grid = ((AAechoesGameMode *) this->GetWorld()->GetAuthGameMode())->getGrid();
-	FVector loc = Owner->GetActorLocation();
+	FVector loc = Owner->GetEffectiveLocation();//GetActorLocation();
 	TArray<GridPosition> tAr;
 	GridPosition HomePos = GridPosition::from(loc.X, loc.Y, grid->getScale());
 	tAr.Add(HomePos);

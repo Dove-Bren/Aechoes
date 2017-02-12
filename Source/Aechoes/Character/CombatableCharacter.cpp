@@ -127,3 +127,17 @@ ULrid *ACombatableCharacter::GetLrid()
 {
 	return lrid;
 }
+
+void ACombatableCharacter::UpdateLrid()
+{
+	if (lrid != nullptr)
+		lrid->Update();
+}
+
+void ACombatableCharacter::SetEffectiveLocation(FVector in, bool rebuild)
+{
+	Super::SetEffectiveLocation(in, rebuild);
+
+	if (rebuild && lrid != nullptr)
+		lrid->Update();
+}

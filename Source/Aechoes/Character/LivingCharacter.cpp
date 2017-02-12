@@ -82,6 +82,11 @@ void ALivingCharacter::setHealthRegen(int32 regenRate)
     this->healthRegenRate = regenRate;
 }
 
+void ALivingCharacter::SetEffectiveLocation(FVector in, bool rebuild)
+{
+	EffectiveLocation = in;
+}
+
 void ALivingCharacter::Tick(float delta)
 {
     AAechoesCharacter::Tick(delta);
@@ -109,6 +114,13 @@ void ALivingCharacter::BeginPlay()
     this->SetActorLocation(out);
 	grid->place(out.X, out.Y, this);
 
+	EffectiveLocation = GetActorLocation();
+
+}
+
+FVector ALivingCharacter::GetEffectiveLocation()
+{
+	return EffectiveLocation;
 }
 
 bool ALivingCharacter::isCommandReady()
