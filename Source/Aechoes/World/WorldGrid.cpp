@@ -25,7 +25,7 @@ FVector UWorldGrid::snapTo(FVector const in, bool middle)
 UWorldGrid::UWorldGrid()
 {
     this->scale = UWorldGrid::DEFAULT_SCALE;
-    this->map = TMap<GridPosition, TWeakObjectPtr<ALivingCharacter>>();
+    //this->map = TMap<GridPosition, TWeakObjectPtr<AAechoesCharacter>>();
 }
 
 float UWorldGrid::getScale()
@@ -33,16 +33,16 @@ float UWorldGrid::getScale()
     return scale;
 }
 
-ALivingCharacter *UWorldGrid::get(float x, float y)
+AAechoesCharacter *UWorldGrid::get(float x, float y)
 {
 	GridPosition pos = translate(x, y);
 	return get(pos);
 }
 
-ALivingCharacter *UWorldGrid::get(GridPosition pos)
+AAechoesCharacter *UWorldGrid::get(GridPosition pos)
 {
 	//(LogTemp, Warning, TEXT("GridPos: [%d, %d]"), pos.x, pos.y);
-	TWeakObjectPtr<ALivingCharacter> *ret = map.Find(pos);
+	TWeakObjectPtr<AAechoesCharacter> *ret = map.Find(pos);
 	if (ret != nullptr && (*ret).IsValid()) {
 		//UE_LOG(LogTemp, Warning, TEXT("Valid!"));
 		return (*ret).Get(true);
@@ -57,10 +57,10 @@ bool UWorldGrid::isEmpty(float x, float y)
     return map.Find(translate(x, y)) == nullptr;
 }
 
-bool UWorldGrid::place(float x, float y, ALivingCharacter *input)
+bool UWorldGrid::place(float x, float y, AAechoesCharacter *input)
 {
-    TWeakObjectPtr<ALivingCharacter> *ret = map.Find(translate(x, y));
-    map.Add(translate(x, y), TWeakObjectPtr<ALivingCharacter>(input));
+    TWeakObjectPtr<AAechoesCharacter> *ret = map.Find(translate(x, y));
+    map.Add(translate(x, y), TWeakObjectPtr<AAechoesCharacter>(input));
 
 	UE_LOG(LogTemp, Warning, TEXT("Placing object at %f, %f"), x, y);
 

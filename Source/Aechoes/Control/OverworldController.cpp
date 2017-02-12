@@ -147,7 +147,7 @@ void AOverworldController::OnActionClick()
 	/*this->DeprojectMousePositionToWorld(loc, dir);*/
 	
 	UWorldGrid *grid = ((AAechoesGameMode *)GetWorld()->GetAuthGameMode())->getGrid();
-	ALivingCharacter *out = grid->get(loc.X, loc.Y);
+	AAechoesCharacter *out = grid->get(loc.X, loc.Y);
 	if (out != NULL) {
 		UE_LOG(LogTemp, Warning, TEXT("Found Actor: %s"), *out->GetName());
 	} 
