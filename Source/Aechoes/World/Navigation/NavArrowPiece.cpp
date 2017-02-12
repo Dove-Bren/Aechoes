@@ -8,7 +8,11 @@
 UNavArrowPiece::UNavArrowPiece()
 {
 	//PrimaryComponentTick.bCanEverTick = false;
-	bAbsoluteLocation = true;
+
+	SetMobility(EComponentMobility::Movable);
+	RelativeScale3D = FVector(1.75f, 1.75f, 1.75f);
+
+	//bAbsoluteLocation = true;
 	bAbsoluteRotation = true;
 
 	/*this->MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("DefaultMesh"));

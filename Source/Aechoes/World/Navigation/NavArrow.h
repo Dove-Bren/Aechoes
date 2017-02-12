@@ -27,6 +27,7 @@ protected:
 	/** Last used target location -- for optimization checks **/
 	GridPosition LastTarget;
 
+
 	
 public:	
 	// Sets default values for this actor's properties
