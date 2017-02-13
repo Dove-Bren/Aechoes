@@ -8,6 +8,7 @@
 #include "../../Character/LivingCharacter.h"
 #include "../../AechoesGameMode.h"
 #include "../Obstacle.h"
+#include "Components/InstancedStaticMeshComponent.h"
 #include "Lrid.generated.h"
 
 /**
@@ -33,6 +34,15 @@ protected:
 
 	/** Map of paths to the given position -- since last update **/
 	TMap<GridPosition, TArray<GridPosition>> PathMap;
+
+	/** Root scene component for attaching things to **/
+	USceneComponent *RootComponent;
+
+	/** The mesh used when displaying the grid **/
+	UStaticMesh *MeshObject;
+
+	/** Instanced Display Mesh **/
+	UInstancedStaticMeshComponent *SMeshComp;
 
 	/** Return the output of the heuristic function for the given input **/
 	virtual int32 GetHeuristic(GridPosition targ);
@@ -92,6 +102,13 @@ public:
 	**/
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	virtual void Update();
+
+	/**
+	 * Tells this lrid to create the necessary meshes to display itself
+	 * This methodm ust be called after each Update in order to keep rendering on
+	 **/
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	virtual void DisplayGrid();
 
 	/**
 	 * Uses information gained in the last #Update to return the shortest

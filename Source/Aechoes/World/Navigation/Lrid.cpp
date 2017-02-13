@@ -2,12 +2,18 @@
 
 #include "Aechoes.h"
 #include "AI/Navigation/NavigationSystem.h"
+#include "../GridCellMesh.h"
 #include "Lrid.h"
 
 ULrid::ULrid()
 {
 	MaxLen = 0;
 	Owner = nullptr;
+
+	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Anchor"));
+
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> MObj(TEXT("StaticMesh'/Game/ThirdPerson/Meshes/TileMove.TileMove'"));
+	this->MeshObject = MObj.Object;
 }
 
 int32 ULrid::GetMaxLen()
@@ -203,4 +209,26 @@ TArray<GridPosition> ULrid::GetPath(GridPosition TargetPos)
 		return TArray<GridPosition>();
 
 	return *ret;
+}
+
+void ULrid::DisplayGrid()
+{
+	if (SMeshComp != nullptr)
+		SMeshComp->UnregisterComponent();
+	
+	SMeshComp = NewObject<UInstancedStaticMeshComponent>(this);
+	SMeshComp->SetStaticMesh(MeshObject);
+		
+	SMeshComp->RegisterComponent();
+	SMeshComp->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
+	UWorldGrid *grid = ((AAechoesGameMode *) this->GetWorld()->GetAuthGameMode())->getGrid();
+	FVector offset;
+	TArray<GridPosition> keys;
+	PathMap.GetKeys(keys);
+	for (GridPosition pos : keys) {
+		offset = grid->ToWorldPos(pos, true, true);
+		SMeshComp->AddInstance(FTransform(offset));
+	}
+
 }
