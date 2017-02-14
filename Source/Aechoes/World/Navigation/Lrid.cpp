@@ -192,9 +192,12 @@ TArray<GridPosition> ULrid::GetPath(GridPosition TargetPos)
 	return *ret;
 }
 
-TArray<GridPosition> ULrid::GetEndpoints()
+TArray<GridPosition> const ULrid::GetEndpoints() const
 {
 	TArray<GridPosition> keys;
 	PathMap.GetKeys(keys);
-	return keys;
+
+	const TArray<GridPosition> ckeys = keys;
+	
+	return ckeys;
 }

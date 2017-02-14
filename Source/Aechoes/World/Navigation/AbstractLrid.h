@@ -85,7 +85,7 @@ public:
 	* On regular movement lrid's, these are all the valid movement targets
 	* @return a set with all valid points, including when there are 0
 	**/
-	virtual TArray<GridPosition> GetEndpoints();
+	virtual TArray<GridPosition> const GetEndpoints() const;
 
 	
 };

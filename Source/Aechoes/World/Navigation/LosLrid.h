@@ -12,7 +12,20 @@ UCLASS()
 class AECHOES_API ULosLrid : public UAbstractLrid
 {
 	GENERATED_BODY()
+
+public:
+	/** Height offset for 2d raytraces **/
+	static const uint32 RAYTRACE_ZOFFSET = 100;
 		
+protected:
+
+	/** List of acceptable positions from last update **/
+	TArray<GridPosition> AcceptablePositions;
+
+	/** Whether 0 is included in range 
+	 * Note: This is ignored if range == 0 **/
+	bool IncludeZero;
+
 
 public:
 
@@ -33,7 +46,7 @@ public:
 	* On regular movement lrid's, these are all the valid movement targets
 	* @return a set with all valid points, including when there are 0
 	**/
-	virtual TArray<GridPosition> GetEndpoints() override;
+	virtual TArray<GridPosition> const GetEndpoints() const override;
 
 	
 };

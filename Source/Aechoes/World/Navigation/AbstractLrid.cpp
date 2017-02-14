@@ -63,7 +63,7 @@ void UAbstractLrid::DisplayGrid()
 
 }
 
-TArray<GridPosition> UAbstractLrid::GetEndpoints()
+TArray<GridPosition> const UAbstractLrid::GetEndpoints() const
 {
 	//Default broken behavior
 	return TArray<GridPosition>();
