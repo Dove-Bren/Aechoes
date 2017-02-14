@@ -205,7 +205,7 @@ void AOverworldController::TickActor(float DeltaTime,
 		//if game in focus
 		FVector2D pos, size;
 		GEngine->GameViewport->GetViewportSize(size);
-		pos = GEngine->GameViewport->GetMousePosition();
+		GEngine->GameViewport->GetMousePosition(pos);
 		if (pos.X > 0 && (pos.X < 100 || pos.X > size.X - 100))
 			MoveRight(pos.X < 100 ? -1 + (pos.X / 100) : 1 - ( (size.X - pos.X) / 100));
 

@@ -4,18 +4,15 @@
 
 #include <cmath>
 
-#include "../WorldGrid.h"
-#include "../../Character/LivingCharacter.h"
-#include "../../AechoesGameMode.h"
+#include "AbstractLrid.h"
 #include "../Obstacle.h"
-#include "Components/InstancedStaticMeshComponent.h"
 #include "Lrid.generated.h"
 
 /**
  * Local grid navigation class. Contains logic for moving or getting LoS
  */
 UCLASS()
-class AECHOES_API ULrid : public UActorComponent
+class AECHOES_API ULrid : public UAbstractLrid
 {
 	GENERATED_BODY()
 
@@ -23,26 +20,9 @@ public:
 	static uint32 const DEFAULT_DIST = 999999;
 
 protected:
-    
-    /** Maximum length of path **/
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Movement)
-    int32 MaxLen;
-
-	/** The character that owns this grid. Used when querying obstacles **/
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Movement)
-	ALivingCharacter *Owner;
 
 	/** Map of paths to the given position -- since last update **/
 	TMap<GridPosition, TArray<GridPosition>> PathMap;
-
-	/** Root scene component for attaching things to **/
-	USceneComponent *RootComponent;
-
-	/** The mesh used when displaying the grid **/
-	UStaticMesh *MeshObject;
-
-	/** Instanced Display Mesh **/
-	UInstancedStaticMeshComponent *SMeshComp;
 
 	/** Return the output of the heuristic function for the given input **/
 	virtual int32 GetHeuristic(GridPosition targ);
@@ -67,31 +47,6 @@ private:
 public:
 
 	ULrid();
-    
-    /** Returns the Max Length of this grid **/
-    UFUNCTION(BlueprintCallable, Category = "Movement")
-    int32 GetMaxLen();
-
-    /**
-	 * Returns the character that owns this grid
-     * @return the owner, including if it's null
-     **/
-    UFUNCTION(BlueprintCallable, Category = "Movement")
-    ALivingCharacter* GetOwner();
-
-	/**
-	* Sets this grid's owner. Required for it to do any real work
-	* @param NewOwner the new owner
-	**/
-	UFUNCTION(BlueprintCallable, Category = "Movement")
-	void SetOwner(ALivingCharacter *NewOwner);
-
-	/**
-	* Sets this grid's maximum length. Required for it to do any real work
-	* @param length the new length
-	**/
-	UFUNCTION(BlueprintCallable, Category = "Movement")
-	void SetMaxLength(int32 length);
 
 	/**
 	* Performs an update of this grid. This involves recalculating all paths, etc.
@@ -101,14 +56,7 @@ public:
 	* optimizations of kind. #FutureWork
 	**/
 	UFUNCTION(BlueprintCallable, Category = "Movement")
-	virtual void Update();
-
-	/**
-	 * Tells this lrid to create the necessary meshes to display itself
-	 * This methodm ust be called after each Update in order to keep rendering on
-	 **/
-	UFUNCTION(BlueprintCallable, Category = "Movement")
-	virtual void DisplayGrid();
+	virtual void Update() override;
 
 	/**
 	 * Uses information gained in the last #Update to return the shortest
@@ -118,6 +66,13 @@ public:
 	 * @return TArray with each point in the path, or an empty array if no path exists
 	 **/
 	virtual TArray<GridPosition> GetPath(GridPosition TargetPos);
+
+	/**
+	* Returns a set of endpoints pathed to in this lrid
+	* On regular movement lrid's, these are all the valid movement targets
+	* @return a set with all valid points, including when there are 0
+	**/
+	virtual TArray<GridPosition> GetEndpoints() override;
 
 	
 };

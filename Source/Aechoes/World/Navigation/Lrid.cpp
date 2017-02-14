@@ -3,41 +3,22 @@
 #include "Aechoes.h"
 #include "AI/Navigation/NavigationSystem.h"
 #include "../GridCellMesh.h"
+#include "../../AechoesGameMode.h"
 #include "Lrid.h"
 
-ULrid::ULrid()
+ULrid::ULrid() : UAbstractLrid::UAbstractLrid()
 {
-	MaxLen = 0;
-	Owner = nullptr;
-
-	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Anchor"));
-
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> MObj(TEXT("StaticMesh'/Game/ThirdPerson/Meshes/TileMove.TileMove'"));
-	this->MeshObject = MObj.Object;
-}
-
-int32 ULrid::GetMaxLen()
-{
-	return MaxLen;
-}
-
-ALivingCharacter * ULrid::GetOwner()
-{
-	return Owner;
-}
-
-void ULrid::SetOwner(ALivingCharacter * NewOwner)
-{
-	this->Owner = NewOwner;
-}
-
-void ULrid::SetMaxLength(int32 length)
-{
-	this->MaxLen = length;
+	;
 }
 
 void ULrid::Update()
 {
+
+
+	if (SMeshComp != nullptr) {
+		SMeshComp->UnregisterComponent();
+		SMeshComp = nullptr;
+	}
 
 	//Quickly validate data
 	if (MaxLen == 0 || Owner == nullptr) {
@@ -211,24 +192,9 @@ TArray<GridPosition> ULrid::GetPath(GridPosition TargetPos)
 	return *ret;
 }
 
-void ULrid::DisplayGrid()
+TArray<GridPosition> ULrid::GetEndpoints()
 {
-	if (SMeshComp != nullptr)
-		SMeshComp->UnregisterComponent();
-	
-	SMeshComp = NewObject<UInstancedStaticMeshComponent>(this);
-	SMeshComp->SetStaticMesh(MeshObject);
-		
-	SMeshComp->RegisterComponent();
-	SMeshComp->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-
-	UWorldGrid *grid = ((AAechoesGameMode *) this->GetWorld()->GetAuthGameMode())->getGrid();
-	FVector offset;
 	TArray<GridPosition> keys;
 	PathMap.GetKeys(keys);
-	for (GridPosition pos : keys) {
-		offset = grid->ToWorldPos(pos, true, true);
-		SMeshComp->AddInstance(FTransform(offset));
-	}
-
+	return keys;
 }
