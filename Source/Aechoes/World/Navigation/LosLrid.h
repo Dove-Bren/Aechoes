@@ -22,12 +22,12 @@ protected:
 
 	/** List of acceptable positions from last update **/
 	TArray<GridPosition> AcceptablePositions;
-
+	
 	/** Whether 0 is included in range 
 	 * Note: This is ignored if range == 0 **/
 	bool IncludeZero;
 
-	virtual void SpawnCollisionbox(UWorldGrid *grid, GridPosition pos);
+	virtual void SpawnCollisionbox(UWorldGrid *grid, TArray<UBoxComponent*> & CollisionBoxes, GridPosition pos);
 
 	virtual bool DoRaytrace(UWorldGrid *grid, GridPosition from, GridPosition to);
 
