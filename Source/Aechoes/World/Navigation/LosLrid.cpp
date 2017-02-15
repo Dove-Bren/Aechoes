@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Aechoes.h"
+#include "CollisionQueryParams.h"
 #include "../../AechoesGameMode.h"
 #include "LosLrid.h"
 
@@ -33,9 +34,60 @@ void ULosLrid::Update()
 	if (MaxLen == 0 || IncludeZero)
 		AcceptablePositions.Add(HomePos);
 
+	
+
 	if (MaxLen > 0) {
 		//visit each cell and do a raytrace
 		//TODO
+		/*
+		Add collision boxes on cells with obstacles.
+		Then raytrace, ignoring the givne actor (and other actors if possible)
+		Make the collision boxes slightly smaller than scale X scale
+		*/
+
+		//Collect all cells for easy iteration
+		TArray<GridPosition> HotCells;
+
+		//start at one end in the middle, with width 1. then +2, +2, etc until
+		// reaches middle of grid with width 2W + 1. Ignore center cell. Reflect
+		//pos's to get bottom pieces
+		int32 centerx = HomePos.x, centery = HomePos.y;
+		int32 rowx, rowy, yoffset;
+		int index, len;
+		len = 1;
+		for (index = MaxLen; index > 0; index--) {
+			//TODO as we add each cell, check grid and make collision box!!!!!!!!!!!!!!!!!!
+
+			//calculate y difference between twin columns
+			yoffset = -2 * index;
+
+			//shift -x by (len-1)/2. Get -x,+y offset. Build by x++
+			//effectively building each column from south to north
+			rowy = index + centery;
+			rowx = centerx - ((len - 1) / 2);
+			for (int i = 0; i < len; i++) {
+				//TODO add collision box!
+				UE_LOG(LogTemp, Warning, TEXT("Adding [%d, %d]"), rowx + i, rowy);
+				HotCells.Add(GridPosition(rowx + i, rowy));
+				HotCells.Add(GridPosition(rowx + i, rowy + yoffset));
+			}
+
+			//increment length, as each cell closer gives +2 cells in column
+			len += 2;
+		}
+
+		//now handle middle column; go maxLen in both + and - x
+		for (index = 1; index <= MaxLen; index++) {
+			//TODO add collision boxes!
+			HotCells.Add(GridPosition(centerx + index, centery));
+			HotCells.Add(GridPosition(centerx - index, centery));
+		}
+
+		//now we'd do raytracing.
+		//TODO
+
+		//To test, gonna just use HotCells to see if they're doing what they should be
+		this->AcceptablePositions = HotCells;
 	}
 
 }

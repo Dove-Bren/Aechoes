@@ -5,6 +5,7 @@
 #include "LivingCharacter.h"
 #include "CharacterStats.h"
 #include "../World/Navigation/Lrid.h"
+#include "../World/Navigation/LosLrid.h"
 #include "CombatableCharacter.generated.h"
 
 /**
@@ -51,6 +52,10 @@ protected:
 	/** Temp Lrid Handle **/
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Movement)
 	ULrid *lrid;
+
+	/** Temp Action Lrid Handle **/
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Movement)
+	ULosLrid *loslrid;
     
 
 
@@ -143,6 +148,13 @@ public:
 	// Call this character's Lrid for Update
 	UFUNCTION(BlueprintCallable, Category = Combat)
 	void UpdateLrid();
+
+	// Get this character's active LRid 
+	ULosLrid *GetLosLrid();
+
+	// Call this character's Lrid for Update
+	UFUNCTION(BlueprintCallable, Category = Combat)
+	void UpdateLosLrid();
     
 	UFUNCTION(BlueprintCallable, Category = Living)
 	bool isCommandReady() override;

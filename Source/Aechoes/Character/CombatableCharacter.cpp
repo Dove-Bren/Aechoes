@@ -21,6 +21,7 @@ ACombatableCharacter::ACombatableCharacter(const class FObjectInitializer& Objec
 	this->bIsAttacking = false;
 
 	this->lrid = CreateDefaultSubobject<ULrid>(TEXT("Movement Grid"));
+	this->loslrid = CreateDefaultSubobject<ULosLrid>(TEXT("LoS Grid"));
 }
 
 ACombatableCharacter::~ACombatableCharacter()
@@ -132,6 +133,17 @@ void ACombatableCharacter::UpdateLrid()
 {
 	if (lrid != nullptr)
 		lrid->Update();
+}
+
+ULosLrid *ACombatableCharacter::GetLosLrid()
+{
+	return loslrid;
+}
+
+void ACombatableCharacter::UpdateLosLrid()
+{
+	if (loslrid != nullptr)
+		loslrid->Update();
 }
 
 void ACombatableCharacter::SetEffectiveLocation(FVector in, bool rebuild)

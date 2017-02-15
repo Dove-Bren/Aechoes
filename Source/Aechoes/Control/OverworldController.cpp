@@ -201,11 +201,14 @@ void AOverworldController::TickActor(float DeltaTime,
 	static GridPosition LastMousePosition(-9999, -9999);
 	static UWorldGrid *grid = nullptr;
 
-	if (GEngine->GameViewport) {
-		//if game in focus
-		FVector2D pos, size;
+	//if game in focus
+	FVector2D pos, size;
+
+
+	if (GEngine->GameViewport && GEngine->GameViewport->GetMousePosition(pos)) {
+
 		GEngine->GameViewport->GetViewportSize(size);
-		GEngine->GameViewport->GetMousePosition(pos);
+		
 		if (pos.X > 0 && (pos.X < 100 || pos.X > size.X - 100))
 			MoveRight(pos.X < 100 ? -1 + (pos.X / 100) : 1 - ( (size.X - pos.X) / 100));
 
