@@ -3,6 +3,7 @@
 #pragma once
 
 #include "AbstractLrid.h"
+#include "../WorldGrid.h"
 #include "LosLrid.generated.h"
 
 /**
@@ -25,6 +26,10 @@ protected:
 	/** Whether 0 is included in range 
 	 * Note: This is ignored if range == 0 **/
 	bool IncludeZero;
+
+	virtual void SpawnCollisionbox(UWorldGrid *grid, GridPosition pos);
+
+	virtual bool DoRaytrace(UWorldGrid *grid, GridPosition from, GridPosition to);
 
 
 public:

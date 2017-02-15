@@ -53,6 +53,7 @@ void ULosLrid::Update()
 		//pos's to get bottom pieces
 		int32 centerx = HomePos.x, centery = HomePos.y;
 		int32 rowx, rowy, yoffset;
+		GridPosition pos;
 		int index, len;
 		len = 1;
 		for (index = MaxLen; index > 0; index--) {
@@ -66,10 +67,14 @@ void ULosLrid::Update()
 			rowy = index + centery;
 			rowx = centerx - ((len - 1) / 2);
 			for (int i = 0; i < len; i++) {
-				//TODO add collision box!
-				UE_LOG(LogTemp, Warning, TEXT("Adding [%d, %d]"), rowx + i, rowy);
-				HotCells.Add(GridPosition(rowx + i, rowy));
-				HotCells.Add(GridPosition(rowx + i, rowy + yoffset));
+				pos = GridPosition(rowx + i, rowy);
+				HotCells.Add(pos);
+				SpawnCollisionbox(grid, pos);
+
+				pos.y += yoffset;
+				//HotCells.Add(GridPosition(rowx + i, rowy + yoffset));
+				HotCells.Add(pos);
+				SpawnCollisionbox(grid, pos);
 			}
 
 			//increment length, as each cell closer gives +2 cells in column
@@ -78,9 +83,14 @@ void ULosLrid::Update()
 
 		//now handle middle column; go maxLen in both + and - x
 		for (index = 1; index <= MaxLen; index++) {
-			//TODO add collision boxes!
-			HotCells.Add(GridPosition(centerx + index, centery));
-			HotCells.Add(GridPosition(centerx - index, centery));
+			pos = GridPosition(centerx + index, centery);
+			HotCells.Add(pos);
+			SpawnCollisionbox(grid, pos);
+
+			pos.x -= index * 2;
+			//HotCells.Add(GridPosition(centerx - index, centery));
+			HotCells.Add(pos);
+			SpawnCollisionbox(grid, pos);
 		}
 
 		//now we'd do raytracing.
@@ -95,4 +105,14 @@ void ULosLrid::Update()
 TArray<GridPosition> const ULosLrid::GetEndpoints() const
 {
 	return AcceptablePositions;
+}
+
+void ULosLrid::SpawnCollisionbox(UWorldGrid *grid, GridPosition pos)
+{
+	;
+}
+
+bool ULosLrid::DoRaytrace(UWorldGrid *grid, GridPosition from, GridPosition to)
+{
+	return true;
 }
