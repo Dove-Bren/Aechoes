@@ -6,7 +6,7 @@
 
 #include "Engine/Level.h"
 #include "Components/ActorComponent.h"
-#include "../Character/LivingCharacter.h"
+#include "Obstacle.h"
 #include "EngineGlobals.h"
 #include "Engine.h"
 #include "WorldGrid.generated.h"
@@ -98,7 +98,7 @@ protected:
     float scale;
 
     /** Map between coordinate hash and occupant **/
-    TMap<GridPosition, TWeakObjectPtr<AAechoesCharacter>> map;
+    TMap<GridPosition, TWeakObjectPtr<AObstacle>> map;
 
     /** Helper function to spawn up Grid Positions easily **/
     GridPosition translate(float x, float y);
@@ -114,12 +114,12 @@ public:
      * @return null if cell is empty, pointer to character otherwise 
      **/
     UFUNCTION(BlueprintCallable, Category = "Combat|Layout")
-		AAechoesCharacter* get(float x, float y);
+	AObstacle* get(float x, float y);
 
 	/** Returns a pointer to a living Character, if there was one at the cell
 	* @return null if cell is empty, pointer to character otherwise
 	**/
-	AAechoesCharacter* get(GridPosition At);
+	AObstacle* get(GridPosition At);
 
     /** Checks whether the cell at the given position is empty
      * @return true when the cells is empty; false otherwise 
@@ -133,7 +133,7 @@ public:
      * @return true when the cell was not empty, and a character has been overwritten
      **/
     UFUNCTION(BlueprintCallable, Category = "Combat|Layout")
-    bool place(float x, float y, AAechoesCharacter *input);
+    bool place(float x, float y, AObstacle* input);
 
     /**
      * Removes any character from the given cell.

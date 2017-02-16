@@ -33,16 +33,16 @@ float UWorldGrid::getScale()
     return scale;
 }
 
-AAechoesCharacter *UWorldGrid::get(float x, float y)
+AObstacle *UWorldGrid::get(float x, float y)
 {
 	GridPosition pos = translate(x, y);
 	return get(pos);
 }
 
-AAechoesCharacter *UWorldGrid::get(GridPosition pos)
+AObstacle *UWorldGrid::get(GridPosition pos)
 {
 	//(LogTemp, Warning, TEXT("GridPos: [%d, %d]"), pos.x, pos.y);
-	TWeakObjectPtr<AAechoesCharacter> *ret = map.Find(pos);
+	TWeakObjectPtr<AObstacle> *ret = map.Find(pos);
 	if (ret != nullptr && (*ret).IsValid()) {
 		//UE_LOG(LogTemp, Warning, TEXT("Valid!"));
 		return (*ret).Get(true);
@@ -57,10 +57,10 @@ bool UWorldGrid::isEmpty(float x, float y)
     return map.Find(translate(x, y)) == nullptr;
 }
 
-bool UWorldGrid::place(float x, float y, AAechoesCharacter *input)
+bool UWorldGrid::place(float x, float y, AObstacle *input)
 {
-    TWeakObjectPtr<AAechoesCharacter> *ret = map.Find(translate(x, y));
-    map.Add(translate(x, y), TWeakObjectPtr<AAechoesCharacter>(input));
+    TWeakObjectPtr<AObstacle> *ret = map.Find(translate(x, y));
+    map.Add(translate(x, y), TWeakObjectPtr<AObstacle>(input));
 
 	UE_LOG(LogTemp, Warning, TEXT("Placing object at %f, %f"), x, y);
 

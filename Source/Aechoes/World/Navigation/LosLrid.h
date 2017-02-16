@@ -29,7 +29,7 @@ protected:
 
 	virtual void SpawnCollisionbox(UWorldGrid *grid, TArray<UBoxComponent*> & CollisionBoxes, GridPosition pos);
 
-	virtual bool DoRaytrace(UWorldGrid *grid, GridPosition from, GridPosition to);
+	virtual bool DoRaytrace(UWorldGrid *grid, FCollisionQueryParams &Params, GridPosition from, GridPosition to);
 
 
 public:

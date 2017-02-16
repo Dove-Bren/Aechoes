@@ -35,3 +35,24 @@ void AAechoesCharacter::BeginPlay() {
 
 	controller->Possess(this);
 }
+
+/**
+* Checks whether this blocks _movement_ for the given character
+* @param cin the character trying to move past this obstacle
+* @return true when the character can pass
+**/
+bool AAechoesCharacter::CanPass(AAechoesCharacter *cin)
+{
+	return false;
+}
+
+/**
+* Checks whether this blocks _sight_ for the given character
+* @param char the character trying to see/cast through this obstacle
+* @param cast whether this check is used for LOS instead of just sight
+* @return true when the character can see through
+**/
+bool AAechoesCharacter::CanSeeThrough(AAechoesCharacter *cin, bool cast)
+{
+	return false;
+}

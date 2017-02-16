@@ -118,6 +118,7 @@ TArray<GridPosition> const ULosLrid::GetEndpoints() const
 void ULosLrid::SpawnCollisionbox(UWorldGrid *grid, TArray<UBoxComponent*> & CollisionBoxes, GridPosition pos)
 {
 	FVector wPos = grid->ToWorldPos(pos, true, true);
+	wPos.Z += ((float)ULosLrid::RAYTRACE_ZOFFSET) / 2.0f;
 	FVector extent(wPos.X, wPos.Y, ((float) ULosLrid::RAYTRACE_ZOFFSET) / 2.0f);
 	UBoxComponent *box = NewObject<UBoxComponent>(this);
 	box->SetRelativeLocation(wPos);
@@ -128,7 +129,15 @@ void ULosLrid::SpawnCollisionbox(UWorldGrid *grid, TArray<UBoxComponent*> & Coll
 	CollisionBoxes.Add(box);
 }
 
-bool ULosLrid::DoRaytrace(UWorldGrid *grid, GridPosition from, GridPosition to)
+bool ULosLrid::DoRaytrace(UWorldGrid *grid, FCollisionQueryParams &cParams, GridPosition from, GridPosition to)
 {
-	return true;
+	FVector vFrom = grid->ToWorldPos(from, true, true),
+		vTo = grid->ToWorldPos(to, true, true);
+	vFrom.Z += ((float)ULosLrid::RAYTRACE_ZOFFSET) / 2.0f;
+	vTo.Z += ((float)ULosLrid::RAYTRACE_ZOFFSET) / 2.0f;
+
+	FHitResult res;
+	return GetWorld()->LineTraceSingleByChannel(res, vFrom, vTo, ECollisionChannel::ECC_Visibility,
+		cParams);
+
 }

@@ -3,15 +3,19 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "../Character/AechoesCharacter.h"
+//#include "../Character/AechoesCharacter.h"
+#include "GameFramework/Character.h"
 #include "Obstacle.generated.h"
+
+class AAechoesCharacter;
 
 /**
  * Interface class that represents something that blocks movement on a grid
  */
 UCLASS()
-class AECHOES_API AObstacle : public AActor
+class AECHOES_API AObstacle : public ACharacter //public AActor
 {
+	//GENERATED_UINTERFACE_BODY()
 	GENERATED_BODY()
 
 public:
@@ -21,7 +25,7 @@ public:
 	 * @param cin the character trying to move past this obstacle
 	 * @return true when the character can pass
 	 **/
-	UFUNCTION(BlueprintCallable, Category = "Movement")
+	//UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Movement")
 	virtual bool CanPass(AAechoesCharacter *cin);
 
 	/**
@@ -30,7 +34,7 @@ public:
 	* @param cast whether this check is used for LOS instead of just sight
 	* @return true when the character can see through
 	**/
-	UFUNCTION(BlueprintCallable, Category = "Movement")
+	//UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Movement")
 	virtual bool CanSeeThrough(AAechoesCharacter *cin, bool cast);
 	
 };
