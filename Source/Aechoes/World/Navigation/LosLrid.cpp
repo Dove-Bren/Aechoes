@@ -162,7 +162,7 @@ void ULosLrid::SpawnCollisionbox(UWorldGrid *grid, TArray<UBoxComponent*> & Coll
 {
 	FVector wPos = grid->ToWorldPos(pos, true, true);
 	wPos.Z += ((float)ULosLrid::RAYTRACE_ZOFFSET) / 2.0f;
-	FVector extent(grid->getScale() / 2.0f, grid->getScale() / 2.0f, ((float) ULosLrid::RAYTRACE_ZOFFSET) / 2.0f);
+	FVector extent((grid->getScale() / 2.0f) - 0.02f, (grid->getScale() / 2.0f) - 0.02f, ((float) ULosLrid::RAYTRACE_ZOFFSET) / 2.0f);
 	UBoxComponent *box = NewObject<UBoxComponent>(this);
 	box->SetRelativeLocation(wPos);
 	box->InitBoxExtent(extent);
