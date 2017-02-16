@@ -27,7 +27,7 @@ protected:
 	 * Note: This is ignored if range == 0 **/
 	bool IncludeZero;
 
-	virtual void SetupGridPosition(UWorldGrid *grid, TArray<GridPosition> &HotCells, TArray<UBoxComponent*> & CollisionBoxes, GridPosition pos);
+	virtual void SetupGridPosition(UWorldGrid *grid, TArray<GridPosition> &HotCells, TArray<UBoxComponent*> & CollisionBoxes, TArray<AActor *> & IActors, GridPosition pos);
 
 	virtual void SpawnCollisionbox(UWorldGrid *grid, TArray<UBoxComponent*> & CollisionBoxes, GridPosition pos);
 

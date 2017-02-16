@@ -49,6 +49,8 @@ void ULosLrid::Update()
 		TArray<GridPosition> HotCells;
 		//Hold references to created collision boxes for cleanup
 		TArray<UBoxComponent *> ColBoxes;
+		//Keep track of which actors to ignore
+		TArray<AActor *> IActors;
 
 		//start at one end in the middle, with width 1. then +2, +2, etc until
 		// reaches middle of grid with width 2W + 1. Ignore center cell. Reflect
@@ -71,7 +73,7 @@ void ULosLrid::Update()
 			for (int i = 0; i < len; i++) {
 				pos = GridPosition(rowx + i, rowy);
 
-				SetupGridPosition(grid, HotCells, ColBoxes, pos);
+				SetupGridPosition(grid, HotCells, ColBoxes, IActors, pos);
 				/*if (grid->get(pos) != nullptr)
 					SpawnCollisionbox(grid, ColBoxes, pos);
 				else
@@ -80,7 +82,7 @@ void ULosLrid::Update()
 				pos.y += yoffset;
 				//HotCells.Add(GridPosition(rowx + i, rowy + yoffset));
 
-				SetupGridPosition(grid, HotCells, ColBoxes, pos);
+				SetupGridPosition(grid, HotCells, ColBoxes, IActors, pos);
 				/*if (grid->get(pos) != nullptr)
 					SpawnCollisionbox(grid, ColBoxes, pos);
 				else
@@ -99,7 +101,7 @@ void ULosLrid::Update()
 				SpawnCollisionbox(grid, ColBoxes, pos);
 			else
 				HotCells.Add(pos);*/
-			SetupGridPosition(grid, HotCells, ColBoxes, pos);
+			SetupGridPosition(grid, HotCells, ColBoxes, IActors, pos);
 
 			pos.x -= index * 2;
 			//HotCells.Add(GridPosition(centerx - index, centery));
@@ -107,14 +109,19 @@ void ULosLrid::Update()
 				SpawnCollisionbox(grid, ColBoxes, pos);
 			else
 				HotCells.Add(pos);*/
-			SetupGridPosition(grid, HotCells, ColBoxes, pos);
+			SetupGridPosition(grid, HotCells, ColBoxes, IActors, pos);
 		}
 
-		//now we'd do raytracing.
-		//TODO
+		////To test, gonna just use HotCells to see if they're doing what they should be
+		//this->AcceptablePositions = HotCells;
 
-		//To test, gonna just use HotCells to see if they're doing what they should be
-		this->AcceptablePositions = HotCells;
+		FCollisionQueryParams params;
+		params.AddIgnoredActors(IActors);
+
+		for (GridPosition p : HotCells) {
+			if (!DoRaytrace(grid, params, HomePos, p))
+				AcceptablePositions.Add(p);
+		}
 
 		//Clear out collision cells, since we don't need them anymore
 		for (UBoxComponent *box : ColBoxes) {
@@ -125,7 +132,8 @@ void ULosLrid::Update()
 
 }
 
-void ULosLrid::SetupGridPosition(UWorldGrid *grid, TArray<GridPosition> &HotCells, TArray<UBoxComponent*> & CollisionBoxes, GridPosition pos)
+void ULosLrid::SetupGridPosition(UWorldGrid *grid, TArray<GridPosition> &HotCells,
+	TArray<UBoxComponent*> & CollisionBoxes, TArray<AActor *> & IActors, GridPosition pos)
 {
 	//if GET is null, add hotcell right away.
 	//if not, depends on the obstacle returned
@@ -138,6 +146,8 @@ void ULosLrid::SetupGridPosition(UWorldGrid *grid, TArray<GridPosition> &HotCell
 			; //do nothing
 		else
 			SpawnCollisionbox(grid, CollisionBoxes, pos);
+
+		IActors.Add(obj);
 	}
 	else
 		HotCells.Add(pos);
@@ -152,12 +162,15 @@ void ULosLrid::SpawnCollisionbox(UWorldGrid *grid, TArray<UBoxComponent*> & Coll
 {
 	FVector wPos = grid->ToWorldPos(pos, true, true);
 	wPos.Z += ((float)ULosLrid::RAYTRACE_ZOFFSET) / 2.0f;
-	FVector extent(wPos.X, wPos.Y, ((float) ULosLrid::RAYTRACE_ZOFFSET) / 2.0f);
+	FVector extent(grid->getScale() / 2.0f, grid->getScale() / 2.0f, ((float) ULosLrid::RAYTRACE_ZOFFSET) / 2.0f);
 	UBoxComponent *box = NewObject<UBoxComponent>(this);
 	box->SetRelativeLocation(wPos);
 	box->InitBoxExtent(extent);
+	//box->SetVisibility(true);
+	box->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Block);
 	box->RegisterComponent();
 	box->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
+
 
 	CollisionBoxes.Add(box);
 }
@@ -170,6 +183,7 @@ bool ULosLrid::DoRaytrace(UWorldGrid *grid, FCollisionQueryParams &cParams, Grid
 	vTo.Z += ((float)ULosLrid::RAYTRACE_ZOFFSET) / 2.0f;
 
 	FHitResult res;
+	GetWorld()->DebugDrawTraceTag = FName("KEY");
 	return GetWorld()->LineTraceSingleByChannel(res, vFrom, vTo, ECollisionChannel::ECC_Visibility,
 		cParams);
 
