@@ -70,13 +70,21 @@ void ULosLrid::Update()
 			rowx = centerx - ((len - 1) / 2);
 			for (int i = 0; i < len; i++) {
 				pos = GridPosition(rowx + i, rowy);
-				HotCells.Add(pos);
-				SpawnCollisionbox(grid, ColBoxes, pos);
+
+				SetupGridPosition(grid, HotCells, ColBoxes, pos);
+				/*if (grid->get(pos) != nullptr)
+					SpawnCollisionbox(grid, ColBoxes, pos);
+				else
+					HotCells.Add(pos);*/
 
 				pos.y += yoffset;
 				//HotCells.Add(GridPosition(rowx + i, rowy + yoffset));
-				HotCells.Add(pos);
-				SpawnCollisionbox(grid, ColBoxes, pos);
+
+				SetupGridPosition(grid, HotCells, ColBoxes, pos);
+				/*if (grid->get(pos) != nullptr)
+					SpawnCollisionbox(grid, ColBoxes, pos);
+				else
+					HotCells.Add(pos);*/
 			}
 
 			//increment length, as each cell closer gives +2 cells in column
@@ -86,13 +94,20 @@ void ULosLrid::Update()
 		//now handle middle column; go maxLen in both + and - x
 		for (index = 1; index <= MaxLen; index++) {
 			pos = GridPosition(centerx + index, centery);
-			HotCells.Add(pos);
-			SpawnCollisionbox(grid, ColBoxes, pos);
+/*
+			if (grid->get(pos) != nullptr)
+				SpawnCollisionbox(grid, ColBoxes, pos);
+			else
+				HotCells.Add(pos);*/
+			SetupGridPosition(grid, HotCells, ColBoxes, pos);
 
 			pos.x -= index * 2;
 			//HotCells.Add(GridPosition(centerx - index, centery));
-			HotCells.Add(pos);
-			SpawnCollisionbox(grid, ColBoxes, pos);
+			/*if (grid->get(pos) != nullptr)
+				SpawnCollisionbox(grid, ColBoxes, pos);
+			else
+				HotCells.Add(pos);*/
+			SetupGridPosition(grid, HotCells, ColBoxes, pos);
 		}
 
 		//now we'd do raytracing.
@@ -108,6 +123,24 @@ void ULosLrid::Update()
 		ColBoxes.Empty();
 	}
 
+}
+
+void ULosLrid::SetupGridPosition(UWorldGrid *grid, TArray<GridPosition> &HotCells, TArray<UBoxComponent*> & CollisionBoxes, GridPosition pos)
+{
+	//if GET is null, add hotcell right away.
+	//if not, depends on the obstacle returned
+	//  if we can see through it, do nothing; no hotcell, but no coll box
+	//  if we can't see through it, add a box
+
+	if (grid->get(pos) != nullptr) {
+		AObstacle *obj = grid->get(pos);
+		if (obj->CanSeeThrough(Owner, true))
+			; //do nothing
+		else
+			SpawnCollisionbox(grid, CollisionBoxes, pos);
+	}
+	else
+		HotCells.Add(pos);
 }
 
 TArray<GridPosition> const ULosLrid::GetEndpoints() const
