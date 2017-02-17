@@ -4,6 +4,7 @@
 
 #include "LivingCharacter.h"
 #include "CharacterStats.h"
+#include "../Combat/DamageModifier.h"
 #include "../World/Navigation/Lrid.h"
 #include "../World/Navigation/LosLrid.h"
 #include "CombatableCharacter.generated.h"
@@ -56,6 +57,10 @@ protected:
 	/** Temp Action Lrid Handle **/
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Movement)
 	ULosLrid *loslrid;
+
+	/** Collection of modifiers **/
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Combat")
+	TArray<FDamageModifier> BattleModifiers;
     
 
 
@@ -172,4 +177,6 @@ public:
 	 * @return The augmented vectors
 	 **/
 	virtual TArray<FDamageVector> AugmentDamages(TArray<FDamageVector> const InputVectors);
+
+	virtual void TurnTick();
 };

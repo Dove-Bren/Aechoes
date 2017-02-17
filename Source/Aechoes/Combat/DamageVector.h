@@ -10,7 +10,9 @@ enum class DamageType : uint8
     FIRE,
     WATER,
     AIR,
-	HEAL
+	HEAL,
+	ALL, //used when filtering damage types. Not applicable as actual dtype
+	NONE //Same as above
 };
 
 USTRUCT(Atomic, BlueprintType)

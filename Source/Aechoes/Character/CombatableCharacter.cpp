@@ -173,3 +173,20 @@ TArray<FDamageVector> ACombatableCharacter::AugmentDamages(TArray<FDamageVector>
 
 	return out;
 }
+
+void ACombatableCharacter::TurnTick()
+{
+	if (BattleModifiers.Num() == 0)
+		return;
+
+	int index = 0;
+	while (index < BattleModifiers.Num()) {
+		if (BattleModifiers[index].TurnTick()) {
+			BattleModifiers.RemoveAt(index);
+			continue;
+		}
+		else {
+			index++; //go to next index
+		}
+	}
+}
