@@ -177,4 +177,9 @@ bool ALivingCharacter::SetMovementPath(TArray<FVector> PathPoints, bool force)
 	return true;
 }
 
+TArray<FDamageVector> ALivingCharacter::AdjustDamages(TArray<FDamageVector> const InputVectors)
+{
+	//Regular living characters have no resistances, so just return a copy
+	return TArray<FDamageVector>(InputVectors);
+}
 

@@ -9,7 +9,8 @@ enum class DamageType : uint8
     EARTH,
     FIRE,
     WATER,
-    AIR
+    AIR,
+	HEAL
 };
 
 USTRUCT(Atomic, BlueprintType)

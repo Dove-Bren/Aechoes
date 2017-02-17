@@ -162,4 +162,6 @@ public:
 	void BeginPlay() override;
 
 	virtual void SetEffectiveLocation(FVector in, bool rebuildLrid) override;
+
+	virtual TArray<FDamageVector> AdjustDamages(TArray<FDamageVector> const InputVectors) override;
 };

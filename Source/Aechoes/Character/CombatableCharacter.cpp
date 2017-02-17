@@ -155,3 +155,12 @@ void ACombatableCharacter::SetEffectiveLocation(FVector in, bool rebuild)
 		lrid->Update();
 	}
 }
+
+TArray<FDamageVector> ACombatableCharacter::AdjustDamages(TArray<FDamageVector> const InputVectors)
+{
+	TArray<FDamageVector> out = InputVectors;
+
+
+
+	return out;
+}

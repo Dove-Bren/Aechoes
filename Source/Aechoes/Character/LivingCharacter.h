@@ -3,6 +3,7 @@
 #pragma once
 
 #include "AechoesCharacter.h"
+#include "../Combat/DamageVector.h"
 #include "LivingCharacter.generated.h"
 
 /**
@@ -132,6 +133,15 @@ public:
 	 * @return Whether a new path was adopted by the character
 	 **/
 	virtual bool SetMovementPath(TArray<FVector> PathPoints, bool force);
+
+	/**
+	 * Performs adjustments on the provided damage vectors in line with this
+	 * character's ability to resist damage of the different types.
+	 * The input vector is not damaged during the process
+	 * @param InputVectors in input damage vectors, without resistances added
+	 * @return The resulting vectors when resistances from this character are applied
+	 **/
+	virtual TArray<FDamageVector> AdjustDamages(TArray<FDamageVector> const InputVectors);
 
     void Tick(float delta) override;
 
