@@ -164,4 +164,12 @@ public:
 	virtual void SetEffectiveLocation(FVector in, bool rebuildLrid) override;
 
 	virtual TArray<FDamageVector> AdjustDamages(TArray<FDamageVector> const InputVectors) override;
+
+	/**
+	 * Takes the provided vectors and applies augmentations based on
+	 * this character's governing stats.
+	 * @param The vectors to apply augmentations to
+	 * @return The augmented vectors
+	 **/
+	virtual TArray<FDamageVector> AugmentDamages(TArray<FDamageVector> const InputVectors);
 };

@@ -160,7 +160,16 @@ TArray<FDamageVector> ACombatableCharacter::AdjustDamages(TArray<FDamageVector> 
 {
 	TArray<FDamageVector> out = InputVectors;
 
+	//TODO
 
+	return out;
+}
+
+TArray<FDamageVector> ACombatableCharacter::AugmentDamages(TArray<FDamageVector> const InputVectors)
+{
+	TArray<FDamageVector> out = InputVectors;
+
+	//TODO
 
 	return out;
 }
