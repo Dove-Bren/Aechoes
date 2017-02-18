@@ -37,6 +37,13 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = Combat)
 	uint8 needsLOS();
 
+	/**
+	 * Checks whether this attack can be cast on the provided target
+	 * @param targ The targeted area
+	 * @return Whether the attack can be used on the given cell
+	 **/
+	UFUNCTION(BlueprintImplementableEvent, Category = Combat)
+	bool canTarget(FVector loc);
 
 
     /** 
@@ -66,5 +73,8 @@ public:
     UFUNCTION(BlueprintImplementableEvent, Category = Combat)
     FText getDesc();
 
+	/** Initialize the Attack to the start of a turn **/
+	UFUNCTION(BlueprintImplementableEvent, Category = Combat)
+	void initTurn();
 	
 };

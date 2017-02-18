@@ -125,13 +125,13 @@ UAttackSimple *UAttackSimple::range(uint8 range)
 }
 
 /** Can this attack target the caster. Ignored if range = 0 **/
-uint8 UAttackSimple::getTargetSelf()
+bool UAttackSimple::getTargetSelf()
 {
 	return this->TargetSelf;
 }
 
 /** Does this attack require line of sight **/
-uint8 UAttackSimple::needsLOS()
+bool UAttackSimple::needsLOS()
 {
 	return this->RequireLOS;
 }
@@ -157,6 +157,16 @@ bool UAttackSimple::PerformOnCell(ACombatableCharacter *source, FVector loc)
 	return this->perform(source, loc);
 }
 
+bool UAttackSimple::canTarget(FVector loc)
+{
+	return true;
+	//Simple Attacks have no criteria for this
+}
+
+void UAttackSimple::initTurn()
+{
+	; //Nothing to do
+}
 
 
 #undef LOCTEXT_NAMESPACE

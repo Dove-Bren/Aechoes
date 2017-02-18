@@ -91,7 +91,7 @@ public:
     * @param loc The location the attack was performed around
     * @return false on complete failure (0 damage, etc). True otherwise
     **/
-    bool perform(ACombatableCharacter *source, FVector loc);
+    virtual bool perform(ACombatableCharacter *source, FVector loc);
 
 	/**
 	* Perform the attack, with the given parameters
@@ -118,9 +118,15 @@ public:
     FText getDesc();
 
 	/** Can this attack target the caster. Ignored if range = 0 **/
-	uint8 getTargetSelf();
+	bool getTargetSelf();
 
 	/** Does this attack require line of sight **/
-	uint8 needsLOS();
+	bool needsLOS();
+
+	/** Can this attack target the given location **/
+	virtual bool canTarget(FVector loc);
+
+	/** Initialize the Attack to the start of a turn **/
+	virtual void initTurn();
 };
 
