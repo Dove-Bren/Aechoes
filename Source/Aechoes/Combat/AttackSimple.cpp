@@ -1,5 +1,6 @@
 
 #include "Aechoes.h"
+#include "../Character/CombatableCharacter.h"
 #include "AttackSimple.h"
 
 #define LOCTEXT_NAMESPACE "COMBAT"

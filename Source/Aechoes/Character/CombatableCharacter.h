@@ -5,6 +5,8 @@
 #include "LivingCharacter.h"
 #include "CharacterStats.h"
 #include "../Combat/DamageModifier.h"
+#include "../Combat/Attack.h"
+#include "../Combat/AttackSimple.h"
 #include "../World/Navigation/Lrid.h"
 #include "../World/Navigation/LosLrid.h"
 #include "CombatableCharacter.generated.h"
@@ -61,10 +63,18 @@ protected:
 	/** Collection of modifiers **/
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Combat")
 	TArray<FDamageModifier> BattleModifiers;
+
+	/** All learnt skills and spells **/
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Combat")
+	TArray<TScriptInterface<IAttack>> Attacks;
     
 
 
 public:
+
+	UAttackSimple const *DEFAULT_CLOSE_COMBAT
+		= UAttackSimple(FName("Close Combat"), NSLOCTEXT("COMBAT", "DEFAULT_MELEE", "Perform a regular melee hit"), 1)
+			.add(FDamageVector::make(4, DamageType::NEUTRAL));
     
     ACombatableCharacter(const class FObjectInitializer& ObjectInitializer);
 

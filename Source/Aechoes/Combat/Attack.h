@@ -2,9 +2,11 @@
 
 #pragma once
 
-#include "../Character/CombatableCharacter.h"
+//#include "../Character/CombatableCharacter.h"
 #include "DamageVector.h"
 #include "Attack.generated.h"
+
+class ACombatableCharacter;
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI, BlueprintType)
