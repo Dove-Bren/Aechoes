@@ -152,6 +152,12 @@ UAttackSimple *UAttackSimple::requireLOS(bool needLos)
 	return this;
 }
 
+UAttackSimple * UAttackSimple::targetEmpty(bool canTarget)
+{
+	this->TargetEmpty = canTarget;
+	return this;
+}
+
 bool UAttackSimple::PerformOnCell(ACombatableCharacter *source, FVector loc)
 {
 	return this->perform(source, loc);
@@ -159,6 +165,12 @@ bool UAttackSimple::PerformOnCell(ACombatableCharacter *source, FVector loc)
 
 bool UAttackSimple::canTarget(FVector loc)
 {
+	//Only check we have is is it empty, and can we target empty?
+	if (TargetEmpty)
+		return true;
+
+
+
 	return true;
 	//Simple Attacks have no criteria for this
 }

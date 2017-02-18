@@ -2,6 +2,7 @@
 
 #include "Aechoes.h"
 #include "AI/Navigation/NavigationSystem.h"
+#include "../AechoesGameMode.h"
 #include "WorldGrid.h"
 
 GridPosition UWorldGrid::translate(float x, float y)
@@ -118,4 +119,9 @@ int32 UWorldGrid::GetGridDistance(FVector Pos1, FVector Pos2)
 	int32 dist = FMath::Abs<int32>(p1.x - p2.x);
 	dist += FMath::Abs<int32>(p1.y - p2.y);
 	return dist;
+}
+
+UWorldGrid *UWorldGrid::Fetch()
+{
+	return nullptr;// ((AAechoesGameMode *)GetPlayerController(GetWorld()->GetAuthGameMode())->getGrid();
 }

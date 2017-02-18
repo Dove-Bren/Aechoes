@@ -30,6 +30,10 @@ protected:
 	/** Attack need LOS? **/
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
 	bool RequireLOS;
+	
+	/** Can attack an empty cell **/
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
+	bool TargetEmpty;
 
     /** Array of damage vectors that are the base attack values
      * for this attack **/
@@ -76,6 +80,10 @@ public:
 	/** Sets whether this attack requires line of sight
 	* @return This instance, for chaining **/
 	UAttackSimple *requireLOS(bool needLos);
+
+	/** Sets whether this attack can target an empty cell
+	* @return This instance, for chaining **/
+	UAttackSimple *targetEmpty(bool canTarget);
 
     /**********************************
      * Attack Interface

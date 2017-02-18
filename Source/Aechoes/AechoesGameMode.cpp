@@ -2,6 +2,7 @@
 
 #include "Aechoes.h"
 #include "AechoesGameMode.h"
+#include "AechoesGlobals.h"
 #include "Character/AechoesCharacter.h"
 #include "Control/OverworldController.h"
 #include "Control/OverworldCamera.h"
@@ -18,6 +19,7 @@ AAechoesGameMode::AAechoesGameMode()
 	PlayerControllerClass = AOverworldController::StaticClass();
 
 	this->grid = CreateDefaultSubobject<UWorldGrid>(TEXT("Grid"));
+
     //this->grid = NewObject<UWorldGrid>();
     //this->camera = NewObject<AOverworldCamera>();
 
@@ -46,5 +48,11 @@ void AAechoesGameMode::StartPlay()
 
 	
 	Super::StartPlay();
+
+	//UAechoesGlobals::SetWorld(GetWorld());
+	if (UAechoesGlobals::Fetch(GetWorld()))
+		UAechoesGlobals::Fetch(GetWorld())->SetGrid(grid);
+	else
+		UE_LOG(LogTemp, Warning, TEXT("Unable to set grid"));
 	
 }
