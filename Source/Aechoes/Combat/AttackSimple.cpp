@@ -29,7 +29,7 @@ UAttackSimple::~UAttackSimple()
     
 }
 
-UAttackSimple * UAttackSimple::add(FDamageVector vector)
+UAttackSimple * UAttackSimple::add(FDamageRange vector)
 {
     this->BaseVectors.Add(vector);
     return this;
@@ -37,8 +37,13 @@ UAttackSimple * UAttackSimple::add(FDamageVector vector)
 
 UAttackSimple * UAttackSimple::add(DamageType type, int32 amount)
 {
-    this->BaseVectors.Add(FDamageVector::make(amount, type));
-    return this;
+	return this->add(type, amount, amount);
+}
+
+UAttackSimple * UAttackSimple::add(DamageType type, int32 min, int32 max)
+{
+	this->BaseVectors.Add(FDamageRange::make(min, max, type));
+	return this;
 }
 
 uint8 UAttackSimple::getRange()
@@ -61,15 +66,34 @@ bool UAttackSimple::perform(ACombatableCharacter * source, FVector loc)
 
 TArray<FDamageVector> UAttackSimple::findDamages(ACombatableCharacter * source)
 {
-    TArray<FDamageVector> array = this->BaseVectors;
+	TArray<FDamageVector> VArray;
+	FDamageVector cache;
+	//float scale;
+	
+	if (BaseVectors.Num() > 0) {
+		for (FDamageRange range : BaseVectors) {
+			cache = range.Roll();
 
-    float scale;
-    for (FDamageVector vector : array) {
-        scale = source->getStats()->getModifier(vector.damageType);
-        vector.amount = (int32) ( (float) vector.amount * scale );
-    }
+			//!! Leave alone for later review !!//
+			//TODO//
 
-    return array;
+			/*scale = source->getStats()->getModifier(cache.damageType);
+			cache.amount = (int32)((float) cache.amount * scale);*/
+
+			VArray.Add(cache);
+
+		}
+
+		//float scale;
+		//for (FDamageVector vector : VArray) {
+		//	
+		//	vector.amount = (int32)((float)vector.amount * scale);
+		//}
+	}
+
+    
+
+    return VArray;
 }
 
 FName UAttackSimple::getName()

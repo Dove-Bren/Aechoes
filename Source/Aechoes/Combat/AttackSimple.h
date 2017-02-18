@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Attack.h"
-#include "DamageVector.h"
+#include "DamageRange.h"
 #include "AttackSimple.generated.h"
 
 UCLASS()
@@ -34,7 +34,7 @@ protected:
     /** Array of damage vectors that are the base attack values
      * for this attack **/
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
-    TArray<FDamageVector> BaseVectors;
+    TArray<FDamageRange> BaseVectors;
 
 public:
     UAttackSimple();
@@ -59,11 +59,15 @@ public:
 
     /** Adds a damage vector to this attack's list of vectors
      * @return This instance, for chaining **/
-    UAttackSimple *add(FDamageVector vector);
+    UAttackSimple *add(FDamageRange vector);
 
     /** Adds a damage vector created from the passed arguments to base vectors 
      * @return This instance, for chaining **/
     UAttackSimple *add(DamageType type, int32 amount);
+
+	/** Adds a damage vector created from the passed arguments to base vectors
+	* @return This instance, for chaining **/
+	UAttackSimple *add(DamageType type, int32 min, int32 max);
 
 	/** Sets whether this attack can target the caster
 	* @return This instance, for chaining **/

@@ -74,7 +74,7 @@ public:
 
 	UAttackSimple const *DEFAULT_CLOSE_COMBAT
 		= UAttackSimple(FName("Close Combat"), NSLOCTEXT("COMBAT", "DEFAULT_MELEE", "Perform a regular melee hit"), 1)
-			.add(FDamageVector::make(4, DamageType::NEUTRAL));
+			.add(DamageType::NEUTRAL, 1, 4);
     
     ACombatableCharacter(const class FObjectInitializer& ObjectInitializer);
 
