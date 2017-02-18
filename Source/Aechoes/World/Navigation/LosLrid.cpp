@@ -115,15 +115,18 @@ void ULosLrid::Update()
 		////To test, gonna just use HotCells to see if they're doing what they should be
 		//this->AcceptablePositions = HotCells;
 
-		FCollisionQueryParams params;
-		params.AddIgnoredActors(IActors);
+		if (!IgnoreLOS) {
+			FCollisionQueryParams params;
+			params.AddIgnoredActors(IActors);
 
-		for (GridPosition p : HotCells) {
-			if (!DoRaytrace(grid, params, HomePos, p))
-				AcceptablePositions.Add(p);
+			for (GridPosition p : HotCells) {
+				if (!DoRaytrace(grid, params, HomePos, p))
+					AcceptablePositions.Add(p);
+			}
 		}
 
 		//Clear out collision cells, since we don't need them anymore
+		if (ColBoxes.Num() > 0)
 		for (UBoxComponent *box : ColBoxes) {
 			box->UnregisterComponent();
 		}
@@ -135,6 +138,13 @@ void ULosLrid::Update()
 void ULosLrid::SetupGridPosition(UWorldGrid *grid, TArray<GridPosition> &HotCells,
 	TArray<UBoxComponent*> & CollisionBoxes, TArray<AActor *> & IActors, GridPosition pos)
 {
+
+	//if IgnoreLOS is true, just make it a box since we can reach it
+	if (IgnoreLOS) {
+		HotCells.Add(pos);
+		return;
+	}
+
 	//if GET is null, add hotcell right away.
 	//if not, depends on the obstacle returned
 	//  if we can see through it, do nothing; no hotcell, but no coll box
@@ -187,4 +197,9 @@ bool ULosLrid::DoRaytrace(UWorldGrid *grid, FCollisionQueryParams &cParams, Grid
 	return GetWorld()->LineTraceSingleByChannel(res, vFrom, vTo, ECollisionChannel::ECC_Visibility,
 		cParams);
 
+}
+
+void ULosLrid::CheckLOS(bool check)
+{
+	this->IgnoreLOS = !check;
 }

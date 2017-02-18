@@ -27,6 +27,9 @@ protected:
 	 * Note: This is ignored if range == 0 **/
 	bool IncludeZero;
 
+	/** Does this LosLrid need to consider LOS at all? **/
+	bool IgnoreLOS;
+
 	virtual void SetupGridPosition(UWorldGrid *grid, TArray<GridPosition> &HotCells, TArray<UBoxComponent*> & CollisionBoxes, TArray<AActor *> & IActors, GridPosition pos);
 
 	virtual void SpawnCollisionbox(UWorldGrid *grid, TArray<UBoxComponent*> & CollisionBoxes, GridPosition pos);
@@ -54,6 +57,14 @@ public:
 	* @return a set with all valid points, including when there are 0
 	**/
 	virtual TArray<GridPosition> const GetEndpoints() const override;
+
+	/**
+	 * Set whether this Lrid will check LOS.
+	 * This should be called before each update, as the parameter
+	 * does not reset between calls
+	 * @param check Whether to check LOS at all
+	 **/
+	virtual void CheckLOS(bool check);
 
 	
 };
