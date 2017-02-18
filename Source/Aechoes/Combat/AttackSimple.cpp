@@ -12,7 +12,14 @@ UAttackSimple::UAttackSimple()
 
     this->Range = 1;
 
-    this->BaseVectors = TArray<FDamageVector>();
+    //this->BaseVectors = TArray<FDamageVector>();
+}
+
+UAttackSimple::UAttackSimple(FName name, FText desc, uint8 range)
+{
+	this->Name = name;
+	this->Description = desc;
+	this->Range = range;
 }
 
 
@@ -89,6 +96,34 @@ UAttackSimple *UAttackSimple::desc(FText inDesc)
 UAttackSimple *UAttackSimple::range(uint8 range)
 {
 	this->Range = range;
+	return this;
+}
+
+/** Can this attack target the caster. Ignored if range = 0 **/
+uint8 UAttackSimple::getTargetSelf()
+{
+	return this->TargetSelf;
+}
+
+/** Does this attack require line of sight **/
+uint8 UAttackSimple::needsLOS()
+{
+	return this->RequireLOS;
+}
+
+/** Sets whether this attack can target the caster
+	* @return This instance, for chaining **/
+UAttackSimple *UAttackSimple::targetSelf(bool canTargetSelf)
+{
+	this->TargetSelf = canTargetSelf;
+	return this;
+}
+
+/** Sets whether this attack requires line of sight
+* @return This instance, for chaining **/
+UAttackSimple *UAttackSimple::requireLOS(bool needLos)
+{
+	this->RequireLOS = needLos;
 	return this;
 }
 

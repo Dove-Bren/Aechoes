@@ -23,6 +23,14 @@ protected:
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
     uint8 Range;
 
+	/** Can attack target self **/
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
+	bool TargetSelf;
+
+	/** Attack need LOS? **/
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
+	bool RequireLOS;
+
     /** Array of damage vectors that are the base attack values
      * for this attack **/
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
@@ -57,6 +65,14 @@ public:
      * @return This instance, for chaining **/
     UAttackSimple *add(DamageType type, int32 amount);
 
+	/** Sets whether this attack can target the caster
+	* @return This instance, for chaining **/
+	UAttackSimple *targetSelf(bool canTargetSelf);
+
+	/** Sets whether this attack requires line of sight
+	* @return This instance, for chaining **/
+	UAttackSimple *requireLOS(bool needLos);
+
     /**********************************
      * Attack Interface
      **********************************/
@@ -85,5 +101,11 @@ public:
 
     /** Fetch the description of the attack **/
     FText getDesc();
+
+	/** Can this attack target the caster. Ignored if range = 0 **/
+	uint8 getTargetSelf();
+
+	/** Does this attack require line of sight **/
+	uint8 needsLOS();
 };
 

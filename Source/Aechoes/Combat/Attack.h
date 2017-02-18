@@ -27,6 +27,16 @@ public:
     UFUNCTION(BlueprintImplementableEvent, Category = Combat)
     uint8 getRange();
 
+	/** Can this attack target the caster. Ignored if range = 0 **/
+	UFUNCTION(BlueprintImplementableEvent, Category = Combat)
+	uint8 getTargetSelf();
+
+	/** Does this attack require line of sight **/
+	UFUNCTION(BlueprintImplementableEvent, Category = Combat)
+	uint8 needsLOS();
+
+
+
     /** 
      * Perform the attack, with the given parameters 
      * The attack is expected to perform all range sweeping, etc
