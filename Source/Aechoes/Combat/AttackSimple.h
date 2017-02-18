@@ -132,7 +132,11 @@ public:
 	bool needsLOS();
 
 	/** Can this attack target the given location **/
-	virtual bool canTarget(FVector loc);
+	virtual bool canTarget(ACombatableCharacter *source, FVector loc);
+
+	/** BP Wrapper for canTarget **/
+	UFUNCTION(BlueprintCallable, Category = Combat)
+	bool CanTargetCell(ACombatableCharacter *source, FVector loc);
 
 	/** Initialize the Attack to the start of a turn **/
 	virtual void initTurn();

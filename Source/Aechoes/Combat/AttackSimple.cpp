@@ -1,6 +1,7 @@
 
 #include "Aechoes.h"
 #include "../Character/CombatableCharacter.h"
+#include "../AechoesGlobals.h"
 #include "AttackSimple.h"
 
 #define LOCTEXT_NAMESPACE "COMBAT"
@@ -163,16 +164,26 @@ bool UAttackSimple::PerformOnCell(ACombatableCharacter *source, FVector loc)
 	return this->perform(source, loc);
 }
 
-bool UAttackSimple::canTarget(FVector loc)
+bool UAttackSimple::CanTargetCell(ACombatableCharacter *source, FVector loc)
+{
+	return canTarget(source, loc);
+}
+
+bool UAttackSimple::canTarget(ACombatableCharacter *source, FVector loc)
 {
 	//Only check we have is is it empty, and can we target empty?
 	if (TargetEmpty)
 		return true;
 
+	if (!UAechoesGlobals::Fetch(source->GetWorld())) {
+		UE_LOG(LogTemp, Warning, TEXT("Unable to get grid object!"));
+		return true;
+	}
+	UWorldGrid *grid = UAechoesGlobals::Fetch(source->GetWorld())->GetGrid();
+	if (grid->get(loc.X, loc.Y) != nullptr)
+		return true;
 
-
-	return true;
-	//Simple Attacks have no criteria for this
+	return false;
 }
 
 void UAttackSimple::initTurn()

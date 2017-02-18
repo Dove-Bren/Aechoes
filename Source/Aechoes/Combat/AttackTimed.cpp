@@ -33,9 +33,9 @@ bool UAttackTimed::perform(ACombatableCharacter * source, FVector loc)
     return good;
 }
 
-bool UAttackTimed::canTarget(FVector loc)
+bool UAttackTimed::canTarget(ACombatableCharacter *source, FVector loc)
 {
-	if (!Super::canTarget(loc))
+	if (!Super::canTarget(source, loc))
 		return false;
 
 	if (CurrentPerTurn < MaxPerTurn) {

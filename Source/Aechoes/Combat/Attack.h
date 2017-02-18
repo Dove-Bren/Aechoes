@@ -43,7 +43,7 @@ public:
 	 * @return Whether the attack can be used on the given cell
 	 **/
 	UFUNCTION(BlueprintImplementableEvent, Category = Combat)
-	bool canTarget(FVector loc);
+	bool canTarget(ACombatableCharacter *source, FVector loc);
 
 
     /** 

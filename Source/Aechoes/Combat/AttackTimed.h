@@ -45,7 +45,7 @@ public:
 	UAttackTimed *perChar(uint8 max);
 
 	/** Can this attack target the given location **/
-	virtual bool canTarget(FVector loc) override;
+	virtual bool canTarget(ACombatableCharacter *source, FVector loc) override;
 
 	virtual bool perform(ACombatableCharacter *source, FVector loc) override;
 
