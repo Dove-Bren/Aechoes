@@ -2,10 +2,10 @@
 
 #include "Attack.h"
 #include "DamageVector.h"
-#include "AttackSingle.generated.h"
+#include "AttackSimple.generated.h"
 
 UCLASS()
-class UAttackSingle : public UStruct, public IAttack
+class UAttackSimple : public UStruct, public IAttack
 {
 
     GENERATED_BODY()
@@ -13,36 +13,49 @@ class UAttackSingle : public UStruct, public IAttack
 protected:
     /** The name of this attack **/
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
-    FName name;
+    FName Name;
 
     /** The description for this attack **/
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
-    FText description;
+    FText Description;
 
     /** Range of this attack **/
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
-    uint8 range;
+    uint8 Range;
 
     /** Array of damage vectors that are the base attack values
      * for this attack **/
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
-    TArray<FDamageVector> baseVectors;
+    TArray<FDamageVector> BaseVectors;
 
 public:
-    UAttackSingle();
-    UAttackSingle(FName name, FText desc, uint8 range);
+    UAttackSimple();
 
-    ~UAttackSingle();
+    UAttackSimple(FName name, FText desc, uint8 range);
+
+    ~UAttackSimple();
 
     /* Builder Methods*/
 
+	/** Set the name of this attack
+	 * @return this Instance, for chaining **/
+	UAttackSimple *name(FName inName);
+
+	/** Set the description of this attack
+	 * @return this Instance, for chaining **/
+	UAttackSimple *desc(FText inDesc);
+
+	/** Set the range of this attack 
+	 * @return this Instance, for chaining **/
+	UAttackSimple *range(uint8 range);
+
     /** Adds a damage vector to this attack's list of vectors
      * @return This instance, for chaining **/
-    UAttackSingle *add(FDamageVector vector);
+    UAttackSimple *add(FDamageVector vector);
 
     /** Adds a damage vector created from the passed arguments to base vectors 
      * @return This instance, for chaining **/
-    UAttackSingle *add(DamageType type, int32 amount);
+    UAttackSimple *add(DamageType type, int32 amount);
 
     /**********************************
      * Attack Interface

@@ -38,7 +38,7 @@ public:
     bool perform(ACombatableCharacter *source, FVector loc);
 
     /** Perform damage calculations resulting in a pool of DamageVectors,
-     * But return them for inspection instead 
+     * But return them for inspection instead
      * @param source The source of the attack, for damage calculations
      * @return An array of resultant Damage Vectors
      **/

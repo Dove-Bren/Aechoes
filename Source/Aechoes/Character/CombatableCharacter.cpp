@@ -190,3 +190,13 @@ void ACombatableCharacter::TurnTick()
 		}
 	}
 }
+
+void ACombatableCharacter::AddModifier(FDamageModifier mod)
+{
+	BattleModifiers.Add(mod);
+}
+
+void ACombatableCharacter::ClearModifiers()
+{
+	BattleModifiers.Empty();
+}

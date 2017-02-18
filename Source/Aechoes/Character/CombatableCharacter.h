@@ -178,5 +178,9 @@ public:
 	 **/
 	virtual TArray<FDamageVector> AugmentDamages(TArray<FDamageVector> const InputVectors);
 
+	virtual void AddModifier(FDamageModifier mod);
+
+	virtual void ClearModifiers();
+
 	virtual void TurnTick();
 };
