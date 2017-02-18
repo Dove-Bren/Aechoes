@@ -1,6 +1,7 @@
 
 #include "Aechoes.h"
 #include "../Character/CombatableCharacter.h"
+#include "../AechoesGlobals.h"
 #include "AttackTimed.h"
 
 #define LOCTEXT_NAMESPACE "COMBAT"
@@ -40,8 +41,23 @@ bool UAttackTimed::canTarget(ACombatableCharacter *source, FVector loc)
 
 	if (CurrentPerTurn < MaxPerTurn) {
 				
-		//check per-character usage
-		//TODO
+		UWorldGrid *grid = UAechoesGlobals::FetchGrid();
+		AObstacle *o = grid->get(loc.X, loc.Y);
+		ACombatableCharacter *CChar = Cast<ACombatableCharacter>(o);
+		if (!CChar)
+			return true; //not something we track even
+
+		uint8 count = 0;
+		if (this->CharMap.Find(CChar) != nullptr) {
+			count = *(this->CharMap.Find(CChar));
+		}
+
+		if (count < MaxPerChar) {
+			CharMap.Add(CChar, count++);
+			return true;
+		}
+
+		return false;
 
 	}
 

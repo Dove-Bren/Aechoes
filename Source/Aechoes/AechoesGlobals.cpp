@@ -21,6 +21,15 @@ UAechoesGlobals *UAechoesGlobals::Fetch(UWorld *ref)
 	return nullptr;
 }
 
+UWorldGrid *UAechoesGlobals::FetchGrid(UWorld *ref)
+{
+	UAechoesGlobals *glob = UAechoesGlobals::Fetch(ref);
+	if (!glob)
+		return nullptr;
+
+	return glob->GetGrid();
+}
+
 void UAechoesGlobals::SetGrid(UWorldGrid *grid)
 {
 	WorldGrid = grid;

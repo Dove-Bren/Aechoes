@@ -175,11 +175,13 @@ bool UAttackSimple::canTarget(ACombatableCharacter *source, FVector loc)
 	if (TargetEmpty)
 		return true;
 
-	if (!UAechoesGlobals::Fetch(source->GetWorld())) {
+	UWorldGrid *grid = UAechoesGlobals::FetchGrid(source->GetWorld());
+	if (!grid) {
 		UE_LOG(LogTemp, Warning, TEXT("Unable to get grid object!"));
 		return true;
 	}
-	UWorldGrid *grid = UAechoesGlobals::Fetch(source->GetWorld())->GetGrid();
+
+
 	if (grid->get(loc.X, loc.Y) != nullptr)
 		return true;
 

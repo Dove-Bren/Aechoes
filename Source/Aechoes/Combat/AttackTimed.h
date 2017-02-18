@@ -25,7 +25,7 @@ protected:
 
     /** Local map to keep track of casts-per-player **/
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
-    TMap<ACombatableCharacter *, FDamageRange> CharMap;
+    TMap<ACombatableCharacter *, uint8> CharMap;
 
 public:
 	UAttackTimed();

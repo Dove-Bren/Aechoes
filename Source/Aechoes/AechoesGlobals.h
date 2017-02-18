@@ -19,6 +19,8 @@ public:
 
 	static UAechoesGlobals *Fetch(UWorld *ref = nullptr);
 
+	static UWorldGrid *FetchGrid(UWorld *ref = nullptr);
+
 protected:
 	/** Game Grid Reference **/
 	UWorldGrid *WorldGrid;
