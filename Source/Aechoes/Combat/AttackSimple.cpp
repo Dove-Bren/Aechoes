@@ -61,6 +61,10 @@ bool UAttackSimple::perform(ACombatableCharacter * source, FVector loc)
 
     //Then check if 0's. If so, return false. Else apply and return true.
 
+	for (FDamageVector v : array) {
+		UE_LOG(LogTemp, Warning, TEXT("Damage vector: [%d, %d]"), (uint8) v.damageType, v.amount);
+	}
+
     return true;
 }
 
@@ -84,11 +88,7 @@ TArray<FDamageVector> UAttackSimple::findDamages(ACombatableCharacter * source)
 
 		}
 
-		//float scale;
-		//for (FDamageVector vector : VArray) {
-		//	
-		//	vector.amount = (int32)((float)vector.amount * scale);
-		//}
+		VArray = source->AugmentDamages(VArray);
 	}
 
     
@@ -150,6 +150,11 @@ UAttackSimple *UAttackSimple::requireLOS(bool needLos)
 {
 	this->RequireLOS = needLos;
 	return this;
+}
+
+bool UAttackSimple::PerformOnCell(ACombatableCharacter *source, FVector loc)
+{
+	return this->perform(source, loc);
 }
 
 

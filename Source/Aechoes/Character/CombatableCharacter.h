@@ -72,9 +72,9 @@ protected:
 
 public:
 
-	UAttackSimple const *DEFAULT_CLOSE_COMBAT
-		= UAttackSimple(FName("Close Combat"), NSLOCTEXT("COMBAT", "DEFAULT_MELEE", "Perform a regular melee hit"), 1)
-			.add(DamageType::NEUTRAL, 1, 4);
+	/** Default close combat attack **/
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Combat")
+	UAttackSimple *Default_Close_Combat;
     
     ACombatableCharacter(const class FObjectInitializer& ObjectInitializer);
 

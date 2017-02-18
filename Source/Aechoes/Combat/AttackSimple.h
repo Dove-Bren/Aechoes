@@ -93,6 +93,17 @@ public:
     **/
     bool perform(ACombatableCharacter *source, FVector loc);
 
+	/**
+	* Perform the attack, with the given parameters
+	* The attack is expected to perform all range sweeping, etc
+	* NOTE: This is a BP wrapper for #perform
+	* @param source The source of the attack, used for power calculations
+	* @param loc The location the attack was performed around
+	* @return false on complete failure (0 damage, etc). True otherwise
+	**/
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+	bool PerformOnCell(ACombatableCharacter *source, FVector loc);
+
     /** Perform damage calculations resulting in a pool of DamageVectors,
     * But return them for inspection instead
     * @param source The source of the attack, for damage calculations

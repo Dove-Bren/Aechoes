@@ -22,6 +22,12 @@ ACombatableCharacter::ACombatableCharacter(const class FObjectInitializer& Objec
 
 	this->lrid = CreateDefaultSubobject<ULrid>(TEXT("Movement Grid"));
 	this->loslrid = CreateDefaultSubobject<ULosLrid>(TEXT("LoS Grid"));
+
+	this->Default_Close_Combat = CreateDefaultSubobject<UAttackSimple>(TEXT("Base Melee Attack"))
+		->name(FName("Close Combat"))
+		->desc(NSLOCTEXT("COMBAT", "DEFAULT_MELEE", "Perform a regular melee hit"))
+		->range(1)
+		->add(DamageType::NEUTRAL, 1, 4);
 }
 
 ACombatableCharacter::~ACombatableCharacter()

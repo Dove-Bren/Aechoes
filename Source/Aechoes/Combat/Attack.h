@@ -9,7 +9,7 @@
 class ACombatableCharacter;
 
 // This class does not need to be modified.
-UINTERFACE(MinimalAPI, BlueprintType)
+UINTERFACE(BlueprintType, Blueprintable)
 class UAttack : public UInterface
 {
 	GENERATED_UINTERFACE_BODY()
