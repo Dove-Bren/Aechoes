@@ -6,7 +6,7 @@
 
 UAechoesGlobals::UAechoesGlobals()
 {
-	;
+	AttackRegistry = CreateDefaultSubobject<UAttackRegistry>(TEXT("Attack Registry"));
 }
 
 UAechoesGlobals *UAechoesGlobals::Fetch(UWorld *ref)
@@ -38,6 +38,11 @@ void UAechoesGlobals::SetGrid(UWorldGrid *grid)
 UWorldGrid *UAechoesGlobals::GetGrid()
 {
 	return WorldGrid;
+}
+
+UAttackRegistry *UAechoesGlobals::GetAttackRegistry()
+{
+	return AttackRegistry;
 }
 
 

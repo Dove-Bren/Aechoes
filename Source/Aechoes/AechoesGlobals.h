@@ -4,6 +4,7 @@
 
 #include "Engine/GameInstance.h"
 #include "World/WorldGrid.h"
+#include "Combat/AttackRegistry.h"
 #include "AechoesGlobals.generated.h"
 
 /**
@@ -25,6 +26,9 @@ protected:
 	/** Game Grid Reference **/
 	UWorldGrid *WorldGrid;
 
+	/** Attack Registry **/
+	UAttackRegistry *AttackRegistry;
+
 public:
 
 	/** Set game grid for use globally **/
@@ -32,6 +36,9 @@ public:
 
 	/** Return the current game grid **/
 	UWorldGrid *GetGrid();
+
+	/** Fetch a reference to the game's attack registry **/
+	UAttackRegistry *GetAttackRegistry();
 	
 	
 };
