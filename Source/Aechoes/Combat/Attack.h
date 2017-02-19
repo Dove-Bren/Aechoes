@@ -22,7 +22,6 @@ class AECHOES_API IAttack
 {
 	GENERATED_IINTERFACE_BODY()
 
-	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	
     /** Return the range of the attack **/
@@ -76,5 +75,13 @@ public:
 	/** Initialize the Attack to the start of a turn **/
 	UFUNCTION(BlueprintImplementableEvent, Category = Combat)
 	void initTurn();
+
+	/** Fetch the attack ID for this attack, for map lookups, etc **/
+	UFUNCTION(BlueprintImplementableEvent, Category = Combat)
+	int32 getKey();
+
+	/** Force the key of this attack to be the pr ovided key. **/
+	UFUNCTION(BlueprintImplementableEvent, Category = Combat)
+	void changeKey(int32 newKey);
 	
 };

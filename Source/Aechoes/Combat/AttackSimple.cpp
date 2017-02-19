@@ -194,4 +194,17 @@ void UAttackSimple::initTurn()
 }
 
 
+/** Fetch the attack ID for this attack, for map lookups, etc **/
+int32 UAttackSimple::getKey()
+{
+	return AttackKey;
+}
+
+/** Force the key of this attack to be the pr ovided key. **/
+void UAttackSimple::changeKey(int32 newKey)
+{
+	AttackKey = newKey;
+}
+
+
 #undef LOCTEXT_NAMESPACE

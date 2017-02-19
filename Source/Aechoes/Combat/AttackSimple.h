@@ -11,6 +11,11 @@ class UAttackSimple : public UStruct, public IAttack
     GENERATED_BODY()
 
 protected:
+
+	/** The unique key for this attack **/
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
+	int32 AttackKey;
+
     /** The name of this attack **/
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Combat)
     FName Name;
@@ -140,5 +145,11 @@ public:
 
 	/** Initialize the Attack to the start of a turn **/
 	virtual void initTurn();
+
+	/** Fetch the attack ID for this attack, for map lookups, etc **/
+	int32 getKey();
+
+	/** Force the key of this attack to be the pr ovided key. **/
+	void changeKey(int32 newKey);
 };
 
