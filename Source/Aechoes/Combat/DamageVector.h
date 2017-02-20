@@ -20,9 +20,10 @@ struct FDamageVector
 {
     GENERATED_USTRUCT_BODY()
 
-
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Combat")
     int32 amount;
 
+	UPROPERTY(BlueprintReadWrite, Category = "Combat")
     DamageType damageType;
 
     static FDamageVector make(int32 amt, DamageType type)

@@ -45,4 +45,17 @@ UAttackRegistry *UAechoesGlobals::GetAttackRegistry()
 	return AttackRegistry;
 }
 
+FActionbarLoadout UAechoesGlobals::GetABarLoadout(ACombatableCharacter* key)
+{
+	FActionbarLoadout * ref = ALoadoutMap.Find(key);
+	if (ref == nullptr)
+		return FActionbarLoadout();
 
+	return *ref;
+}
+
+/** Set the ABar loadout for the given character **/
+void UAechoesGlobals::SetABarLoadout(ACombatableCharacter* key, FActionbarLoadout loadout)
+{
+	ALoadoutMap.Add(key, loadout);
+}
