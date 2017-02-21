@@ -1,7 +1,7 @@
 
 #include "Aechoes.h"
-#include "../Character/CombatableCharacter.h"
-#include "../AechoesGlobals.h"
+#include "../../Character/CombatableCharacter.h"
+#include "../../AechoesGlobals.h"
 #include "AttackTimed.h"
 
 #define LOCTEXT_NAMESPACE "COMBAT"

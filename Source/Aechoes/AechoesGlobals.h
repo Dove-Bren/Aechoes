@@ -4,7 +4,7 @@
 
 #include "Engine/GameInstance.h"
 #include "World/WorldGrid.h"
-#include "Combat/AttackRegistry.h"
+#include "Combat/Attack/AttackRegistry.h"
 #include "Control/UI/ActionbarLoadout.h"
 #include "AechoesGlobals.generated.h"
 

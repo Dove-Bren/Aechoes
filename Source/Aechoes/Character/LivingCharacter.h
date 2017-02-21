@@ -3,7 +3,7 @@
 #pragma once
 
 #include "AechoesCharacter.h"
-#include "../Combat/DamageVector.h"
+#include "../Combat/Mechanics/DamageVector.h"
 #include "LivingCharacter.generated.h"
 
 /**

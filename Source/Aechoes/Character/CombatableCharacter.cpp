@@ -206,3 +206,26 @@ void ACombatableCharacter::ClearModifiers()
 {
 	BattleModifiers.Empty();
 }
+
+void EnterFight()
+{
+
+}
+
+/** Called when the fight begins **/
+void BeginFight()
+{
+
+}
+
+/** Called when the fight is over **/
+void EndFight()
+{
+
+}
+
+/** Called just before moving the character back to the map **/
+void ExitFight()
+{
+
+}

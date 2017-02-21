@@ -20,8 +20,14 @@ protected:
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Controls)
     AOverworldCamera *camera;
 
+	/** Currently in a fight, or no? **/
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Control")
+	bool InFight;
+
 public:
 	AAechoesGameMode();
+
+	static AAechoesGameMode *Fetch(UWorld *Ref);
 
     /** Returns the game grid **/
     UFUNCTION(BlueprintCallable, Category = Combat)

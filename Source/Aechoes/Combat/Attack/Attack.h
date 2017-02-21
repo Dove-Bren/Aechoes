@@ -3,7 +3,7 @@
 #pragma once
 
 //#include "../Character/CombatableCharacter.h"
-#include "DamageVector.h"
+#include "../Mechanics/DamageVector.h"
 #include "Attack.generated.h"
 
 class ACombatableCharacter;

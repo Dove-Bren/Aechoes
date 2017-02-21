@@ -4,9 +4,10 @@
 
 #include "LivingCharacter.h"
 #include "CharacterStats.h"
-#include "../Combat/DamageModifier.h"
-#include "../Combat/Attack.h"
-#include "../Combat/AttackSimple.h"
+#include "../Combat/Control/Combatable.h"
+#include "../Combat/Mechanics/DamageModifier.h"
+#include "../Combat/Attack/Attack.h"
+#include "../Combat/Attack/AttackSimple.h"
 #include "../World/Navigation/Lrid.h"
 #include "../World/Navigation/LosLrid.h"
 #include "CombatableCharacter.generated.h"
@@ -15,7 +16,7 @@
  * 
  */
 UCLASS()
-class AECHOES_API ACombatableCharacter : public ALivingCharacter
+class AECHOES_API ACombatableCharacter : public ALivingCharacter, public ICombatable
 {
     GENERATED_BODY()
 
@@ -193,4 +194,26 @@ public:
 	virtual void ClearModifiers();
 
 	virtual void TurnTick();
+
+
+
+
+	////// Combatable Interface ////////
+
+	/** Called when character is entering fight. This is
+	* before the battle has begun, and during placement phase **/
+	UFUNCTION(BlueprintImplementableEvent, Category = Combat)
+	void EnterFight();
+
+	/** Called when the fight begins **/
+	UFUNCTION(BlueprintImplementableEvent, Category = Combat)
+	void BeginFight();
+
+	/** Called when the fight is over **/
+	UFUNCTION(BlueprintImplementableEvent, Category = Combat)
+	void EndFight();
+
+	/** Called just before moving the character back to the map **/
+	UFUNCTION(BlueprintImplementableEvent, Category = Combat)
+	void ExitFight();
 };

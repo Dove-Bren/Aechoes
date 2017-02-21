@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Components/ActorComponent.h"
-#include "../Combat/DamageVector.h"
+#include "../Combat/Mechanics/DamageVector.h"
 #include "CharacterStats.generated.h"
 
 /**

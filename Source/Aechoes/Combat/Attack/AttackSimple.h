@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Attack.h"
-#include "DamageRange.h"
+#include "../Mechanics/DamageRange.h"
 #include "AttackSimple.generated.h"
 
 UCLASS()

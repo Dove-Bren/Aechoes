@@ -27,6 +27,11 @@ AAechoesGameMode::AAechoesGameMode()
 
 }
 
+AAechoesGameMode *AAechoesGameMode::Fetch(UWorld *Ref)
+{
+	return (AAechoesGameMode *) Ref->GetAuthGameMode();
+}
+
 UWorldGrid * AAechoesGameMode::getGrid()
 {
     return this->grid;
