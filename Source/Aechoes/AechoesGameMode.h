@@ -1,6 +1,7 @@
 // Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
 #pragma once
 #include "GameFramework/GameMode.h"
+#include "Combat/Control/Combatable.h"
 #include "World/WorldGrid.h"
 #include "Control/OverworldCamera.h"
 #include "AechoesGameMode.generated.h"
@@ -24,6 +25,11 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Control")
 	bool InFight;
 
+	/** List of fight even listeners **/
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Control")
+	TArray<TScriptInterface<ICombatable>> CombatListeners;
+	
+
 public:
 	AAechoesGameMode();
 
@@ -36,6 +42,10 @@ public:
 	/** Returns the overworld game camera **/
 	UFUNCTION(BlueprintCallable, Category = Camera)
 	AOverworldCamera *getCamera();
+
+	/** Adds a listener to the list of listeners **/
+	UFUNCTION(BlueprintCallable, Category = Control)
+	void AddCombatListener(TScriptInterface<ICombatable> Listener);
 
 	virtual void StartPlay() override;
 };

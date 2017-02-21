@@ -61,3 +61,8 @@ void AAechoesGameMode::StartPlay()
 		UE_LOG(LogTemp, Warning, TEXT("Unable to set grid"));
 	
 }
+
+void AAechoesGameMode::AddCombatListener(TScriptInterface<ICombatable> Listener)
+{
+	CombatListeners.Add(Listener);
+}
