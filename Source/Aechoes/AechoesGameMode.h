@@ -2,8 +2,9 @@
 #pragma once
 #include "GameFramework/GameMode.h"
 #include "Combat/Control/Combatable.h"
+#include "Combat/Control/Team.h"
 #include "World/WorldGrid.h"
-#include "Control/OverworldCamera.h"
+#include "Control/Camera/OverworldCamera.h"
 #include "AechoesGameMode.generated.h"
 
 UCLASS(minimalapi)
@@ -46,6 +47,10 @@ public:
 	/** Adds a listener to the list of listeners **/
 	UFUNCTION(BlueprintCallable, Category = Control)
 	void AddCombatListener(TScriptInterface<ICombatable> Listener);
+
+	/** Starts a fight with the given teams **/
+	UFUNCTION(BlueprintCallable, Category = Control)
+	void LaunchFight(FTeam team1, FTeam team2);
 
 	virtual void StartPlay() override;
 };

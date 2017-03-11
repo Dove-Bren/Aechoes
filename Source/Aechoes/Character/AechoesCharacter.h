@@ -2,8 +2,8 @@
 #pragma once
 //#include "GameFramework/Character.h"
 #include "../World/Obstacle.h"
-#include "../Control/OverworldCharMovementComponent.h"
-#include "../Control/OCharacterController.h"
+#include "../Control/Movement/OverworldCharMovementComponent.h"
+#include "../Control/Movement/OCharacterController.h"
 #include "AechoesCharacter.generated.h"
 
 UCLASS(config=Game)

@@ -3,10 +3,10 @@
 #pragma once
 
 #include "GameFramework/PlayerController.h"
-#include "OverworldCamera.h"
-#include "../Character/CombatableCharacter.h"
-#include "../AechoesGameMode.h"
-#include "../World/Navigation/NavArrow.h"
+#include "../Camera/OverworldCamera.h"
+#include "../../Character/CombatableCharacter.h"
+#include "../../AechoesGameMode.h"
+#include "../../World/Navigation/NavArrow.h"
 #include "OverworldController.generated.h"
 
 /**

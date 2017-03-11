@@ -4,8 +4,8 @@
 #include "AechoesGameMode.h"
 #include "AechoesGlobals.h"
 #include "Character/AechoesCharacter.h"
-#include "Control/OverworldController.h"
-#include "Control/OverworldCamera.h"
+#include "Control/Movement/OverworldController.h"
+#include "Control/Camera/OverworldCamera.h"
 
 AAechoesGameMode::AAechoesGameMode()
 {
@@ -65,4 +65,9 @@ void AAechoesGameMode::StartPlay()
 void AAechoesGameMode::AddCombatListener(TScriptInterface<ICombatable> Listener)
 {
 	CombatListeners.Add(Listener);
+}
+
+void AAechoesGameMode::LaunchFight(FTeam team1, FTeam team2)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Launching with two teams!"));
 }
