@@ -76,7 +76,13 @@ void AOverworldCamera::MoveUp(float Rate)
 		speed *= 1 + (diff / 1000.0f);
 	}
 
-	this->CameraController->AddInputVector(FVector(speed, 0.0f, 0.0f));
+
+  float yaw = Camera->GetComponentRotation().Yaw + 180;
+  yaw = yaw / 180;
+  yaw *= 3.1415927;
+  CameraController->AddInputVector(FVector(FMath::Sin(yaw) * speed, FMath::Cos(yaw) * speed, 0.0f), false);
+
+	//this->CameraController->AddInputVector(FVector(speed, 0.0f, 0.0f));
 	
 
 }
@@ -101,7 +107,10 @@ void AOverworldCamera::MoveRight(float Rate)
 		speed *= 1 + (diff / 1000.0f);
 	}
 
-	CameraController->AddInputVector(FVector(0.0f, speed, 0.0f), false);
+  float yaw = Camera->GetComponentRotation().Yaw + 90.0f;
+  yaw = yaw / 180;
+  yaw *= 3.1415927;
+	CameraController->AddInputVector(FVector(FMath::Sin(yaw) * speed, FMath::Cos(yaw) * speed, 0.0f), false);
 	
 }
 
