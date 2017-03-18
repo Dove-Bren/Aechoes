@@ -3,6 +3,7 @@
 #include "GameFramework/GameMode.h"
 #include "Combat/Control/Combatable.h"
 #include "Combat/Control/Team.h"
+#include "Combat/Control/CombatClock.h"
 #include "World/WorldGrid.h"
 #include "Control/Camera/OverworldCamera.h"
 #include "AechoesGameMode.generated.h"
@@ -26,6 +27,10 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Control")
 	bool InFight;
 
+  /** Combat Clock **/
+  UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Control")
+  UCombatClock *Clock;
+
 	/** List of fight even listeners **/
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Control")
 	TArray<TScriptInterface<ICombatable>> CombatListeners;
@@ -43,6 +48,10 @@ public:
 	/** Returns the overworld game camera **/
 	UFUNCTION(BlueprintCallable, Category = Camera)
 	AOverworldCamera *getCamera();
+
+  /** Returns the overworld game camera **/
+  UFUNCTION(BlueprintCallable, Category = Combat)
+  UCombatClock *getClock();
 
 	/** Adds a listener to the list of listeners **/
 	UFUNCTION(BlueprintCallable, Category = Control)

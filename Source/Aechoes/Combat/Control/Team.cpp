@@ -22,8 +22,11 @@ void FTeam::AddMember(ACombatableCharacter *newMember)
 */
 bool FTeam::IsMember(ACombatableCharacter *member)
 {
-	return false;
+  return Members.Contains(member);
 }
 
-
+const TSet<ACombatableCharacter *> FTeam::GetMemberList()
+{
+  return Members;
+}
 

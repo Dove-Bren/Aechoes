@@ -19,6 +19,7 @@ AAechoesGameMode::AAechoesGameMode()
 	PlayerControllerClass = AOverworldController::StaticClass();
 
 	this->grid = CreateDefaultSubobject<UWorldGrid>(TEXT("Grid"));
+  this->Clock = CreateDefaultSubobject<UCombatClock>(TEXT("Clock"));
 
     //this->grid = NewObject<UWorldGrid>();
     //this->camera = NewObject<AOverworldCamera>();
@@ -29,7 +30,10 @@ AAechoesGameMode::AAechoesGameMode()
 
 AAechoesGameMode *AAechoesGameMode::Fetch(UWorld *Ref)
 {
-	return (AAechoesGameMode *) Ref->GetAuthGameMode();
+  if (Ref)
+	  return (AAechoesGameMode *) Ref->GetAuthGameMode();
+
+  return nullptr;
 }
 
 UWorldGrid * AAechoesGameMode::getGrid()
@@ -70,4 +74,18 @@ void AAechoesGameMode::AddCombatListener(TScriptInterface<ICombatable> Listener)
 void AAechoesGameMode::LaunchFight(FTeam team1, FTeam team2)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Launching with two teams!"));
+
+  TArray<ACombatableCharacter *> parts;
+  for (ACombatableCharacter *mem : team1.GetMemberList())
+    parts.Add(mem);
+  for (ACombatableCharacter *mem : team2.GetMemberList())
+    parts.Add(mem);
+
+  Clock->InitParticipants(parts);
+
+}
+
+UCombatClock *AAechoesGameMode::getClock()
+{
+  return Clock;
 }

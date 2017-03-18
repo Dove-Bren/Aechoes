@@ -7,5 +7,9 @@ public class Aechoes : ModuleRules
 	public Aechoes(TargetInfo Target)
 	{
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
-	}
+
+    //Here?
+    MinFilesUsingPrecompiledHeaderOverride = 1;
+    bFasterWithoutUnity = true;
+  }
 }

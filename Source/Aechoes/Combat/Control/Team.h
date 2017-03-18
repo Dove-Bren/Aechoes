@@ -32,6 +32,12 @@ public:
 	 * Try to check whether the given member is part of this team
 	 */
 	bool IsMember(ACombatableCharacter *member);
+
+  /**
+   * Return an unmodifiable list of members
+   * @return list of members of the team
+   */
+  const TSet<ACombatableCharacter *> GetMemberList();
 	
 	   
 	
