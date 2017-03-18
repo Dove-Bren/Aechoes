@@ -22,6 +22,14 @@ UNavArrowPiece::UNavArrowPiece()
 	
 }
 
+void UNavArrowPiece::SetGridScale(float scale)
+{
+  float val = scale / 200.0f;
+  val *= 1.05f;
+  SetWorldScale3D(FVector(val, val, val));
+  //RelativeScale3D = ;
+}
+
 void UNavArrowPiece::SetDirection(GridDirection NewDirection)
 {
 	this->Direction = NewDirection;

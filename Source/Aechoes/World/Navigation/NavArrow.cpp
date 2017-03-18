@@ -171,6 +171,7 @@ void ANavArrow::UpdateTarget(TArray<GridPosition> input)
 		piece->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 		piece->SetWorldLocation(loc);
 		piece->SetDirection(dir);
+    piece->SetGridScale(grid->getScale());
 		
 
 		Pieces.Add(piece);

@@ -63,6 +63,7 @@ bool UWorldGrid::place(float x, float y, AObstacle *input)
     TWeakObjectPtr<AObstacle> *ret = map.Find(translate(x, y));
     map.Add(translate(x, y), TWeakObjectPtr<AObstacle>(input));
 
+    UE_LOG(LogTemp, Warning, TEXT("Scale: %f"), scale);
 	UE_LOG(LogTemp, Warning, TEXT("Placing object at %f, %f"), x, y);
 
     return (ret != nullptr && (*ret).IsValid());

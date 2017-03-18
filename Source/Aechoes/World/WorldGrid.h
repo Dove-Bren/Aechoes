@@ -90,7 +90,7 @@ class AECHOES_API UWorldGrid : public UActorComponent
 
 public:
     /** Default Scale value **/
-    float const DEFAULT_SCALE = 200.0;
+    float const DEFAULT_SCALE = 100.0;
 
 	/** Return the last created grid. Easy-Of-Access **/
 	static UWorldGrid *Fetch();

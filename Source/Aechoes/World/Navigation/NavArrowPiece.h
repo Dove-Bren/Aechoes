@@ -30,6 +30,12 @@ public:
 	 * @param NewDirection
 	 **/
 	void SetDirection(GridDirection NewDirection);
+
+  /**
+   * Set the grid scale, for proper model scaling.
+   * Compares to default grid size of 200 -- what I model to
+   **/
+  void SetGridScale(float scale);
 		
 	
 };
