@@ -8,6 +8,7 @@
 #include "NavArrowPMid.h"
 #include "NavArrowPBend.h"
 #include "../WorldGrid.h"
+#include "../GridDisplay.h"
 #include "NavArrow.generated.h"
 
 /**
@@ -23,6 +24,11 @@ protected:
 	/** Collection of current pieces **/
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = NavArrow)
 	TArray<UNavArrowPiece *> Pieces;
+
+  AGridDisplay *GridDisplay;
+
+  /** Grid Mesh used **/
+  UStaticMesh *MeshObject;
 
 	/** Last used target location -- for optimization checks **/
 	GridPosition LastTarget;

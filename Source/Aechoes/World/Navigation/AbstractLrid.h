@@ -28,7 +28,10 @@ protected:
 	/** Root scene component for attaching things to **/
 	USceneComponent *RootComponent;
 
-	/** Display Grid Object **/
+	/** Grid Mesh used **/
+	UStaticMesh *MeshObject;
+
+  /** Display Grid Object **/
   AGridDisplay *GridDisplay;
 	
 public:

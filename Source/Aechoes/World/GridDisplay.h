@@ -12,6 +12,8 @@ class AECHOES_API AGridDisplay : public AActor
 {
   GENERATED_BODY()
 
+protected:
+  UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Movement)
   UInstancedStaticMeshComponent *SMeshComp;
 	
 public:	
@@ -25,5 +27,6 @@ public:
    * @param Plots the cells to display
    */
   void Display(UStaticMesh *Mesh, TArray<GridPosition> &Plots);
+
 	
 };

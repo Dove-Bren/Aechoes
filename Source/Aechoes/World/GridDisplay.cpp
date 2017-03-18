@@ -8,7 +8,10 @@
 // Sets default values
 AGridDisplay::AGridDisplay()
 {
- 	
+  USceneComponent *root = CreateDefaultSubobject<USceneComponent>(TEXT("Scene Root"));
+  this->RootComponent = root;
+
+  //PrimaryActorTick.bCanEverTick = true;
 }
 
 void AGridDisplay::Display(UStaticMesh *Mesh, TArray<GridPosition> &Plots)
@@ -19,18 +22,19 @@ void AGridDisplay::Display(UStaticMesh *Mesh, TArray<GridPosition> &Plots)
   UWorldGrid *grid = ((AAechoesGameMode *) this->GetWorld()->GetAuthGameMode())->getGrid();
 
   SMeshComp = NewObject<UInstancedStaticMeshComponent>(this);
-  float scale = grid->getScale() / 200.0f;
-  SMeshComp->SetRelativeScale3D(FVector(scale, scale, 1.0f));
   SMeshComp->SetStaticMesh(Mesh);
 
   SMeshComp->RegisterComponent();
   SMeshComp->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
-  FVector offset;
+  float scale = grid->getScale() / 200.0f;
+  FVector offset, vscale(scale, scale, 1.0f);
   TArray<GridPosition> keys = Plots;
+  FTransform trans;
   for (GridPosition pos : keys) {
     offset = grid->ToWorldPos(pos, true, true);
-    SMeshComp->AddInstance(FTransform(offset));
+    trans = FTransform(offset);
+    trans.SetScale3D(vscale);
+    SMeshComp->AddInstance(trans);
   }
 }
-

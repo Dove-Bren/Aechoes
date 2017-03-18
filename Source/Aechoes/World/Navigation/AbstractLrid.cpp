@@ -13,8 +13,8 @@ UAbstractLrid::UAbstractLrid()
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Anchor"));
 
-	/*static ConstructorHelpers::FObjectFinder<UStaticMesh> MObj(TEXT("StaticMesh'/Game/ThirdPerson/Meshes/TileMove.TileMove'"));
-	this->MeshObject = MObj.Object;*/
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> MObj(TEXT("StaticMesh'/Game/ThirdPerson/Meshes/TileMove.TileMove'"));
+	this->MeshObject = MObj.Object;
 }
 
 int32 UAbstractLrid::GetMaxLen()
@@ -69,6 +69,9 @@ void UAbstractLrid::DisplayGrid()
     FVector(0, 0, 0),
     FRotator(0, 0, 0)
     );
+
+  TArray<GridPosition> points = GetEndpoints();
+  GridDisplay->Display(MeshObject, points);
 
 }
 
