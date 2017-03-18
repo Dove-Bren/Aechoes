@@ -85,6 +85,12 @@ public:
   ACombatableCharacter *GetActive();
 
   /**
+  * Clears out the turn lineup, stopping turn events and execution
+  */
+  UFUNCTION(BlueprintCallable, Category = Turns)
+  void ClearParticipants();
+
+  /**
   * Return the amount of time left in the current turn.
   * @return Time left. Returns -1 during interval period
   */

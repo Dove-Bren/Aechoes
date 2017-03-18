@@ -21,6 +21,7 @@ AAechoesGameMode::AAechoesGameMode()
 	this->grid = CreateDefaultSubobject<UWorldGrid>(TEXT("Grid"));
   this->Clock = CreateDefaultSubobject<UCombatClock>(TEXT("Clock"));
 
+
     //this->grid = NewObject<UWorldGrid>();
     //this->camera = NewObject<AOverworldCamera>();
 

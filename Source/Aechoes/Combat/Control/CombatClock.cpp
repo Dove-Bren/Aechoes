@@ -44,11 +44,18 @@ float UCombatClock::GetTimeLeft()
   return this->TimeLeft;
 }
 
+void UCombatClock::ClearParticipants()
+{
+  Lineup.Empty();
+}
+
 void UCombatClock::TickComponent(float DeltaTime, enum ELevelTick TickType,
   FActorComponentTickFunction * ThisTickFunction)
 {
   Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+  if (Lineup.Num() <= 0)
+    return;
 
   TimeLeft -= DeltaTime;
   if (TimeLeft < 0) {
