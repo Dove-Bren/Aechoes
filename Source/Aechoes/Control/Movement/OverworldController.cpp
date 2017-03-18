@@ -237,7 +237,8 @@ void AOverworldController::TickActor(float DeltaTime,
 				int gDist = grid->GetGridDistance(loc, cloc);
 
 				if (gDist <= CCharacter->getMP()) {
-					NavArrow->UpdateTarget(CCharacter->GetLrid()->GetPath(LastMousePosition));
+          TArray<GridPosition> points = CCharacter->GetLrid()->GetPath(LastMousePosition);
+					NavArrow->UpdateTarget(points);
 				}
 				else {
 					NavArrow->DestroyArrow();

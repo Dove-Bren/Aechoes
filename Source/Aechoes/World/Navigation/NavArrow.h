@@ -46,7 +46,7 @@ public:
 	* @param Path the list of positions to run path over
 	**/
 	//UFUNCTION(BlueprintCallable, Category = NavArrow)
-	virtual void UpdateTarget(TArray<GridPosition> path);
+	virtual void UpdateTarget(TArray<GridPosition> &path);
 
 	/**
 	 * Return the kept value for the last target

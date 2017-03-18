@@ -22,7 +22,7 @@ ANavArrow::ANavArrow()
 //	UpdateTarget(grid->ToGridPos(NewTarget));
 //}
 
-void ANavArrow::UpdateTarget(TArray<GridPosition> input)
+void ANavArrow::UpdateTarget(TArray<GridPosition> &input)
 {
 	/*if (NewTarget == LastTarget)
 		return;
@@ -149,7 +149,7 @@ void ANavArrow::UpdateTarget(TArray<GridPosition> input)
 		}
 
 		//now use type and dir to spawn piece
-		loc = grid->ToWorldPos(input[index], true);
+    loc = grid->ToWorldPos(input[index], true); //for nav z: , true);
 		//loc = grid->snapTo(loc, true);
 
 		//TODO idea: Don't recreate. Get a max and reuse?
