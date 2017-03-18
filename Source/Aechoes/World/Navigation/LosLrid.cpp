@@ -14,9 +14,9 @@ void ULosLrid::Update()
 {
 
 
-	if (SMeshComp != nullptr) {
-		SMeshComp->UnregisterComponent();
-		SMeshComp = nullptr;
+	if (GridDisplay != nullptr) {
+    GridDisplay->Destroy();
+    GridDisplay = nullptr;
 	}
 
 	//Quickly validate data

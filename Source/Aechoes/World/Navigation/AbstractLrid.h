@@ -3,8 +3,8 @@
 #pragma once
 
 #include "../WorldGrid.h"
+#include "../GridDisplay.h"
 #include "../../Character/LivingCharacter.h"
-#include "Components/InstancedStaticMeshComponent.h"
 #include "AbstractLrid.generated.h"
 
 /**
@@ -28,11 +28,8 @@ protected:
 	/** Root scene component for attaching things to **/
 	USceneComponent *RootComponent;
 
-	/** The mesh used when displaying the grid **/
-	UStaticMesh *MeshObject;
-
-	/** Instanced Display Mesh **/
-	UInstancedStaticMeshComponent *SMeshComp;
+	/** Display Grid Object **/
+  AGridDisplay *GridDisplay;
 	
 public:
 

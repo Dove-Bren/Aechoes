@@ -11,3 +11,11 @@ UGridCellMesh::UGridCellMesh() : UStaticMeshComponent()
 	this->SetStaticMesh(SMObj.Object);
 
 }
+
+void UGridCellMesh::SetGridScale(float scale)
+{
+  float val = scale / 200.0f;
+  val *= 1.05f;
+  SetWorldScale3D(FVector(val, val, val));
+  //RelativeScale3D = ;
+}

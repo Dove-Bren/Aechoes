@@ -6,7 +6,7 @@
 #include "GridCellMesh.generated.h"
 
 /**
- * Interface class that represents something that blocks movement on a grid
+ * Grid cell mesh. A mesh that fills a single grid cell
  */
 UCLASS()
 class AECHOES_API UGridCellMesh : public UStaticMeshComponent
@@ -15,5 +15,11 @@ class AECHOES_API UGridCellMesh : public UStaticMeshComponent
 
 public:
 	UGridCellMesh();
+
+  /**
+  * Set the grid scale, for proper model scaling.
+  * Compares to default grid size of 200 -- what I model to
+  **/
+  void SetGridScale(float scale);
 	
 };
