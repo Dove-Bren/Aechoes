@@ -108,9 +108,11 @@ void ALivingCharacter::Tick(float delta)
 		static float lastLen = 0.0f;
 		static FVector lastPos;
 		FVector dir;
-		float len;
+		float len, minlen;
+    UWorldGrid *grid = ((AAechoesGameMode *) this->GetWorld()->GetAuthGameMode())->getGrid();
+    minlen = 150.0f * (grid->getScale() / 200);
 		this->GetVelocity().ToDirectionAndLength(dir, len);
-		if ( len <= 0.01 || ( len - lastLen < -0.01f && FVector::Dist(GetActorLocation(), lastPos) < 150.0f) ) {
+		if ( len <= 0.01 || ( len - lastLen < -0.01f && FVector::Dist(GetActorLocation(), lastPos) < minlen) ) {
 			//pathfinding, but came to a stop
 			//need to update movement?
 			if (MovementWaypoints.Num() == 0)
@@ -173,6 +175,14 @@ bool ALivingCharacter::SetMovementPath(TArray<FVector> PathPoints, bool force)
 
 	MovementWaypoints = PathPoints;
 	IsPathfinding = true;
+
+  //Set speed based on distance.
+  //4 or more, run. Else, walk
+  //walk: 200; run: 400
+  if (MovementWaypoints.Num() > 4) //(includes first spot, so actually 5)
+    this->GetCharacterMovement()->MaxWalkSpeed = 400;
+  else
+    this->GetCharacterMovement()->MaxWalkSpeed = 200;
 
 	return true;
 }
