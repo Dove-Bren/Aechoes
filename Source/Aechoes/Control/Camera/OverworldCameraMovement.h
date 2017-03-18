@@ -12,6 +12,7 @@ protected:
 	float const STAT_CAMERA_MINZ = 200.0f;
 	float const STAT_CAMERA_MAXZ = 2000.0f;
 	float const STAT_CAMERA_MAXPAN = 2000.0f;
+  float const STAT_CAMERA_MINPITCH = 20.0f;
 
 	AActor *focus;
 

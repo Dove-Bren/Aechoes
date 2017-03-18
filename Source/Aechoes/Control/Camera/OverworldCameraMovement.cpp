@@ -77,8 +77,19 @@ void UOCameraMovement::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 				cur += -anti;
 			}
 
+      ////Check 3 : Pitch -- Angle depending on height
+      //dist = cur.Z - targ.Z;
+      ////convert to rate. 0 being as close as we can. 1 is as far as we can
+      //dist /= (STAT_CAMERA_MAXZ - STAT_CAMERA_MINZ);
+
+      ////at min, 45 deg pitch. At max, 20 deg pitch
+      //float pitch = STAT_CAMERA_MINPITCH;
+      //pitch += (45 - STAT_CAMERA_MINPITCH) * dist;
+
+
 			//finally, update position on modifications
 			owner->SetActorLocation(cur);
+      //owner->SetActorRotation(FRotator(pitch, 45.0f, 0));
 
 		}
     }

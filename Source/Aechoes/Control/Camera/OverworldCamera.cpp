@@ -120,12 +120,23 @@ void AOverworldCamera::ZoomIn()
 		speed *= 1 + (diff / 2000.0f);
 	}
 
-	CameraController->AddInputVector(FVector(0.0f, 0.0f, -speed));
+  FVector fdir(1.0f, 0.0f, 0.0f);
+  fdir = this->Camera->GetComponentRotation()
+    .RotateVector(fdir);//this->GetActorRotation().RotateVector(fdir);
+
+	//CameraController->AddInputVector(FVector(0.0f, 0.0f, -speed));
+  CameraController->AddInputVector(fdir * speed);
 }
 
 void AOverworldCamera::ZoomOut()
 {
-	CameraController->AddInputVector(FVector(0.0f, 0.0f, ZoomSpeed));
+  FVector fdir(1.0f, 0.0f, 0.0f);
+  fdir = this->Camera->GetComponentRotation()
+    .RotateVector(fdir);//this->GetActorRotation().RotateVector(fdir);
+
+                        //CameraController->AddInputVector(FVector(0.0f, 0.0f, -speed));
+  CameraController->AddInputVector(fdir * -ZoomSpeed);
+	//CameraController->AddInputVector(FVector(0.0f, 0.0f, ZoomSpeed));
 }
 
 UCameraComponent *AOverworldCamera::getCamera()

@@ -54,7 +54,7 @@ void AAechoesGameMode::StartPlay()
 	this->camera = GetWorld()->SpawnActor<AOverworldCamera>(
 	AOverworldCamera::StaticClass(),
 	FVector(-800.0f, 190.0f, 300.0f),
-	FRotator(0.0f, 0.0f, 0.0f));
+	FRotator(15.0f, -45.0f, 0.0f));
 
 	
 	Super::StartPlay();
